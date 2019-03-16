@@ -1,6 +1,6 @@
 import React from 'react'
 import LoadText from '../containers/LoadText'
-import NewQuote from './NewQuote'
+import NewQuote from '../containers/NewQuote'
 import TweetQuote from './TweetQuote'
 import HeaderBar from './HeaderBar'
 
