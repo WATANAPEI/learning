@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import {loadNewData} from '../actions'
 import Button from '@material-ui/core/Button'
 
+//参考サイトからjsonファイルを取得する
+//内容について確認したければブラウザで見ればよい
 function testFetch(count){
     return fetch('https://jsonplaceholder.typicode.com/todos/' + count)
 }
