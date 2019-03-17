@@ -4,7 +4,8 @@ import Text from '../components/Text'
 const mapStateToProps = (state) => {
     return {
     text: state.update.text,
-    author: state.update.author
+    author: state.update.author,
+    count: state.update.count,
     }
 }
 
