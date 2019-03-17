@@ -1,4 +1,4 @@
-var updateCount = 0
+var updateCount = 2
 export const loadNewData = (data) =>  ({
   type: 'UPDATE',
   text: data.title,

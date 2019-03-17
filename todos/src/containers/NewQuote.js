@@ -1,41 +1,45 @@
-import React from 'react'
+import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {loadNewData} from '../actions'
 import Button from '@material-ui/core/Button'
 
-//参考サイトからjsonファイルを取得する
-//内容について確認したければブラウザで見ればよい
-function testFetch(count){
-    return fetch('https://jsonplaceholder.typicode.com/todos/' + count)
-}
 
-function testDataCreate(count){
-    return testFetch(count)
+class NewQuote extends Component{
+  constructor(props){
+      super(props);
+  };
+
+  //参考サイトからjsonファイルを取得する
+//内容について確認したければブラウザで見ればよい
+  testFetch(count){
+    return fetch('https://jsonplaceholder.typicode.com/todos/' + count)
+    }
+
+    testDataCreate(count){
+    return this.testFetch(count)
         .then(response => response.json())
         .then(data => Object.assign(data, {author: 'author_sample' + '_' + count})) // insert author property
-}
+    }
 
-const NewQuote = ({count, dispatch}) => (
+  render(){
+
+    const {count, dispatch} = this.props;
+    return(
     <div>
         <Button variant="contained" color="primary" id="new-quote" onClick={ e=>{
-            console.log(' new quote button was clicked!');
-            testDataCreate(count)
-            .then(json =>  console.log(json)
-            )
-            .catch(error => console.error(error)
-            );
-
             //dispatch action
-            testDataCreate(count)
+            this.testDataCreate(count)
             .then(data => {
                 dispatch(loadNewData(data))
             })
         }
-        }>New Quote</Button> 
+            }>New Quote</Button> 
     
-    </div>
-)
+        </div>
+    )
 
+    }
+}
 const mapStateToProps = (state) => {
     return {
     count: state.update.count
