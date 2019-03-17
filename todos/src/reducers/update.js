@@ -1,7 +1,7 @@
 const initialState = {
     text: "initial",
     author: "Isaac Kita",
-    count: 0
+    count: 1
 }
 
 const update = (state=initialState, action)=> {
