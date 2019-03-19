@@ -1,9 +1,10 @@
 import React from 'react'
 import Link from '@material-ui/core/Link'
+import Button from '@material-ui/core/Button'
 
 const TweetQuote = () => (
     <div>
-        <Link id="tweet-quote" href="twitter.com/intent/tweet">Tweet Quote</Link>
+        <Button id="tweet-quote" color="primary" href="twitter.com/intent/tweet">Tweet Quote</Button>
     </div>
 )
 
