@@ -9,3 +9,8 @@ build
 # misc
 .DS_Store
 npm-debug.log
+
+# firebase
+.firebase
+.firebaserc
+firebase.json
