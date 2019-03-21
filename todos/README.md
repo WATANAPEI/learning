@@ -3,6 +3,6 @@
 - [x] Create Redux Sample Project
 - [x] Add a Material-ui to the project
 - [ ] [WIP]Establish the test method in JS development
-- [x] refactor the project
+- [ ] [WIP]refactor the project
 - [ ] Establish CI development
 - [x] Release the project
