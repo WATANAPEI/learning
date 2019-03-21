@@ -1,3 +1,5 @@
+import ApiClient from "../api/ApiClient"
+
 export const loadNewData = (data) =>  ({
   type: 'UPDATE',
   text: data.title,
@@ -5,3 +7,15 @@ export const loadNewData = (data) =>  ({
   count: ++data.count //前方でないとダメ
 })
 
+export function updateData(count){
+  return (dispatch) => {
+    ApiClient.testDataCreate(count)
+            .then(data => {
+                dispatch(loadNewData(data))
+            })
+            .catch(e => {
+              
+            })
+
+  }
+}
