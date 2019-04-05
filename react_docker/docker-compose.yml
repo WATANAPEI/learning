@@ -10,14 +10,14 @@ nodeapp:
         - ./server:/home/app/nodeapp
         - /home/app/nodeapp/node_modules
         - www:/home/app/nodeapp/out
-    nginx-proxy:
-        image: nginx
-        container_name: "nginx"
-        ports:
-            - '8080:8080'
-        volumes:
-            - ./nginx:/etc/nginx/conf.d:ro
-            - www:/www/app:ro
-        links:
-            - 'nodeapp'
+nginx-proxy:
+    image: nginx
+    container_name: "nginx"
+    ports:
+        - '8080:8080'
+    volumes:
+        - ./nginx:/etc/nginx/conf.d:ro
+        - www:/www/app:ro
+    links:
+        - 'nodeapp'
 

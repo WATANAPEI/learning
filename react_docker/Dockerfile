@@ -7,7 +7,7 @@ ENV HOME=/home/app
 COPY package.json webpack.config.js $HOME/nodeapp/
 COPY client $HOME/nodeapp/client
 
-RUN chown -R app:aoo $HOME/*
+RUN chown -R app:app $HOME/*
 
 USER app
 WORKDIR $HOME/nodeapp
@@ -19,7 +19,7 @@ COPY . $HOME/nodeapp
 RUN chown -R app:app $HOME/*
 USER app
 
-CM ["node", "index.js"]
+CMD ["node", "index.js"]
 
 
 
