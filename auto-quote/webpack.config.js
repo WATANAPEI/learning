@@ -20,11 +20,6 @@ module.exports = {
                     },
                 ],
                 exclude: /node_modules/
-            },
-            {
-                test: /\.html$/,
-                use: ['file?name=[name].[ext]'],
-                exclude: /node_modules/
             }
         ],
      },
