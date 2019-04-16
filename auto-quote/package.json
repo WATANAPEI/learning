@@ -1,0 +1,32 @@
+{
+  "name": "auto-quote",
+  "version": "0.0.2",
+  "private": true,
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babe-core": "^6.16.0",
+    "babel-loader": "^6.25",
+    "babel-preset-env": "^7.4.3",
+    "babel-preset-react": "^6.16.0",
+    "file-loader": "^0.9.0",
+    "react": "16.3.1",
+    "react-dom": "^16.3.1",
+    "react-redux": "^5.0.7",
+    "redux": "^3.5.2",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^4.1.3",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/system": "^3.0.0-alpha.2",
+    "prop-types": "^15.6.1",
+  },
+  "dependencies": {
+      "express": "^4.14.0"
+  },
+  "scripts": {
+    "dev": "webpack --config webpack.config.js --mode development --watch",
+    "build": "webpack --config webpack.config.js --mode production",
+    "test": "echo \"Error: notest specified\" && exit 1"
+  }
+}
