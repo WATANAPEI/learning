@@ -1,34 +1,22 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import request from 'superagent';
+import React from 'react'
+import { render } from 'react-dom'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import { Provider } from 'react-redux'
+import App from './components/App'
+import rootReducer from './reducers'
 
-class App extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: [],
-        };
-    }
+var cdnLink = document.createElement('script');
+cdnLink.setAttribute('src', 'https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js');
+document.head.appendChild(cdnLink);
 
-    componentDidMount() {
-        request.get('/api/items').end((err, res) => {
-            this.setState({
-                items: res.body,
-            });
-        });
-    }
 
-    render() {
-        return (
-            <div>
-                <h1>Docker Compose Test</h1>
-                <ul>
-                    { this.state.items.map((item, index) => <li key={index}>{item}</li>)}
-                </ul>
-            </div>
-        );
-    }
-}
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
-render(<App />, document.getElementById('app'));
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)

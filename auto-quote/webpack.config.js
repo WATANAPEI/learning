@@ -1,7 +1,6 @@
 module.exports = {
     entry: {
         js: "./client/index.js",
-        html: "./client/index.html",
     },
     output: {
         path: __dirname + "/out",
@@ -16,10 +15,6 @@ module.exports = {
             query: {
                 presets: ['env', 'react'],
             },
-        },
-        {
-            test: /\.html$/,
-            loader: 'file?name=[name].[ext]'
         },
     ],
  },
