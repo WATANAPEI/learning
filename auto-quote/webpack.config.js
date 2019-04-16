@@ -18,13 +18,14 @@ module.exports = {
                       presets: ['env', 'react']
                     }
                 },
-                {
-                    test: /\.html$/,
-                    loader: 'file?name=[name].[ext]'
-                }
             ],
             exclude: /node_modules/
         },
+        {
+            test: /\.html$/,
+            use: ['file?name=[name].[ext]'],
+            exclude: /node_modules/
+        }
     ],
  },
 };
