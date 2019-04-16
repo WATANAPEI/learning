@@ -1,0 +1,23 @@
+nodeapp:
+    build: .
+    container_name: "nodeapp"
+    command: node index.js
+    ports:
+        - '3000:3000'
+    environment:
+        - PORT=3000
+    volumes:
+        - ./server:/home/app/nodeapp
+        - /home/app/nodeapp/node_modules
+        - www:/home/app/nodeapp/out
+nginx-proxy:
+    image: nginx
+    container_name: "nginx"
+    ports:
+        - '8080:8080'
+    volumes:
+        - ./nginx:/etc/nginx/conf.d:ro
+        - www:/www/app:ro
+    links:
+        - 'nodeapp'
+
