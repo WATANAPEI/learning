@@ -19,7 +19,7 @@
     "webpack-cli": "^2.0.14",
     "@material-ui/core": "^3.9.2",
     "@material-ui/system": "^3.0.0-alpha.2",
-    "prop-types": "^15.6.1",
+    "prop-types": "^15.6.1"
   },
   "dependencies": {
       "express": "^4.14.0"
