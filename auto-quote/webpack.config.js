@@ -1,16 +1,14 @@
 module.exports = {
-    entry: {
-        js: "./client/index.js",
-    },
+    entry: "./client/index.js",
     output: {
         path: __dirname + "/out",
-        filename: 'bundle.js',
+        filename: 'bundle.js'
     },
     module: {
-        loaders: [
+        rules: [
         {
             test: /\.js$/,
-            loader: 'babel-loader',
+            use: ['babel-loader'],
             exclude: /node_modules/,
             query: {
                 presets: ['env', 'react'],
