@@ -1,11 +1,6 @@
 nodeapp:
     build: .
     container_name: "nodeapp"
-    command: node index.js
-    ports:
-        - '3000:3000'
-    environment:
-        - PORT=3000
     volumes:
         - ./server:/home/app/nodeapp
         - /home/app/nodeapp/node_modules
