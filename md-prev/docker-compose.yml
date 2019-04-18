@@ -1,0 +1,19 @@
+md-prev:
+    build: .
+    container_name: "md-prev"
+    volumes:
+        - ./server:/home/app/md-prev
+        - /home/app/md-prev/node_modules
+        - www:/home/app/md-prev/out
+    restart: always
+nginx-proxy:
+    image: nginx
+    container_name: "nginx"
+    ports:
+        - '8081:8081'
+    volumes:
+        - ./nginx:/etc/nginx/conf.d:ro
+        - www:/www/app/md-prev:ro
+    links:
+        - 'md-prev'
+    restart: always
