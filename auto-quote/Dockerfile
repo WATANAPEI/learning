@@ -19,7 +19,6 @@ COPY . $HOME/nodeapp
 RUN chown -R app:app $HOME/*
 USER app
 
-CMD ["node", "index.js"]
 
 
 
