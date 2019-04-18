@@ -12,7 +12,7 @@ module.exports = {
     },
     devServer: {
       contentBase: path.resolve(__dirname, './index.html'),
-      port: 8081
+      port: 3000
     },
     resolve: {
       modules: [path.resolve(__dirname, "client"), "node_modules"],
