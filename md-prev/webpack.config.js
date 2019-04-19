@@ -11,8 +11,11 @@ module.exports = {
         filename: 'bundle.js'
     },
     devServer: {
-      contentBase: path.resolve(__dirname, './index.html'),
-      port: 3000
+      contentBase: path.resolve(__dirname, './client'),
+      port: 8080,
+      inline: true,
+      disableHostCheck: true,
+      host: "0.0.0.0"
     },
     resolve: {
       modules: [path.resolve(__dirname, "client"), "node_modules"],

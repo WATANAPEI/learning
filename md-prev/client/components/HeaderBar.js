@@ -18,7 +18,7 @@ function HeaderBar(props){
             <AppBar color="default" position="static">
                 <Toolbar>
                     <Typography variant="h6" color="inherit">
-                        My MarkDown Editor and Previewer
+                        My MarkDown Editor and Previewer test
                     </Typography>
                 </Toolbar>
             </AppBar>

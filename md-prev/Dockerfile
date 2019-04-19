@@ -19,6 +19,6 @@ COPY . $HOME/md-prev
 RUN chown -R app:app $HOME/*
 USER app
 
-
+CMD ["npm", "run", "dev"]
 
 
