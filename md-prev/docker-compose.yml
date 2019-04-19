@@ -6,8 +6,6 @@ md-prev:
     environment:
         - PORT=8080
     volumes:
-        - ./server:/home/app/md-prev
-        - ./client:/home/app/md-prev
         - .:/home/app/md-prev
         - /home/app/md-prev/node_modules
         - www:/home/app/md-prev/out
