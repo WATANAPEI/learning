@@ -7,6 +7,11 @@ export const loadNewData = (data) =>  ({
   count: ++data.count //前方でないとダメ
 })
 
+export const changeText = (text) => ({
+    type: 'CHANGE',
+    text: this.text
+})
+
 export function updateData(count){
   return (dispatch) => {
     ApiClient.testDataCreate(count)

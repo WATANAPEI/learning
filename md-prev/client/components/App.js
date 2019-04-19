@@ -1,12 +1,26 @@
-import React from 'react'
+import React , {Component} from 'react'
+import {connect} from 'react-redux'
 import LoadText from '../containers/LoadText'
 import HeaderBar from './HeaderBar'
+import Editor from './Editor'
 
-const App = () => (
-  <div id="quote-box">
-    <HeaderBar />
-    <LoadText />
-  </div>
-)
+class App extends Component {
+  constructor(props){
+      super(props)
+  }
+    render(){
+        const {inputValue} = this.props
+        return(
+      <div id="quote-box">
+            <eaderBar />
+            <Editor text={inputValue} />
+            <LoadText />
+          </div>
+    )
+    }
+}
+const mapStateToProps = (state) => ({
+    inputValue: state.text
+})
 
-export default App
+export default connect(mapStateToProps)(App)
