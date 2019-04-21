@@ -5,11 +5,14 @@ class Preview extends Component {
         super(props)
     };
 
+    render(){
+        const {text} = this.props;
     return (
         <div id="preview">
-          <p>{this.props.text}</p>
+          <p>{text}</p>
         </div>
     )
+    }
 }
 
 export default Preview
