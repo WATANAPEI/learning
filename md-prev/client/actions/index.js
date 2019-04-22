@@ -7,10 +7,12 @@ export const loadNewData = (data) =>  ({
   count: ++data.count //前方でないとダメ
 })
 
-export const changeText = (text) => ({
+export const changeText = (text) => {
+    return {
     type: 'CHANGE',
-    text: this.text
-})
+    text: text
+    };
+};
 
 export function updateData(count){
   return (dispatch) => {
