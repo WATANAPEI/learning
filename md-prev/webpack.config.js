@@ -34,9 +34,17 @@ module.exports = {
                     },
                 ],
                 exclude: /node_modules/
-            }
-        ],
-     },
+            },
+            {
+                test: /\.txt$/,
+                use: [
+                    {
+                        loader: "raw-loader"
+                    }
+                   ],
+            },
+            ],
+    },
     plugins: [
       new HtmlWebpackPlugin({template: path.resolve(__dirname, './client/index.html')})
     ]
