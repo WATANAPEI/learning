@@ -1,5 +1,5 @@
 const initialState = {
-    text: "#This is h1 text.\n ##This is h2 text."
+    text: "# This is h1 text.\n## This is h2 text."
 }
 
 const change = (state=initialState, action) => {

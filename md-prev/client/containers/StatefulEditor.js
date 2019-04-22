@@ -15,7 +15,7 @@ class StatefulEditor extends Component {
     render(){
 
     return (
-        <input value={this.props.text} id="editor" placeholder="input mark down"
+        <textarea value={this.props.text} id="editor" placeholder="input mark down"
         onChange={this.handleChange}/>
     )
     }

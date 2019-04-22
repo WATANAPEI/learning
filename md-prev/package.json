@@ -21,7 +21,9 @@
     "@material-ui/system": "^3.0.0-alpha.2",
     "prop-types": "^15.6.1",
     "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0"
+    "html-webpack-plugin": "^3.2.0",
+    "marked": "^0.6.2",
+    "react-marked": "^0.3.1"
   },
   "dependencies": {
       "express": "^4.14.0"
