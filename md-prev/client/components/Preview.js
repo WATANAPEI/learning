@@ -6,10 +6,9 @@ class Preview extends Component {
     };
 
     render(){
-        const {text} = this.props;
     return (
         <div id="preview">
-          <p>{text}</p>
+          <p>{this.props.text}</p>
         </div>
     )
     }
