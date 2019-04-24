@@ -11,14 +11,14 @@ RUN chown -R app:app $HOME/*
 
 USER app
 WORKDIR $HOME/md-prev
-RUN npm install
-RUN npm run build
+RUN yarn install
+RUN yarn build
 
 USER root
 COPY . $HOME/md-prev
 RUN chown -R app:app $HOME/*
 USER app
 
-CMD ["npm", "run", "dev"]
+CMD ["yarn", "dev"]
 
 
