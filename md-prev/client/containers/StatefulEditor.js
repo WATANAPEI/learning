@@ -21,8 +21,8 @@ class StatefulEditor extends Component {
         super(props);
         this.handleChange = this.handleChange.bind(this)
     };
-    handleChange(event: SyntheticKeyboardEvent<HTMLInputElement>){
-        this.props.dispatch(changeText(event.currentTarget.value));
+    handleChange(e){
+        this.props.dispatch(changeText(e.currentTarget.value));
     };
 
     render(){
