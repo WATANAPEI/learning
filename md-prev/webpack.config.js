@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
+    mode: 'production',
     entry: {
         js: path.resolve(__dirname, './client/index.js')
     },
@@ -10,9 +11,11 @@ module.exports = {
         path: path.resolve(__dirname, './out'),
         filename: 'bundle.js'
     },
+    devtool: 'eval-source-map',
     devServer: {
       contentBase: path.resolve(__dirname, './client'),
       port: 8080,
+      compress: true,
       inline: true,
       disableHostCheck: true,
       host: "0.0.0.0"
@@ -29,7 +32,7 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
-                          presets: ['env', 'react']
+                          presets: ['@babel/preset-env', '@babel/preset-react']
                         }
                     },
                 ],
