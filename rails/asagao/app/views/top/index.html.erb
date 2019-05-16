@@ -1,2 +1,8 @@
-<h1><%= @message %></h1>
-<p>Now I start learning rails.</p>
+<% 5.times do |x| %>
+  <h2>Header</h2>
+  <p>
+    Here is article. Here is article.
+    <%= link_to "Read more", "#" %>
+  </p>
+<% end %>
+

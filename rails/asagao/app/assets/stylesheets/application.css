@@ -13,3 +13,192 @@
  *= require_tree .
  *= require_self
  */
+/* whole page */
+body {
+    background-color: white;
+    color: black;
+    margin: 0;
+    padding: 0;
+    font-family: Meiryo, sans-serif;
+}
+
+/* Link */
+a:link {color: #00c;}
+a:visited { color: #00c;}
+a:hover { color: #f00;}
+a img {border: none;}
+
+/* block elements */
+p, h1, h2, h3, table, ui {
+    margin: 0 0 1em;
+}
+
+/*navigation */
+nav ul,
+ul.toolbar,
+ul.links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li,
+div.toolbar li,
+ul.toolbar li,
+ul.links li {
+    display: inline;
+}
+/*frame of whole website*/
+div#container{
+    margin: 0 auto;
+    padding-top: 5px;
+    width: 780px;
+}
+
+/*left frame */
+main {
+    float: left;
+    width: 530px;
+    padding: 10px 10px 10px 0;
+}
+
+/*right frame*/
+aside#sidebar{
+    float: left;
+    width: 230px;
+    background-color: #e8ffff;
+    padding: 5px;
+    font-size: 86%;
+}
+
+/* header */
+header {
+    border-top: 4px solid #6bb;
+    padding-top: 4px;
+}
+
+ul.account-menu {
+    text-align: right;
+}
+
+/*footer */
+footer {
+    clear: both;
+    font: 11px Verdana;
+    color: #888;
+    padding: 8px 0;
+    border-top: 4px solid #6bb;
+    text-align: center;
+}
+
+footer nav ul li:not(:last-child):after {
+    color: #888;
+    content: " | ";
+    margin: 0 5px;
+}
+
+/* menu bar */
+nav.menubar {
+    padding: 2px;
+    background-color: #000;
+    color: #ccc;
+    font-size: 80%;
+    padding: 8px 16px;
+}
+
+nav.menubar ul li:not(:last-child):after {
+    color: #ccc;
+    content: " | ";
+    margin: 0 2px;
+}
+
+/* link at menu bar */
+nav.menubar a {text-decoration: none;}
+
+/* unvisited link at menu bar */
+nav.menubar a:link {color: #ccc;}
+
+/* visited link at menu bar */
+nav.menubar a:visited {color: #ccc;}
+
+/* menu bar link (when focusing mouse) */
+nav.menubar a:hover {
+    color: #f88;
+    text-decoration: underline;
+}
+
+nav.manubar span {
+    color: #ff8;
+    font-weight: bold;
+}
+/* main content */
+main h1 {
+    color: #88c;
+    font-weight: normal;
+    font-size: 150%;
+    border-bottom: 2px solid #88c;
+    margin-bottom: 0.5em;
+}
+
+main h2 {
+    color: #99d;
+    font-weight: bold;
+    font-size: 120%;
+    margin-bottom: 0.5em;
+    border-bottom: 1px solid #ccf;
+}
+
+main p {
+    font-size: 90%;
+    line-height: 1.5;
+}
+
+ul.toolbar,
+div.toolbar {
+    padding: 15px 0;
+    font-size: 90%;
+    text-align: right;
+}
+
+ul.toolbar li:not(:last-child):after {
+    color: #888;
+    content: " | ";
+    margin: 0 2px;
+}
+
+/* side bar */
+form#login-form {
+    font-size: 12px;
+}
+form#login-form div {
+    padding: 2px;
+    text-align: center;
+}
+
+form#login-form label {
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+}
+
+form#login-form input[type="text"],
+form#login-form input[type="password"] {
+    width: 120px;
+}
+
+aside#sidebar h2 {
+    color: #080;
+    font-weight: bold;
+    border-bottom: 1px dotted #080;
+    margin-bottom: 0.5em;
+    font-size: 100%;
+}
+
+aside#sidebar ul {
+    padding-left: 1em;
+    list-style-type: none;
+}
+
+aside#sidebar li {
+    margin-bottom: 0.3em;
+}

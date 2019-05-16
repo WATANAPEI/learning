@@ -1,5 +1,6 @@
 class TopController < ApplicationController
   def index
-    @message = "Good Morning!"
+  end
+  def about
   end
 end

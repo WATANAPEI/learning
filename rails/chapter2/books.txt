@@ -1,0 +1,3 @@
+botchan, 200
+kokoro, 380
+meian, 700
