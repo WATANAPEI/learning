@@ -1,0 +1,35 @@
+<% @page_title="member list" %>
+<h1><%= @page_title %></h1>
+
+<div class="toolbar"><%= link_to "new entry for member", :new_member %></div>
+
+<% if @members.present? %>
+  <table class="list">
+    <thead>
+      <tr>
+        <th>uniform number</th>
+        <th>user name</th>
+        <th>name</th>
+	<th>operation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @members.each do |member| %>
+        <tr>
+          <td style="text-align:right"><%= member.number %>
+          <td><%= member.name %></td>
+          <td><%= member.full_name %></td>
+	  <td>
+		  <%= link_to "edit", [:edit, member] %> |
+		  <%= link_to "delete", member, method: :delete,
+		    data: {confirm: "Are you sure to delete? " } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>no member list</p>
+<% end %>
+
+
