@@ -1,0 +1,9 @@
+<% @page_title = "new entry for member" %>
+
+<h1><%= @page_title %></h1>
+
+<%= form_for @member do |form| %>
+    <%= render "form", form: form %>
+    <div><%= form.submit %></div>
+<% end %>
+

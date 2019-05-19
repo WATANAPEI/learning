@@ -29,5 +29,11 @@ module Asagao
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # strong parameters
+    config.action_controller.permit_all_parameters=true
+
+    # change locale
+    config.i18n.default_locale = :ja
   end
 end

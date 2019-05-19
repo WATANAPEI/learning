@@ -1,6 +1,10 @@
 <% @page_title="member list" %>
 <h1><%= @page_title %></h1>
 
+<%= form_tag :search_members, method: :get, class:"search" do %>
+    <%= text_field_tag "q", params[:q] %>
+    <%= submit_tag "search" %>
+<% end %>
 <div class="toolbar"><%= link_to "new entry for member", :new_member %></div>
 
 <% if @members.present? %>
@@ -17,7 +21,7 @@
       <% @members.each do |member| %>
         <tr>
           <td style="text-align:right"><%= member.number %>
-          <td><%= member.name %></td>
+          <td><%= link_to member.name, member %></td>
           <td><%= member.full_name %></td>
 	  <td>
 		  <%= link_to "edit", [:edit, member] %> |

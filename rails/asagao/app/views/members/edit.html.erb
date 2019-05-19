@@ -1,0 +1,12 @@
+<% @page_title = "edit member information" %>
+
+<h1><%= @page_title %></h1>
+
+<div class="toolbar"><%= link_to "back to members", @member %></div>
+
+
+<%= form_for @member do |form| %>
+    <%= render "form", form: form %>
+    <div><%= form.submit %></div>
+<% end %>
+
