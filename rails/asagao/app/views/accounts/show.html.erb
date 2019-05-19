@@ -1,0 +1,10 @@
+<% @page_title = "My Account" %>
+
+<h1><%= @page_title %></h1>
+
+<ul class="toolbar">
+    <%= menu_link_to "edit account info", :edit_account %>
+    <%= menu_link_to "change password", :edit_password %>
+</ul>
+
+<%= render "members/body" %>

@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def create
     member = Member.find_by(name: params[:name])
-    if member&.authenticate(parames[:password])
+    if member&.authenticate(params[:password])
       session[:member_id] = member.id
     else
       flash.alert = "名前とパスワードが一致しません。"
