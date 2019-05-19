@@ -15,4 +15,6 @@ Rails.application.routes.draw do
   resource :account, only: [:show, :edit, :update]
   resource :password, only: [:shot, :edit, :update]
 
+  resources :articles
+
 end
