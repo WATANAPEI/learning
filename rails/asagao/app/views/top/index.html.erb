@@ -1,8 +1,8 @@
-<% 5.times do |x| %>
-  <h2>Header</h2>
+<% @articles.each do |articles| %>
+    <h2><%= article.title %></h2>
   <p>
-    Here is article. Here is article.
-    <%= link_to "Read more", "#" %>
+  <%= truncate article.body, length: 80 %>
+    <%= link_to "Read more", article %>
   </p>
 <% end %>
 
