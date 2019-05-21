@@ -1,0 +1,17 @@
+<ul class="entry-footer">
+    <% if current_member %>
+        <li><%= Entry.status_text(entry.status) %></li>
+        <% if current_member == entry.author %>
+            <%= menu_link_to "Edit", [:edit, entry] %>
+            <%= menu_link_to "Delete", entry, method: :delete,
+                data: {confirm: "Are you sure to delete?"} %>
+        <% end %>
+    <% end %>
+        <li>
+            by <%= link_to entry.author.name, [entry.author, :entries] %>
+        </li>
+        <li>
+        <%= entry.posted_at.strftime("%Y/%M/%d %H/%M") %>
+    </li>
+</ul>
+

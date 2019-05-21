@@ -1,0 +1,9 @@
+<% @page_title = "Edit blog entry" %>
+<h1><%= @page_title %></h1>
+
+<div class="toolbar"><%= link_to "back to entries", @entry %></div>
+<%= form_for @entry do |form| %>
+    <%= render "form", form:form %>
+    <div><%= form.submit %></div>
+<% end %>
+
