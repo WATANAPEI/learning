@@ -31,7 +31,11 @@ module Asagao
     config.generators.system_tests = nil
 
     # strong parameters
-    config.action_controller.permit_all_parameters=true
+    config.action_controller.permit_all_parameters=false
+
+    config.exceptions_app = ->(env) do
+      ErrorsController.action(:show).call(env)
+    end
 
     # change locale
     config.i18n.default_locale = :ja

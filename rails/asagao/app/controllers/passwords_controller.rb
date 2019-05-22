@@ -9,11 +9,11 @@ class PasswordsController < ApplicationController
   end
   def update
     @member = current_member
-    current_password = params[:account][:current_member]
+    current_password = account_params[:current_password]
 
     if current_password.present?
       if @member.authenticate(current_password)
-        @member.assign_attributes(params[:account])
+        @member.assign_attributes(account_params)
         if @member.save
           redirect_to :account, notice: "change password"
         else
@@ -27,5 +27,13 @@ class PasswordsController < ApplicationController
       @member.errors.add(:current_password, :empty)
       render "edit"
     end
+  end
+
+  private def account_params
+    params.require(:account).permit(
+    :current_password,
+    :password,
+    :password_confirmation
+    )
   end
 end

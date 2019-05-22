@@ -183,7 +183,7 @@ form#login-form label {
 
 form#login-form input[type="text"],
 form#login-form input[type="password"] {
-    width: 120px;
+  width: 120px;
 }
 
 aside#sidebar h2 {

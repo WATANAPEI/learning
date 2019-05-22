@@ -16,7 +16,7 @@ class MembersController < ApplicationController
     @member = Member.find(params[:id])
   end
   def create
-    @member = Member.new(params[:member])
+    @member = Member.new(member_params)
     if @member.save
       redirect_to @member, notice: "registered a member"
     else
@@ -25,7 +25,7 @@ class MembersController < ApplicationController
   end
   def update
     @member = Member.find(params[:id])
-    @member.assign_attributes(params[:member])
+    @member.assign_attributes(member_params)
     if @member.save
       redirect_to @member, notice: "updated member information"
     else
@@ -41,5 +41,18 @@ class MembersController < ApplicationController
     @members = Member.search(params[:q])
       .page(params[:page]).per(15)
     render "index"
+  end
+  private def member_params
+    attrs = [
+      :number,
+      :name,
+      :full_name,
+      :sex,
+      :birthday,
+      :email,
+      :administrator
+    ]
+    attrs << :password if params[:action] =="create"
+    params.require(:member).permit(attrs)
   end
 end
