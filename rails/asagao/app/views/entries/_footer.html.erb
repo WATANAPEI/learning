@@ -3,6 +3,7 @@
         <li><%= Entry.status_text(entry.status) %></li>
         <% if current_member == entry.author %>
             <%= menu_link_to "Edit", [:edit, entry] %>
+            <%= menu_link_to "Images", [entry, :images] %>
             <%= menu_link_to "Delete", entry, method: :delete,
                 data: {confirm: "Are you sure to delete?"} %>
         <% end %>

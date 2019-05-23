@@ -1,0 +1,56 @@
+<% @page_title = "ブログ記事の画像" %>
+<h1><%= @page_title %></h1>
+<h2><%= @entry.title %></h2>
+
+<ul class="toolbar">
+    <%= menu_link_to "Back to articles", @entry %>
+    <%= menu_link_to "Add image",[:new, @entry, :image] %>
+</ul>
+
+<% if @images.present? %>
+    <table class="list">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Image</th>
+                <th>Alt text</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @images.each_with_index do |image, index| %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td>
+                        <%= image_tag image.data.variant(resize: "100x>"),
+                            alt: image.alt_text %>
+                    </td>
+                    <td>
+                        <%= image.alt_text %>
+                    </td>
+                    <td>
+                        <div>
+                            <%= link_to "Edit", edit_entry_image_path(@entry, image) %>|
+                            <%= link_to "Delete", entry_image_path(@entry, image),
+                            method: :delete, data: {confirm: "Are you sure to delete?"} %>
+                    </div>
+                    <div>
+                        <%= link_to_unless image.first?, "Up",
+                        move_higher_entry_image_path(@entry, image),
+                        method: :patch %>|
+                        <%= link_to_unless image.last?, "Down",
+                        move_lower_entry_image_path(@entry, image),
+                        method: :patch %>
+                    </div>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% else %>
+    <p>No image exists.</p>
+<% end %>
+
+
+
+
