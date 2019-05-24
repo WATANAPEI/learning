@@ -1,0 +1,19 @@
+<% @page_title = "Voted entries" %>
+<h1><%= @page_title %></h1>
+
+<% if @entries.present? %>
+    <ul>
+        <% @entries.each do |entry| %>
+            <li>
+                <%= link_to entry.title, entry %>
+                by <%= link_to entry.author.name, [entry.author, :entries] %>
+            - <%= link_to "Delete", [:unlike, entry], method: :patch,
+                data: {confirm: "Are you sure to delete?"} %>
+        </li>
+    <% end %>
+    </ul>
+    <%= paginate @entries %>
+<% else %>
+    <p>No Entry. </p>
+<% end %>
+

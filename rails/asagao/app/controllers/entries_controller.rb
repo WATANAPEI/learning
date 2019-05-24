@@ -51,6 +51,22 @@ class EntriesController < ApplicationController
     redirect_to :entries, notice: "deleted an entry"
   end
 
+  def like
+    @entry = Entry.published.find(params[:id])
+    current_member.voted_entries << @entry
+    redirect_to @entry, notice: "Voted."
+  end
+
+  def unlike
+    current_member.voted_entries.destroy(Entry.find(params[:id]))
+    redirect_to :voted_entries, notice: "deleted."
+  end
+
+  def voted
+    @entries = current_member.voted_entries.published
+      .order("votes.created_at DESC")
+      .page(params[:page]).per(15)
+  end
   private def entry_params
     params.require(:entry).permit(
       :member_id,
@@ -60,4 +76,5 @@ class EntriesController < ApplicationController
       :status
     )
   end
+
 end
