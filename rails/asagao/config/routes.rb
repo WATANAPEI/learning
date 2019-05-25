@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get "lesson/step#{n}(/:name)" => "lesson#step#{n}"
   end
 
-  resources :members do
+  resources :members, only: [:index, :show] do
     get "search", on: :collection
     resources :entries, only: [:index]
   end
@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   resource :account, only: [:show, :edit, :update]
   resource :password, only: [:shot, :edit, :update]
 
-  resources :articles
+  resources :articles, only: [:index, :show]
   resources :entries do
     patch "like", "unlike", on: :member
     get "voted", on: :collection
@@ -30,5 +30,9 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "top#index"
+    resources :members do
+      get "search", on: :collection
+    end
+    resources :articles
   end
 end

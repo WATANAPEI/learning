@@ -1,0 +1,39 @@
+
+<table class="attr">
+    <tr>
+        <th>profile</th>
+        <td>
+            <% if @member.profile_picture.attached? %>
+                <%= image_tag @member.profile_picture.variant(resize: "128x128") %>
+            <% end %>
+        </td>
+    </tr>
+    <tr>
+        <th width="150">uniform number </th>
+        <td><%= @member.number %></td>
+    </tr>
+    <tr>
+        <th>user name</th>
+        <td><%= @member.name %></td>
+    </tr>
+    <tr>
+        <th>name</th>
+        <td><%= @member.full_name %></td>
+    </tr>
+    <tr>
+        <th>sex</th>
+        <td><%= @member.sex == 1 ? "man": "woman"%> </td>
+    </tr>
+    <tr>
+        <th>birthday</th>
+        <td><%= @member.birthday&.strftime("%Y/%m/%d") %></td>
+    </tr>
+    <tr>
+        <th>mail address</th>
+        <td><%= @member.email %></td>
+    </tr>
+    <tr>
+        <th>administrator</th>
+        <td><%= @member.administrator? ? "o": "-" %></td>
+    </tr>
+</table>

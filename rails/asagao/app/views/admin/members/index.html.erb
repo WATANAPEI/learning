@@ -1,10 +1,11 @@
-<% @page_title="member list" %>
+<% @page_title="ADMIN member" %>
 <h1><%= @page_title %></h1>
 
-<%= form_tag :search_members, method: :get, class:"search" do %>
+<%= form_tag :search_admin_members, method: :get, class:"search" do %>
     <%= text_field_tag "q", params[:q] %>
     <%= submit_tag "search" %>
 <% end %>
+<div class="toolbar"><%= link_to "new entry for member", :new_admin_member %></div>
 
 <% if @members.present? %>
   <table class="list">
@@ -13,14 +14,20 @@
         <th>uniform number</th>
         <th>user name</th>
         <th>name</th>
+	<th>operation</th>
       </tr>
     </thead>
     <tbody>
       <% @members.each do |member| %>
         <tr>
           <td style="text-align:right"><%= member.number %>
-          <td><%= link_to member.name, member %></td>
+          <td><%= link_to member.name, [:admin, member] %></td>
           <td><%= member.full_name %></td>
+	  <td>
+		  <%= link_to "edit", [:edit, :admin, member] %> |
+		  <%= link_to "delete", [:admin, member], method: :delete,
+		    data: {confirm: "Are you sure to delete? " } %>
+          </td>
         </tr>
       <% end %>
     </tbody>
