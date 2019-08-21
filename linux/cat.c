@@ -6,6 +6,7 @@
 #include <fcntl.h>
 
 static void do_cat(const char *path);
+static void do_cat_stdin();
 static void die(const char *s);
 
 int
@@ -13,7 +14,7 @@ main(int argc, char *argv[])
 {
     int i;
     if (argc < 2) {
-        fprintf(stderr, "%s: file name not given\n", argv[0]);
+        do_cat_stdin();
     }
     for (i = 1; i < argc; i++) {
         do_cat(argv[i]);
@@ -41,6 +42,21 @@ do_cat(const char *path)
     if (close(fd) < 0) die(path);
 
 }
+
+static void
+do_cat_stdin()
+{
+    unsigned char buf[BUFFER_SIZE];
+    int n;
+
+    for(;;) {
+        n = read(STDIN_FILENO, buf, sizeof buf);
+        if (n < 0) die("STDIN\n");
+        if (n == 0) break;
+        if (write(STDOUT_FILENO, buf, n) < 0) die("STDIN\n");
+    }
+}
+
 
 static void
 die(const char *s)
