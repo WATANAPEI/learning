@@ -4,6 +4,21 @@
 #include <algorithm>
 #include <numeric>
 
+std::vector<int> div_digit(int n) {
+
+    int remaining = 0;
+    std::vector<int> digits;
+    int tmp = n;
+    while(tmp != 0) {
+        remaining = tmp % 10;
+        digits.push_back(remaining);
+        tmp /= 10;
+    }
+    std::reverse(digits.begin(), digits.end());
+    //dump(digits);
+    return digits;
+}
+
 std::vector<int> calc_divisor(int n) {
     std::vector<int> divisors;
     for(int i = 1; i < n; ++i) {
