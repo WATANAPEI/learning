@@ -1,4 +1,5 @@
 #include <vector>
+#include <bitset>
 void sort(int &x, int &y);
 int calc_gcd(int x, int y);
 int calc_lcm(int x, int y);
