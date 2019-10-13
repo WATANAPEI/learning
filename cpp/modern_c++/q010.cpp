@@ -8,8 +8,8 @@ using namespace std;
 template <size_t N>
 unsigned int calc_decimal(bitset<N> b) {
     unsigned int result = 0;
-    for(unsigned int i = 1; i <= b.size(); i++) {
-        result += b[i] * pow(2, i-1);
+    for(unsigned int i = 0; i <= b.size(); i++) {
+        result += b[i] * pow(2, i);
     }
     return result;
 }
@@ -42,8 +42,8 @@ int main() {
 
     size_t i = 0;
     while(!bit(i).all()) {
-        cout << i << ":\t " <<  bit(i) << " / " << calc_greycode(bit(i)) << "\t" << calc_binary(calc_greycode(bit(i))) << endl;
+        cout << i << ":\t " <<  bit(i) << " / " << calc_greycode(bit(i)) << "\t" << calc_binary(calc_greycode(bit(i))) << "\t" << calc_decimal(calc_binary(calc_greycode(bit(i)))) << endl;
         ++i;
     }
-    cout << i << ":\t " <<  bit(i) << " / " << calc_greycode(bit(i)) << "\t" << calc_binary(calc_greycode(bit(i))) << endl;
+    cout << i << ":\t " <<  bit(i) << " / " << calc_greycode(bit(i)) << "\t" << calc_binary(calc_greycode(bit(i))) << "\t" << calc_decimal(calc_binary(calc_greycode(bit(i)))) <<  endl;
 }
