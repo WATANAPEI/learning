@@ -1,2 +1,2 @@
 # learning
-## If you file terrible code please ignore it.
+## If you find terrible code please ignore it.
