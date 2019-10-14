@@ -1,32 +1,34 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include <cmath>
 
 using namespace std;
 
-int main() {
-    unsigned int row = 10;
-    unsigned int col = 20;
-    vector<vector<unsigned int>> tri(row, vector<unsigned int>(col, 0));
+unsigned int number_of_digits(unsigned int const i) {
+    return i > 0 ? (int) log10((double) i) + 1: 1;
+}
 
-    tri.at(0).at(0) = 1;
-    for(unsigned int i = 1; i < row; ++i) {
-        tri.at(i).at(0) = 1;
-        for(unsigned int j = 1; j < col; ++j) {
-            tri.at(i).at(j) = tri.at(i-1).at(j-1) + tri.at(i-1).at(j);
-        }
-    }
-
-    for(unsigned int i = 0; i < row; ++i) {
-        for(unsigned int j = 0; j < row - i; ++j) {
-            cout << "  ";
-        }
-        for(unsigned int j = 0; j < col; ++j) {
-            if(tri.at(i).at(j) != 0) {
-                cout << setw(4) << tri.at(i).at(j) << " ";
-            }
+void print_pascal_triangle(int const n) {
+    for (int i = 0; i < n; i ++) {
+        auto x = 1;
+        cout << string((n - i - 1) * (n / 2), ' ');
+        for (int j = 0; j <= i; j++) {
+            auto y = x;
+            x = x * (i-j) / (j+1);
+            auto maxlen = number_of_digits(x) - 1;
+            cout << y << string(n - 1 - maxlen - n % 2, ' ');
         }
         cout << endl;
     }
-
+}
+int main() {
+    int n = 0;
+    cout << "levels ( up to 10): ";
+    cin >> n;
+    if (n > 10){
+        cout << "value too large" << endl;
+    } else {
+        print_pascal_triangle(n);
+    }
 }
