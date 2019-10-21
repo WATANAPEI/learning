@@ -14,11 +14,18 @@ T1 mymin(T1 a, T... args) {
 
 }
 
-template <typename T1, typename... T>
-T1 mymin2(T1 a, T... args, function(f)(T1 x, T1 y){
+template <class Compare, typename T>
+T minimum(Compare compare, T const a, T const b) {
+    return compare(a, b)? a : b;
+
 }
 
+template <class Compare, typename T1, typename... Args>
+T1 mininum(Compare compare, T1 t, Args... args) {
+    return minimum(compare, t, minimum(compare, args...));
+}
 int main() {
     auto x = mymin(5, 4, 2, 1);
+    cout << x << endl;
 
 }
