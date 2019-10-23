@@ -1,39 +1,40 @@
 #include <iostream>
 #include <vector>
 #include <cctype>
+#include <cassert>
+#include <sstream>
 
 using namespace std;
 
-//TODO: deal with successive space
-vector<string> tokenize(string str) {
-    vector<string> token;
-    string tmp;
-    for(auto itr = str.begin(); itr != str.end(); itr++) {
-        if(*itr == ' ') {
-            token.push_back(tmp);
-            tmp.clear();
+template <class Elem>
+using tstring = basic_string<Elem, char_traits<Elem>, allocator<Elem>>;
+
+template <class Elem>
+using tstringstream = basic_stringstream<Elem, char_traits<Elem>, allocator<Elem>>;
+
+template <class Elem>
+tstring<Elem> capitalize(tstring<Elem> const & text) {
+    tstringstream<Elem> result;
+    bool newWord = true;
+    for (auto const ch : text) {
+        newWord = newWord || isspace(ch) || ispunct(ch);
+        if(isalpha(ch)) {
+            if(newWord) {
+                result << static_cast<Elem>(toupper(ch));
+                newWord = false;
+            } else {
+                result << static_cast<Elem>(tolower(ch));
+            }
         } else {
-            tmp += *itr;
+            result << ch;
         }
     }
-    token.push_back(tmp);
-    return token;
-
-}
-
-string to_chapital(string str) {
-    char c = str.at(0);
-    const char tmp = static_cast<const char>(toupper(c));
-    return string(&tmp) + str.erase(0, 1);
+    return result.str();
 }
 
 int main() {
-    string test = "this is test sentense.";
-    vector<string> tokens = tokenize(test);
-    string result;
-    for(auto e: tokens) {
-        result += to_chapital(e);
-        result += " ";
-    }
-    cout << result << endl;
+    using namespace string_literals;
+    assert("The C++ Challengers"s == capitalize("the c++ challengers"s));
+    assert("This Is An Example, Should Work!"s == capitalize("THIS IS an ExamplE, should wORk!"s));
 }
+
