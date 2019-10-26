@@ -1,52 +1,37 @@
 #include <iostream>
 #include <vector>
+#include <cassert>
+#include <algorithm>
 
 using namespace std;
 
-template <typename T>
-struct myque {
-private:
+template <class T, class Compare = std::less<typename vector<T>::value_type>>
+class priority_queue {
+    using value_type = typename vector<T>::value_type;
+    using size_type = typename vector<T>::size_type;
+    using reference = typename vector<T>::reference;
+    using const_reference = typename vector<T>::const_reference;
+
     vector<T> data;
-    bool compare(T a, T b) {
-        return a > b;
-    }
+    Compare comparer;
 
 public:
-    myque() {};
 
-    void push(T const & e) {
-        data.push_back(e);
-        size_t my_idx = data.size() - 1;
-        if ( my_idx > 0) {
-            size_t p_idx = (my_idx - 1) / 2;
-            while(compare(data.at(my_idx), data.at(p_idx))) {
-                swap(data.at(p_idx), data.at(my_idx));
-                my_idx = p_idx;
-            }
-        }
+    void push(value_type const & value) {
+        data.push_back(value);
+        push_heap(begin(data), end(data), comparer);
     }
     void pop() {
-        data.erase(begin(data));
-        *begin(data) = *end(data);
-        size_t my_idx = 0;
-        while((my_idx + 1) * 2 < data.size()) {
-            T const & lhs = data.at(2 * my_idx + 1);
-            T const & rhs = data.at(2 * my_idx + 2);
-            if(compare(lhs,  rhs)) {
-                swap(data.at(my_idx), data.at(2 * my_idx + 1));
-                my_idx = 2 * my_idx + 1;
-            } else {
-                swap(data.at(my_idx), data.at(2 * my_idx + 2 ));
-                my_idx = 2 * my_idx + 2;
-            }
-        }
+        pop_heap(begin(data), end(data), comparer);
+        data.pop_back();
 
     }
-    T const & top() const {
-        return *cbegin(data);
+    const_reference top() const {
+        return data.front();
     }
-    T & top() {
-        return *begin(data);
+    void swap(priority_queue & other) noexcept {
+        swap(data, other.data);
+        swap(comparer, other.comparer);
     }
     size_t size() {
         return data.size();
@@ -54,21 +39,28 @@ public:
     bool empty() {
         return data.empty();
     }
-
-
 };
 
+template <class T, class Compare>
+void swap(priority_queue<T, Compare>& lhs,
+          priority_queue<T, Compare>& rhs)
+          noexcept(noexcept(lhs.swap(rhs)))
+{
+    lhs.swap(rhs);
+}
+
 int main () {
-    myque<int> que;
-    que.push(2);
-    que.push(5);
-    que.push(10);
-    cout << que.top() << endl;
-    que.pop();
-    cout << que.top() << endl;
-    que.push(20);
-    cout << que.top() << endl;
-    que.push(5);
-    cout << que.top() << endl;
+    priority_queue<int> q;
+    for (int i : {1, 5, 3, 1, 13, 21, 9}) {
+        q.push(i);
+    }
+
+    assert(!q.empty());
+    assert(q.size() == 7);
+
+    while(!q.empty()) {
+        cout << q.top() << endl;
+        q.pop();
+    }
 
 }
