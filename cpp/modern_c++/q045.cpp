@@ -7,6 +7,9 @@ template <typename T>
 struct myque {
 private:
     vector<T> data;
+    bool compare(T a, T b) {
+        return a > b;
+    }
 
 public:
     myque() {};
@@ -16,7 +19,7 @@ public:
         size_t my_idx = data.size() - 1;
         if ( my_idx > 0) {
             size_t p_idx = (my_idx - 1) / 2;
-            while(data.at(p_idx) < data.at(my_idx)) {
+            while(compare(data.at(my_idx), data.at(p_idx))) {
                 swap(data.at(p_idx), data.at(my_idx));
                 my_idx = p_idx;
             }
@@ -29,7 +32,7 @@ public:
         while((my_idx + 1) * 2 < data.size()) {
             T const & lhs = data.at(2 * my_idx + 1);
             T const & rhs = data.at(2 * my_idx + 2);
-            if(lhs > rhs) {
+            if(compare(lhs,  rhs)) {
                 swap(data.at(my_idx), data.at(2 * my_idx + 1));
                 my_idx = 2 * my_idx + 1;
             } else {
