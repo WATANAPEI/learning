@@ -1,75 +1,127 @@
-#include <iostream>
-#include <deque>
-#include <cassert>
+#include <vector>
+#include <stdexcept>
 
-using namespace std;
+template <class T>
+class circular_buffer
+{
+    using const_iterator = circular_buffer_iterator<T>;
 
-template <typename T>
-class ring_buf {
 private:
-    using size_type = typename deque<T>::size_type;
-    using value_type = typename deque<T>::value_type;
-    using reference = typename deque<T>::reference;
-    using const_reference = typename deque<T>::const_reference;
-    using iterator = typename deque<T>::iterator;
-    using const_iterator = typename deque<T>::const_iterator;
-    deque<T> data;
-    size_type cp;
+    std::vector<T> data_;
+    size_t head_ = -1;
+    size_t size_ = 0;
+
+    size_t next_pos() const noexcept {
+        return size_ == 0 ? 0 : (head_ + 1) % data_.size();
+    }
+    size_t first_pos() const noexcept {
+        return size_ == 0 ? 0 : (head_ + data_.size() - size_ + 1) % data_.size();
+    }
+    friend class circular_buffer_iterator<T>;
 
 public:
+    circular_buffer() = delete;
+    explicit circular_buffer(size_t const size) : data_(size) {}
+    void clear() noexcept {
+        head_ = -1;
+        size_ = 0;
+    }
+    bool empty() const noexcept {
+        return size_ == 0;
+    }
+    bool full() const noexcept {
+        return size_ == data_.size();
+    }
+    size_t capacity() const noexcept {
+        return data_.size();
+    }
+    size_t size() const noexcept {
+        return size_;
+    }
 
-    ring_buf() = delete;
-    ring_buf(size_type n): cp(n) {
-        data = deque<T>();
+    void push(T const item) {
+        head_ = next_pos();
+        data_[head_] = item;
+        if (size_ < data_.size()) size_++;
     }
-    bool empty() const {
-        return data.empty();
-    };
-    bool full() const {
-        return cp == data.size();
-    };
-    size_type const size() const {
-        return cp;
-    }
-    size_type const capacity() const {
-        return cp - data.size();
-    }
-    void push(value_type e) {
-        if(!full()) {
-            data.push_back(e);
-            //cout << "pushed" << endl;
-        } else {
-            data.pop_front();
-            data.push_back(e);
-            //cout << "didn't push" << endl;
+    T pop() {
+        if(empty()) {
+            throw std::runtime_error("empty buffer");
         }
+        auto pos = first_pos();
+        size_--;
+        return data_[pos];
     }
-    void pop_front() {
-        data.pop_front();
+
+
+};
+
+template <class T>
+class circular_buffer_iterator
+{
+    using self_type = circular_buffer_iterator;
+    using value_type = T;
+    using reference = T&;
+    using const_reference = T const &;
+    using pointer = T*;
+    using const_pointer = T const *;
+    using iterato_category = std::random_access_iterator_tag;
+    using difference_type = ptrdiff_t;
+private:
+    bool compatible(self_type const & other) const {
+        return &buffer_ == &other.buffer_;
     }
-    iterator begin() {
-        return data.begin();
+    circular_buffer<T> const & buffer_;
+    size_t index_;
+    bool last_;
+public:
+    circular_buffer_iterator(circular_buffer<T> const & buf,
+                        size_t const pos, bool const last)
+                        : buffer_(buf), index_(pos), last_(last) {}
+    self_type & operator++() {
+        if (last_)
+            throw std::out_of_range("Iterator cannot be incremented past the end of range.");
+        index_ = (index_ + 1) % buffer_.data_.size();
+        last_ = index_ == buffer_.next_pos();
+        return *this;
     }
-    iterator end() {
-        return data.end();
+    self_type operator++(int) {
+        self_type tmp = *this;
+        ++*this;
+        return tmp;
     }
-    const_iterator cbegin() {
-        return data.cbegin();
+    bool operator==(self_type const & other) const {
+        assert(compatible(other));
+        return index_ == other.index_ && last_ == other.last_;
     }
-    const_iterator cend() {
-        return data.cend();
+
+    bool operator!=(self_type const & other) const {
+        return !(*this == other);
+    }
+    const_reference operator*() const {
+        return buffer_.data_[index_];
+    }
+    const_pointer operator->() const {
+        return std::addressof(operator*());
     }
 };
 
-int main() {
-    ring_buf<int> a(10);
-    a.push(32);
-    a.push(5);
-    assert(*a.begin() == 32);
-    assert(*++a.begin() == 5);
-    a.push(4);
-    a.pop_front();
-    assert(*a.begin() == 5);
-    assert(*++a.begin() == 4);
+int main () {
+    circular_buffer<int> cbuf(5);
+    cbuf.push(1);
+    cbuf.push(2);
+    cbuf.push(3);
 
+    auto item = cbuf.pop();
+    cbuf.push(4);
+    cbuf.push(5);
+    cbuf.push(6);
+    cbuf.push(7);
+    cbuf.push(8);
+    item = cbuf.pop();
+    item = cbuf.pop();
+    item = cbuf.pop();
+    item = cbuf.pop();
+    item = cbuf.pop();
+    cbuf.push(9);
 }
