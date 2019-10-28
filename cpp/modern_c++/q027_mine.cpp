@@ -4,15 +4,9 @@
 
 using namespace std;
 
-template <class Elem>
-using tstring = basic_string<Elem, char_traits<Elem>, allocator<Elem>>;
-
-template <class Elem>
-using tstringstream = basic_stringstream<Elem, char_traits<Elem>, allocator<Elem>>;
-
-template <class Elem>
-vector<Elem> tokenize(Elem const & in, Elem const & delim) {
-    vector<Elem> result;
+template <class T>
+vector<T> tokenize(T const & in, T const & delim) {
+    vector<T> result;
     vector<int> delim_pos;
     size_t prev_pos = 0;
     for(auto e : delim) {
