@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
+#include <cassert>
+#include <sstream>
 
 using namespace std;
 
@@ -11,35 +13,39 @@ template <class Elem>
 using tstringstream = basic_stringstream<Elem, char_traits<Elem>, allocator<Elem>>;
 
 template <class Elem>
-vector<Elem> tokenize(Elem const & in, Elem const & delim) {
-    vector<Elem> result;
-    vector<int> delim_pos;
-    size_t prev_pos = 0;
-    for(auto e : delim) {
-        string::size_type pos = in.find(e);
-        while(pos != string::npos) {
-        delim_pos.push_back(pos);
-        pos = in.find(e, pos+1);
+vector<tstring<Elem>> tokenize(tstring<Elem> text, Elem const delim) {
+    auto sstr = tstringstream<Elem> { text };
+    auto tokens = vector<tstring<Elem>>{ };
+    auto token = tstring<Elem>{ };
+    while(getline(sstr, token, delim)) {
+        if (!token.empty()) tokens.push_back(token);
     }
+    return tokens;
+}
 
-        while(pos != string::npos) {
-            result.push_back(in.substr(prev_pos, pos-1));
-            prev_pos = pos;
-            pos = in.find(e, pos+1);
+template <typename Elem>
+vector<tstring<Elem>> tokenize(tstring<Elem> text, tstring<Elem> const & delims) {
+    auto tokens = vector<tstring<Elem>>{};
+    size_t pos, prev_pos = 0;
+    while ((pos = text.find_first_of(delims, prev_pos)) != string::npos) {
+        if (pos > prev_pos) {
+            tokens.push_back(text.substr(prev_pos, pos - prev_pos));
         }
-    return result;
+        prev_pos = pos + 1;
+    }
+    if (prev_pos < text.length()) {
+        tokens.push_back(text.substr(prev_pos, string::npos));
+    }
+    return tokens;
+}
 
-};
 
 int main() {
-    string str = "this is an example.";
-    string delim = ",.! ";
-    vector<string> result = tokenize(str, delim);
-    for(auto e: result) {
-        cout << e << " ";
-    }
-    cout << endl;
-    //copy(result.begin(), result.end(), ostream_iterator<string>(cout, " "));
+    using namespace std::string_literals;
+    vector<string> expected{"this", "is", "a", "sample"};
+    assert(expected == tokenize("this is a sample"s, ' '));
+    assert(expected == tokenize("this,is a.sample"s, ",.! "s));
+
 
 
 }
