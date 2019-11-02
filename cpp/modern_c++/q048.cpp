@@ -2,49 +2,40 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <algorithm>
 
 using namespace std;
 
 template <typename T>
-map<T, size_t> freq_count(vector<T> v) {
-    map<int, size_t> counter;
-    for(auto itr=v.begin(); itr!= v.end(); itr++) {
-        if(counter.find(*itr) == counter.end()) {
-            counter.insert(make_pair(*itr, 1));
-        } else {
-            ++counter.at(*itr);
-        }
+vector<pair<T, size_t>> find_most_frequent(vector<T> const & range) {
+    map<T, size_t> counts;
+
+    for (auto const & e : range) {
+        counts[e]++;
     }
 
-    return counter;
-}
+    auto maxelem = max_element(
+            cbegin(counts), cend(counts),
+            [] (auto const & e1, auto const & e2) {
+                return e1.second < e2.second;
+                }
+            );
+    vector<pair<T, size_t>> result;
 
-template <typename T>
-map<T, size_t> get_max(map<T, size_t> const & a) {
-    pair<T, size_t> tmp = *a.cbegin();
-    map<T, size_t> result;
-    for(auto e: a) {
-        if(tmp.second < e.second) {
-            result.clear();
-            result.insert(e);
-        } else if (tmp.second = e.second) {
-            result.insert(e);
-        }
-    }
+    copy_if(
+            cbegin(counts), cend(counts),
+            back_inserter(result),
+            [maxelem](auto const & kvp) {
+                return kvp.second == maxelem->second;
+                });
     return result;
 }
 
 int main() {
-    vector<int> v = {1, 1, 3, 5, 8, 13, 3, 5, 8,8,5};
-    map<int, size_t> counter = freq_count(v);
-    for(auto e : counter) {
-        cout << e.first << ' ' << e.second << endl;
-    }
+    auto range = vector<int> {1,1,3,5,8,13,3,5,8,8,5};
+    auto result = find_most_frequent(range);
 
-    cout << "*********************" << endl;
-    map<int, size_t> max = get_max(counter);
-    for(auto e : max) {
-        cout << e.first << ' ' << e.second << endl;
+    for(auto const & [e, count] : result) {
+        cout << e << " : " << count << endl;
     }
-
 }
