@@ -1,35 +1,48 @@
 #include <iostream>
 #include <iterator>
+#include <vector>
+#include <cassert>
+#include <string>
 
 using namespace std;
 
-template <class Elem>
-using tstring = basic_string<Elem, char_traits<Elem>, allocator<Elem>>;
+string longest_palindrome(string_view str) {
+    size_t const len = str.size();
+    size_t longest_begin = 0;
+    size_t max_len = 1;
+    vector<bool> table(len * len, false);
 
-template <class Elem>
-using tstringstream = basic_stringstream<Elem, char_traits<Elem>, allocator<Elem>>;
-
-template <class Elem>
-tstring<Elem> palindrome(tstring<Elem> const & str) {
-    tstring<Elem> rev;
-
-    for(auto itr = str.begin(); itr != str.end(); itr++) {
-        rev.push_back(*itr);
-        cout << *itr << endl;
+    for (size_t i = 0; i < len; i++) {
+        table[i * len + i] = true;
     }
-
-    for(int i = 0; i < str.size()-1; ++i) {
-        for(int j = 2; j <= str.size()-i; ++j) {
-            cout << str.substr(i, j) << endl;
-
+    for (size_t i = 0; i < len - 1; i++) {
+        if (str[i] == str[i+1]) {
+            table[i * len + i + 1] = true;
+            if (max_len < 2 ) {
+                longest_begin = i;
+                max_len = 2;
+            }
         }
     }
-
-
+    for (size_t k = 3; k <= len; k++) {
+        for (size_t i = 0; i < len - k + 1; i++) {
+            size_t j = i + k - 1;
+            if (str[i] == str[j] && table[(i + 1) * len + j -1]) {
+                table[i * len + j] = true;
+                if (max_len < k ) {
+                    longest_begin = i;
+                    max_len = k;
+                }
+            }
+        }
+    }
+    return string(str.substr(longest_begin, max_len));
 }
 
 int main() {
-    tstring<char> str = "tests";
-    tstring<char> result = palindrome(str);
-
+    using namespace string_literals;
+    assert(longest_palindrome("sahararahnide") == "hararah");
+    assert(longest_palindrome("level") == "level");
+    assert(longest_palindrome("s") == "s");
 }
+
