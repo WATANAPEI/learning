@@ -3,36 +3,49 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
+#include <numeric>
+#include <string>
 
 using namespace std;
 
-void text_hist(string const & str) {
-    vector<string> result;
-    string tmp = str;
-    transform(cbegin(tmp), cend(tmp), begin(tmp), ::tolower);
-    auto itr = tmp.cbegin();
-    auto end = tmp.cend();
-
-    regex re(R"([a-zA-Z])");
-    smatch m;
-    map<string, size_t> hist;
-    while(regex_search(itr, end, m, re)) {
-        result.push_back(m.str());
-        hist[m.str()]++;
-        //cout << m.str() << " " << hist[m.str()] << endl;
-        itr = m[0].second;
-    }
-    size_t strlen = result.size();
-    for(auto e : hist) {
-        cout << e.first << " " << setprecision(3) << (double(e.second)/double(strlen))*100 << "%" << endl;
+map<char, double> analyze_text(string_view text) {
+    map<char, double> freq;
+    for (char ch = 'a'; ch <= 'z'; ch++) {
+        freq[ch] = 0;
     }
 
+    for(auto ch: text) {
+        if (isalpha(ch)) {
+            freq[tolower(ch)]++;
+        }
+    }
 
+    auto total = accumulate(
+            cbegin(freq), cend(freq),
+            0ULL,
+            [](auto const sum, auto const & kvp) {
+                return sum + static_cast<unsigned long long>(kvp.second);
+                });
 
-};
+    for_each(
+            begin(freq), end(freq),
+            [total](auto & kvp) {
+                kvp.second = (100.0 * kvp.second) / static_cast<double>(total);
+                });
 
-int main() {
-    string text = "aa90bs32+-f2FF";
-    text_hist(text);
+    return freq;
 
 }
+
+int main() {
+    auto result = analyze_text(R"(Lorem ipsum dolor sit amet, consectetur adipiscing elit,)"
+            R"(sed do eiusmod tempor incididut ut labore et dolare magna aliqua. )");
+
+    for (auto const & [ch, rate]: result) {
+        std::cout << ch << " : "
+            << fixed
+            << setw(5) << setfill(' ')
+            << setprecision(2) << rate << endl;
+    }
+}
+
