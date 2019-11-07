@@ -4,20 +4,28 @@
 #include <iostream>
 #include <experimental/filesystem>
 #include <iomanip>
+#include <numeric>
 
 using namespace std;
 namespace fs = std::experimental::filesystem;
 
+uintmax_t get_directory_size(fs::path const & dir, bool const follow_symlinks = false) {
+    auto iterator = fs::recursive_directory_iterator(
+            dir,
+            follow_symlinks ? fs::directory_options::follow_directory_symlink :
+                              fs::directory_options::none);
+
+    return accumulate(
+            fs::begin(iterator), fs::end(iterator),
+            0ULL,
+            [] (std::uintmax_t const total, fs::directory_entry const & entry) {
+                return total + (fs::is_regular_file(entry) ? fs::file_size(entry.path()) : 0ULL);
+                });
+}
+
 int main () {
-    for(const fs::directory_entry &i : fs::recursive_directory_iterator(".")) {
-        cout << setw(15) << left << i.path().filename().string();
-        if(fs::is_regular_file(i)) {
-            cout  << ": " << fs::file_size(i.path()) << " byte" << endl;
-        } else {
-            cout << ": is directory" << endl;
-        }
-    }
-
-
-
+    string path;
+    cout << "Path: ";
+    cin >> path;
+    cout << "Size: " << get_directory_size(path) << std::endl;
 }
