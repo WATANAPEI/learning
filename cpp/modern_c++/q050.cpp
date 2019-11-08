@@ -1,19 +1,30 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <string>
 
 using namespace std;
 
-vector<string> filter_tel(vector<string> const & v, string country_code) {
+bool starts_with(string_view str, string_view prefix) {
+    return str.find(prefix) == 0;
+}
+
+template<typename InputIt>
+vector<string> filter_numbers(InputIt begin, InputIt end, string const & countryCode) {
     vector<string> result;
-    int len = country_code.length();
-    for(auto e : v) {
-        if(e.substr(0, len) == country_code || e.substr(0, len+1) == "+" + country_code) {
-            result.push_back(e);
-        }
-    }
-
+    copy_if(
+            begin, end,
+            back_inserter(result),
+            [countryCode] (auto const & number) {
+                return starts_with(number, countryCode) ||
+                        starts_with(number, "+" + countryCode);
+                        });
     return result;
+}
 
+vector<string> filter_numbers(vector<string> const & numbers,
+                                string const & countryCode) {
+    return filter_numbers(cbegin(numbers), cend(numbers), countryCode);
 }
 
 int main() {
@@ -24,9 +35,11 @@ int main() {
         "+81-3-2354-3156",
         "+265-99-2349-4325"
     };
-    vector<string> result = filter_tel(tel, "81");
-    for(auto e: result) {
-        cout << e << endl;
+
+    auto result = filter_numbers(tel, "81");
+
+    for(auto const & number : result) {
+        cout << number << endl;
     }
 
 }
