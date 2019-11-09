@@ -1,31 +1,39 @@
 #include <iostream>
-#include <sstream>
 #include <vector>
+#include <algorithm>
+#include <string>
 
 using namespace std;
 
-vector<string> add_country_number(vector<string> const & list, string country_code) {
-    vector<string> result;
-    stringstream ss;
-    for(auto itr = list.begin(); itr != list.end(); itr++) {
-        ss.str("");
-        string tmp = *itr;
-        for(auto c = tmp.begin(); c != tmp.end(); c++) {
-            if(c == tmp.begin() && *c != '+') {
-                ss << '+';
-            }
-            if(c == tmp.begin() && *c == '0') {
-                ss << country_code;
-                continue;
-            }
-            if(!isspace(*c)) {
-                ss << *c;
-            }
-        }
-        result.push_back(ss.str());
-    }
-    return result;
+bool starts_with(string_view str, string_view c) {
+    return str.find(c) == 0;
+}
 
+void normalize_numbers(vector<string> & numbers, string const & country_code) {
+    transform(
+            cbegin(numbers), cend(numbers),
+            begin(numbers),
+            [country_code] (string const & number) {
+                string result;
+                if(number.size() > 0) {
+                    if(number[0] == '0') {
+                        result = "+" + country_code + number.substr(1);
+                    } else if (starts_with(number, country_code)) {
+                        result = "+" + number;
+                    } else if (starts_with(number, "+" + country_code)) {
+                        result = number;
+                    } else {
+                        result = "+" + country_code + number;
+                    }
+                }
+                result.erase(
+                        remove_if(begin(result), end(result),
+                            [](const char ch) {
+                                return isspace(ch);
+                            }),
+                        end(result));
+                return result;
+            });
 }
 
 int main() {
@@ -37,8 +45,8 @@ int main() {
         "7555 123456"
     };
     string country_code = "44";
-    vector<string> result = add_country_number(list, country_code);
-    for(auto e: result) {
+    normalize_numbers(list, country_code);
+    for(auto e: list) {
         cout << e << endl;
     }
 
