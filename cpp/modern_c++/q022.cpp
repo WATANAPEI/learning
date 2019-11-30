@@ -1,35 +1,149 @@
-#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <cassert>
 
 using namespace std;
-constexpr long double k = 273.15;
-constexpr long double f = 211.95;
 
-long double to_deg(long double in) {
-    return in - k;
-}
-long double to_f(long double in) {
-    return in - f;
+bool are_equal(double const a, double const b, double const epsilon = 0.001) {
+    return fabs(a - b) < epsilon;
 }
 
-long double operator "" _deg(long double in){
-    return k + in;
-}
+namespace temprature
+{
+    enum class scale { celsius, fahrenheit, kelvin };
 
-long double operator "" _K(long double in) {
-    return in;
-}
+    template <scale S>
+    class quantity
+    {
+        double const amount;
+    public:
+        constexpr explicit quantity(double const a): amount(a){}
+        explicit operator double() const { return amount;}
+    };
 
-long double operator "" _f(long double in) {
-    return f + in;
+    template <scale S>
+    inline bool operator ==(quantity<S> const & lhs, quantity<S> const & rhs){
+        return are_equal(static_cast<double>(lhs), static_cast<double>(rhs));
+    }
+
+    template<scale S>
+    inline bool operator <(quantity<S> const & lhs, quantity<S> const & rhs){
+        return static_cast<double>(lhs) < static_cast<double>(rhs);
+    }
+
+    template<scale S>
+    inline bool operator >(quantity<S> const & lhs, quantity<S> const & rhs){
+        return lhs > rhs;
+    }
+
+    template<scale S>
+    inline bool operator >=(quantity<S> const & lhs, quantity<S> const & rhs){
+        return !(lhs < rhs);
+    }
+
+    template<scale S>
+    inline bool operator <=(quantity<S> const & lhs, quantity<S> const & rhs){
+        return !(lhs > rhs);
+    }
+
+    template<scale S>
+    constexpr quantity<S> operator +(quantity<S> const & q1, quantity<S> const & q2){
+        return quantity<S>(static_cast<double>(q1) + static_cast<double>(q2));
+    }
+
+    template<scale S>
+    constexpr quantity<S> operator -(quantity<S> const & q1, quantity<S> const & q2){
+        return quantity<S>(static_cast<double>(q1) - static_cast<double>(q2));
+    }
+
+    template <scale S, scale R>
+    struct conversion_traits
+    {
+        static double convert(double const value) =delete;
+    };
+
+    template <>
+    struct conversion_traits<scale::celsius, scale::kelvin>
+    {
+        static double convert(double const value){
+            return value + 273.15;
+        }
+    };
+
+    template <>
+    struct conversion_traits<scale::kelvin, scale::celsius>
+    {
+        static double convert(double const value){
+            return value - 273.15;
+        }
+    };
+
+    template <>
+    struct conversion_traits<scale::celsius, scale::fahrenheit>
+    {
+        static double convert(double const value){
+            return (value * 9) / 5 + 32;
+        }
+    };
+
+    template <>
+    struct conversion_traits<scale::fahrenheit, scale::celsius>
+    {
+        static double convert(double const value){
+            return (value - 32) * 5 / 9;
+        }
+    };
+
+    template <>
+    struct conversion_traits<scale::fahrenheit, scale::kelvin>
+    {
+        static double convert(double const value){
+            return (value + 459.67) * 5 / 9;
+        }
+    };
+
+    template <>
+    struct conversion_traits<scale::kelvin, scale::fahrenheit>
+    {
+        static double convert(double const value){
+            return (value * 9) / 5 - 459.67;
+        }
+    };
+
+    template <scale R, scale S>
+    constexpr quantity<R> temprature_cast(quantity<S> const q) {
+        return quantity<R>(conversion_traits<S,R>::convert(static_cast<double>(q)));
+    }
+
+    namespace temprature_scale_literals
+    {
+        constexpr quantity<scale::celsius> operator "" _deg(long double const amount) {
+            return quantity<scale::celsius> {static_cast<double>(amount)};
+        }
+
+        constexpr quantity<scale::fahrenheit> operator "" _f(long double const amount) {
+            return quantity<scale::fahrenheit> {static_cast<double>(amount)};
+        }
+
+        constexpr quantity<scale::kelvin> operator "" _K(long double const amount) {
+            return quantity<scale::kelvin> {static_cast<double>(amount)};
+        }
+    }
+
 }
 
 int main() {
-    long double kel = 0.0_K;
-    long double cel = 0.0_deg;
-    long double f = 0.0_f;
-    cout << kel << endl;
-    cout << cel << endl;
-    cout << f << endl;
-    cout << f + f << endl;
-    cout << to_deg(f) << endl;
+    using namespace temprature;
+    using namespace temprature_scale_literals;
+
+    auto t1 { 36.5_deg };
+    auto t2 { 79.0_f };
+    auto t3 { 100.0_K };
+
+    {
+        auto tf = temprature_cast<scale::fahrenheit>(t1);
+        auto tc = temprature_cast<scale::celsius>(tf);
+        assert(t1 == tc);
+    }
+
 }
