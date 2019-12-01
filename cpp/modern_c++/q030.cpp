@@ -3,26 +3,45 @@
 #include <sstream>
 #include <iterator>
 #include <algorithm>
+#include <regex>
+#include <optional>
 
 using namespace std;
 
-template <typename T>
-T parse(string s) {
-    T result;
-    //result.push_back("test");
-    auto itr = s.begin();
-    stringstream sstr("");
-    auto out_itr = ostream_iterator<char>(sstr, "");
-    vector<string> v_delim{"://", ":", "/"};
+struct uri_parts {
+    string protocol;
+    string domain;
+    optional<int> port;
+    optional<string> path;
+    optional<string> query;
+    optional<string> frag;
+};
 
-    for(auto e : v_delim) {
-        size_t pos = s.find(e);
-        copy(itr, itr+pos, out_itr);
-        result.push_back(sstr.str());
-        advance(itr, pos+e.length());
+optional<uri_parts> parse_uri(string uri) {
+    regex rx(R"(^(\w+):\/\/([\w.-]+)(:(\d+))?)"
+            R"(([\w\/\.]+)?(\?([\w=&]*)(#?(\w+))?)?$)");
+    auto matches = smatch();
+    if (regex_match(uri, matches, rx)) {
+        if(matches[1].matched && matches[2].matched) {
+            uri_parts parts;
+            parts.protocol = matches[1].str();
+            parts.domain = matches[2].str();
+            if(matches[4].matched) {
+                parts.port = stoi(matches[4]);
+            }
+            if(matches[5].matched) {
+                parts.path = matches[5];
+            }
+            if(matches[7].matched) {
+                parts.query = matches[7];
+            }
+            if(matches[9].matched) {
+                parts.frag = matches[9];
+            }
+            return parts;
+        }
     }
-
-    return result;
+    return {};
 }
 
 int main() {
@@ -30,22 +49,17 @@ int main() {
     string t2 = "https://test-domain.com/dir1/index.php?query=desu";
     string t3 = "https://test-domain.com/main.htm#nokotta";
     string t4 = "https://test-domain.com:8080/dir3/main.html?query=sumo&place=kokugikan#nokotta";
-    vector<string> token1 = parse<vector<string>>(t1);
-    vector<string> token2 = parse<vector<string>>(t2);
-    vector<string> token3 = parse<vector<string>>(t3);
-    vector<string> token4 = parse<vector<string>>(t4);
-    for(auto e : token1) {
-        cout << e << endl;
-    }
-    for(auto e : token2) {
-        cout << e << endl;
-    }
-    for(auto e : token3) {
-        cout << e << endl;
-    }
-    for(auto e : token4) {
-        cout << e << endl;
-    }
-
+    auto p1 = parse_uri(t1);
+    cout << boolalpha << p1.has_value() << endl;
+    cout << p1->protocol << endl;
+    cout << p1->domain << endl;
+    if(p1->port.has_value())
+        cout << p1->port.value() << endl;
+    if(p1->path.has_value())
+        cout << p1->path.value() << endl;
+    if(p1->query.has_value())
+        cout << p1->query.value() << endl;
+    if(p1->frag.has_value())
+        cout << p1->frag.value() << endl;
 
 }
