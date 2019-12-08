@@ -3,3 +3,4 @@ compiler
 a.out
 ezoe/
 atcoder/
+*.o
