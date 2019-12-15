@@ -1,19 +1,17 @@
-<?xml version="1.0"?>
-<movies>
-  <movie id="9871" title="Forrest Gump" year="1994" length="202">
-    <cast>
-      <role star="Tom Hanks" name="Forrest Gump" />
-      <role star="Sally Field" name="Mrs. Gump" />
-      <role star="Robin Wright" name="Jenny Curran" />
-      <role star="Mykelti Williamson" name="Bubba Blue" />
-    </cast>
-	<directors>
-      <director name="Robert Zemeckis" />
-    </directors>
-    <writers>
-      <writer name="Winston Groom" />
-      <writer name="Eric Roth" />
-    </writers>
-  </movie>
-  <!-- more movie elements -->
-</movies>
+<?xml version="1.0" encoding="utf-8"?>
+<cereal>
+	<movie id="1" title="Pokemon" year="1999" length="200">
+		<cast>
+			<value0 star="Hiroki Hasegawa" name="Rando Yaguchi"/>
+			<value1 star="Satomi Ishihara" name="Koyoko Ann Paterson"/>
+		</cast>
+		<directors>
+			<value0 name="Kon Ichikawa"/>
+			<value1 name="Yoji Yamada"/>
+		</directors>
+		<writers>
+			<value0 name="Koki Mitani"/>
+		</writers>
+	</movie>
+</cereal>
+
