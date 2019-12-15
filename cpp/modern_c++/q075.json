@@ -1,0 +1,31 @@
+{
+    "movie": {
+        "id": 1,
+        "title": "Pokemon",
+        "year": 1999,
+        "length": 200,
+        "directors": [
+            {
+                "name": "Kon Ichikawa"
+            },
+            {
+                "name": "Yoji Yamada"
+            }
+        ],
+        "writers": [
+            {
+                "name": "Koki Mitani"
+            }
+        ],
+        "cast": [
+            {
+                "star": "Hiroki Hasegawa",
+                "name": "Rando Yaguchi"
+            },
+            {
+                "star": "Satomi Ishihara",
+                "name": "Koyoko Ann Paterson"
+            }
+        ]
+    }
+}
