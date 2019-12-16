@@ -38,27 +38,27 @@ vector<string> myFind(const fs::path &path, const string &regexString) {
     return result;
 }
 
-int main() {
-    //string pathString, regexString;
-    string regexString;
-    fs::path path;
+fs::path getPath() {
     cout << "input file path: " << endl;
-    /*
-    cin >> pathString;
-    if(pathString == ".") {
-        pathString = fs::current_path();
-    }
-    */
+    fs::path path;
     cin >> path;
+    return path;
+}
 
+auto getRegex() {
+    string regexString;
     cout << "input file name pattern: " << endl;
     cin >> regexString;
+    return regexString;
+}
 
-    vector<string> result = myFind(path, regexString);
+int main() {
+    auto pathInput = getPath();
+    auto regexInput = getRegex();
+
+    vector<string> result = myFind(pathInput, regexInput);
 
     for(auto e: result){
         cout << e << endl;
     }
-
-
 }
