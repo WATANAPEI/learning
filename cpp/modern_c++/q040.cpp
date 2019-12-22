@@ -2,7 +2,7 @@
 #include <iostream>
 #include <ctime>
 #include <iomanip>
-#include "/usr/local/src/vcpkg/packages/date_x64-linux/include/date/date.h"
+#include <date/date.h>
 
 inline int number_of_days(
         int const y1, unsigned int const m1, unsigned int const d1,

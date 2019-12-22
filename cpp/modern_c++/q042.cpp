@@ -1,6 +1,6 @@
 #include <iostream>
-#include "/usr/local/src/vcpkg/packages/date_x64-linux/include/date/iso_week.h"
-#include "/usr/local/src/vcpkg/packages/date_x64-linux/include/date/date.h"
+#include <date/iso_week.h>
+#include <date/date.h>
 
 using namespace std;
 using namespace date;

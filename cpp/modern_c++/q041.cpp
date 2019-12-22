@@ -1,5 +1,5 @@
 #include <iostream>
-#include "/usr/local/src/vcpkg/packages/date_x64-linux/include/date/iso_week.h"
+#include <date/iso_week.h>
 
 unsigned int week_day(int const y, unsigned int const m, unsigned int const d ) {
     using namespace date;
