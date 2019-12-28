@@ -4,3 +4,4 @@ a.out
 ezoe/
 atcoder/
 *.o
+build/
