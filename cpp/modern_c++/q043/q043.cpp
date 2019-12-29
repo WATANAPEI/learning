@@ -6,11 +6,49 @@
 #include <chrono>
 #include "date.h"
 #include "tz.h"
+#include <iomanip>
 
 using namespace std;
 
+struct user
+{
+    string Name;
+    date::time_zone const * Zone;
+
+    explicit user(std::string_view name, std::string_view zone)
+        : Name{name.data()}, Zone(date::locate_zone(zone.data())) {}
+
+};
+
+template<class Duration, class TimeZonePtr>
+void print_meeting_times(
+        date::zoned_time<Duration, TimeZonePtr> const &time,
+        vector<user> const &users)
+{
+    cout << std::left << std::setw(15) << setfill(' ') << "Local time: " << time << endl;
+
+    for(auto const & user: users) {
+        cout << left << setw(15) << setfill(' ') << user.Name << date::zoned_time<Duration, TimeZonePtr>(user.Zone, time)
+            << endl;
+    }
+}
+
 int main() {
 
-    auto t = date::make_zoned(date::current_zone(), chrono::system_clock::now());
-    cout << t << "\n";
+    vector<user> users{
+        user{"aaa", "Europe/Budapest"},
+        user{"Jens", "Europe/Berlin"},
+        user{"Jane", "America/New_York"}
+    };
+
+    unsigned int h, m;
+    cout << "Hour: "; cin >> h;
+    cout << "Minutes: "; cin >> m;
+
+    date::year_month_day today = date::floor<date::days>(chrono::system_clock::now());
+    auto localtime = date::zoned_time<std::chrono::minutes>(
+            date::current_zone(),
+            static_cast<date::local_days>(today) + chrono::hours{ h } + chrono::minutes{ m });
+    print_meeting_times(localtime, users);
+
 }
