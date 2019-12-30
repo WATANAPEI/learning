@@ -35,9 +35,17 @@ void quicksort(RandomItr first, RandomItr last) {
 template <class RandomItr>
 void pquicksort(RandomItr first, RandomItr last) {
     if (first < last ) {
-        auto p = partition(first, last);
-        quicksort(first, p);
-        quicksort(p+1, last);
+        auto const p = partition(first, last);
+        if(last - first <= 100000)
+        {
+            pquicksort(first, p);
+            pquicksort(p+1, last);
+        }else{
+            auto f1 = async(launch::async, [first, p] () {pquicksort(first, p);});
+            auto f2 = async(launch::async, [last, p]() {pquicksort(p+1, last);});
+            f1.wait();
+            f2.wait();
+        }
     }
 }
 
@@ -79,7 +87,7 @@ void PrintAns(C c) {
     cout << str << endl;
     copy(c.begin(), c.end(), ostream_iterator<int>(cout, " "));
     cout << endl;
-    quicksort(c.begin(), c.end());
+    pquicksort(c.begin(), c.end());
     copy(c.begin(), c.end(), ostream_iterator<int>(cout, " "));
     cout << endl;
 
@@ -88,8 +96,6 @@ void PrintAns(C c) {
 int main() {
     vector<int> v1{1, 3, 5,2, 3,11,4};
     array<int, 5> a1{1,2,5,67, 4};
-
-
 
 
 
