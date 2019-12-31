@@ -13,13 +13,18 @@ using namespace std;
 class chaptchaGenerator{
 
 private:
-    unique_ptr<pngwriter> p;
     std::random_device rd;
     std::mt19937 eng;
+    int width;
+    int height;
+    int background_color;
+    char *filepath;
+    unique_ptr<pngwriter> p;
 
 public:
-    chaptchaGenerator(int width, int height, int background_color, string filepath)
-        : p(new pngwriter(width, height, 0, filepath.c_str()))
+    chaptchaGenerator(int width, int height, int background_color, char *filepath)
+        : width(width), height(height), background_color(background_color),
+        filepath(filepath), p(new pngwriter(width, height, 0, filepath))
     {
         auto seed_data = array<int, mt19937::state_size> {};
         generate(begin(seed_data), end(seed_data), ref(rd));
@@ -51,19 +56,23 @@ public:
         }
     }
 
+    void addRandomLine(pngwriter *p) {
+        uniform_int_distribution<> linePositionDist(height / 2 - 50, height / 2 + 50);
+        uniform_real_distribution<> colorDist(0, 1);
+        p->line(0, linePositionDist(eng), width, linePositionDist(eng), colorDist(eng), colorDist(eng),colorDist(eng));
+
+    }
+
     void close() {
         p->close();
     }
 };
 
 
-void addRandomLine(pngwriter *p) {
-
-}
 
 int main() {
     int width = 0, height = 0;
-    string filepath;
+    char* filepath{};
     cout << "Width: ";
     cin >> width;
     cout << "Height: ";
