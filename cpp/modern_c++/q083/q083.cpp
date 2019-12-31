@@ -4,15 +4,22 @@
 
 using namespace std;
 
-void create_flag(int const width, int const height, string const &filepath) {
-    pngwriter flag{width, height, 0, filepath.c_str() };
+void paintBackGroundColor(pngwriter *p) {
+    int width = p->getwidth();
+    int height = p->getheight();
     for(int i = 0; i < width; i++) {
         for(int j = 0; j < height; ++j) {
-            flag.plot(i, j, (double)i / width, (double)j / height, (double)(i+j) / (width+height)) ;
+            p->plot(i, j, (double)i / width, (double)j / height, (double)(i+j) / (width+height)) ;
         }
     }
 
-    flag.close();
+}
+
+void create_pic(int const width, int const height, string const &filepath) {
+    pngwriter p{width, height, 0, filepath.c_str() };
+    paintBackGroundColor(&p);
+
+    p.close();
 
 }
 
@@ -26,5 +33,5 @@ int main() {
     cout << "Output: ";
     cin >> filepath;
 
-    create_flag(width, height, filepath);
+    create_pic(width, height, filepath);
 }
