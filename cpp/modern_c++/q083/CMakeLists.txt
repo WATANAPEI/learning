@@ -3,9 +3,8 @@
 cmake_minimum_required (VERSION 3.7.0)
 project(q083)
 
-# target_include_directories(q083 PUBLIC /usr/local/src/freetype-2.10.1/include)
+add_definitions(-DNO_FREETYPE)
 include_directories(/usr/local/src/freetype-2.10.1/include)
-# target_include_directories(q083 PUBLIC /usr/local/src/pngwriter/src)
 include_directories(/usr/local/src/pngwriter/src)
 add_executable(q083 q083.cpp)
 link_directories(/usr/local/src/pngwriter-build)

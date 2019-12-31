@@ -20,8 +20,8 @@ void paintBackGroundColor(pngwriter *p) {
 
 }
 
-void addRandomString(pngwriter *p = nullptr) {
-    const char chars[]{"abcdefghijklmnopqrstuvwxyz"};
+void addRandomString(pngwriter *p) {
+    char chars[]{"abcdefghijklmnopqrstuvwxyz"};
     const int length = size(chars)-1; // remove '\0' in the end position
     std::random_device rd;
     std::mt19937 eng;
@@ -30,11 +30,13 @@ void addRandomString(pngwriter *p = nullptr) {
     std::seed_seq seq(cbegin(seed_data), cend(seed_data));
     eng.seed(seq);
     std::uniform_int_distribution<> ud(0, length-1);
+
+    char path[] = "/usr/local/src/freetype-2.10.1/docs/reference/site/assets/fonts/specimen/FontAwesome.ttf";
     int pos = 0;
-    for(int i = 0; i < 100; i++) {
+    char test = 'a';
+    for(int i = 0; i < 5; i++) {
         pos = ud(eng);
-        cout << "pos: " << pos << endl;
-        cout << "char: " << chars[pos] << endl;
+        p->plot_text_utf8(path, 30, p->getwidth()/6* (i+1), p->getheight() / 2, 3.16 / pos, &test, 100, 100, 100);
     }
 }
 
@@ -48,7 +50,6 @@ void create_pic(int const width, int const height, string const &filepath) {
 }
 
 int main() {
-    /*
     int width = 0, height = 0;
     string filepath;
     cout << "Width: ";
@@ -59,6 +60,4 @@ int main() {
     cin >> filepath;
 
     create_pic(width, height, filepath);
-    */
-    addRandomString();
 }
