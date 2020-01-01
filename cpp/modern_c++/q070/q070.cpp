@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <cassert>
 using namespace std;
 
 
@@ -160,25 +160,26 @@ int main() {
     Authorizer *headOfDepartment = new HeadOfDepartment("Charley", "JPY");
     Authorizer *president = new President("Dot", "JPY");
     Item pen("pen", Currency("JPY", 500));
-    cout << "can employee buy " << pen.getName() << "? -> "  << boolalpha << employee->canAuthorize(pen) << endl;
-    cout << "can sectionChief buy " << pen.getName() << "? -> "  << boolalpha << sectionChief->canAuthorize(pen) << endl;
-    cout << "can headOfDepartment buy " << pen.getName() << "? -> "  << boolalpha << headOfDepartment->canAuthorize(pen) << endl;
-    cout << "can president buy " << pen.getName() << "? -> "  << boolalpha << president->canAuthorize(pen) << endl;
+    assert(employee->canAuthorize(pen) == true);
+    assert(sectionChief->canAuthorize(pen) == true);
+    assert(headOfDepartment->canAuthorize(pen) == true);
+    assert(president->canAuthorize(pen) == true);
 
     Item chair("chair", Currency("JPY", 5000));
-    cout << "can employee buy " << chair.getName() << "? -> "  << boolalpha << employee->canAuthorize(chair) << endl;
-    cout << "can sectionChief buy " << chair.getName() << "? -> "  << boolalpha << sectionChief->canAuthorize(chair) << endl;
-    cout << "can headOfDepartment buy " << chair.getName() << "? -> "  << boolalpha << headOfDepartment->canAuthorize(chair) << endl;
-    cout << "can president buy " << chair.getName() << "? -> "  << boolalpha << president->canAuthorize(chair) << endl;
+    assert(employee->canAuthorize(chair) == false);
+    assert(sectionChief->canAuthorize(chair) == true);
+    assert(headOfDepartment->canAuthorize(chair) == true);
+    assert(president->canAuthorize(chair) == true);
+
     Item desk("desk", Currency("JPY", 50000));
-    cout << "can employee buy " << desk.getName() << "? -> "  << boolalpha << employee->canAuthorize(desk) << endl;
-    cout << "can sectionChief buy " << desk.getName() << "? -> "  << boolalpha << sectionChief->canAuthorize(desk) << endl;
-    cout << "can headOfDepartment buy " << desk.getName() << "? -> "  << boolalpha << headOfDepartment->canAuthorize(desk) << endl;
-    cout << "can president buy " << desk.getName() << "? -> "  << boolalpha << president->canAuthorize(desk) << endl;
+    assert(employee->canAuthorize(desk) == false);
+    assert(sectionChief->canAuthorize(desk) == false);
+    assert(headOfDepartment->canAuthorize(desk) == true);
+    assert(president->canAuthorize(desk) == true);
 
     Item building("building", Currency("JPY", 100000000));
-    cout << "can employee buy " << building.getName() << "? -> "  << boolalpha << employee->canAuthorize(building) << endl;
-    cout << "can sectionChief buy " << building.getName() << "? -> "  << boolalpha << sectionChief->canAuthorize(building) << endl;
-    cout << "can headOfDepartment buy " << building.getName() << "? -> "  << boolalpha << headOfDepartment->canAuthorize(building) << endl;
-    cout << "can president buy " << desk.getName() << "? -> "  << boolalpha << president->canAuthorize(building) << endl;
+    assert(employee->canAuthorize(building) == false);
+    assert(sectionChief->canAuthorize(building) == false);
+    assert(headOfDepartment->canAuthorize(building) == false);
+    assert(president->canAuthorize(building) == true);
 }
