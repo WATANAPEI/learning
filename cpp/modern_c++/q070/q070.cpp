@@ -2,8 +2,6 @@
 #include <cassert>
 using namespace std;
 
-
-
 //TODO operator overload
 class Currency {
 private:

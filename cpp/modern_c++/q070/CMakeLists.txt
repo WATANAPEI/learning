@@ -7,3 +7,10 @@ add_executable(q070 q070.cpp)
 
 target_compile_options(q070 PUBLIC -Wall PUBLIC -g)
 target_compile_features(q070 PUBLIC cxx_std_17)
+
+project(q070_ex)
+
+add_executable(q070_ex q070_ex.cpp)
+
+target_compile_options(q070_ex PUBLIC -Wall PUBLIC -g)
+target_compile_features(q070_ex PUBLIC cxx_std_17)
