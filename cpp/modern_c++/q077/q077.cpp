@@ -14,8 +14,14 @@ int main() {
     page->SetMediaBox(PDFRectangle(0, 0, 595, 842));
     PageContentContext *contentContext = pdfwriter.StartPageContentContext(page);
     PDFUsedFont *font = pdfwriter.GetFontForFile("/usr/local/src/pngwriter/fonts/FreeMonoBold.ttf");
-    AbstractContentContext::TextOptions textOptions(font, 14, AbstractContentContext::eGray, 0);
-    contentContext->WriteText(10, 100, "hello world", textOptions);
+    contentContext->BT();
+    contentContext->Tf(font, 18);
+    contentContext->Tm(1,0,0,1,10,700);
+    contentContext->Tj("List of movies");
+    contentContext->Tf(font, 14);
+    contentContext->Tm(1,0,0,1,10,660);
+    contentContext->Tj("Matrix");
+    contentContext->ET();
     pdfwriter.EndPageContentContext(contentContext);
     pdfwriter.WritePageAndRelease(page);
     pdfwriter.EndPDF();
