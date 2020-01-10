@@ -4,6 +4,7 @@ cmake_minimum_required (VERSION 3.7.0)
 project(q077)
 add_executable(q077 q077.cpp)
 target_include_directories(q077 PRIVATE /usr/local/src/pdfwriter)
+target_include_directories(q077 PRIVATE /usr/local/src/pdfwriter/FreeType/include)
 
 target_link_libraries(q077 PRIVATE PDFWriter)
 target_link_libraries(q077 PRIVATE freetype)
