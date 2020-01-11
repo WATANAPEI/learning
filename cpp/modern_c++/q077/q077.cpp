@@ -10,7 +10,7 @@ static std::string const fonts_dir = R"(c:\windows\fonts\)";
 #elif defined (__APPLE__)
 static std::string const fonts_dir = R"(/Library/Fonts)";
 #else
-static std::string const fonts_dir = R"(/usr/local/src/pngwriter/fonts)";
+static std::string const fonts_dir = R"(/usr/local/src/pngwriter/fonts/)";
 #endif
 
 
