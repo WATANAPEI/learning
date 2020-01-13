@@ -47,7 +47,7 @@ public:
         const int length = size(chars)-1; // remove '\0' in the end position
         std::uniform_int_distribution<> ud(0, length-1);
 
-        char path[] = "/usr/local/src/freetype-2.10.1/docs/reference/site/assets/fonts/specimen/FontAwesome.ttf";
+        char path[] = "/usr/local/src/pngwriter/fonts/FreeMonoBold.ttf";
         int pos = 0;
         char test = 'a';
         for(int i = 0; i < 5; i++) {
