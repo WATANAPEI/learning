@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <iomanip>
+#include <bitset>
 
 using namespace std;
 
@@ -25,14 +26,12 @@ static std::map<unsigned int, char> dict({
         });
 
 string base64Encrypt(string const &phrase) {
-    string result;
+    string result("");
     for(auto e: phrase) {
-        cout << static_cast<unsigned int>(e) << endl;
-        result.push_back(dict.at(static_cast<unsigned int>(e)));
-        cout << dict.at(static_cast<unsigned int>(e));
-        //cout << e << endl;
-        //cout << dict.at(10);
+        result.append(bitset<8>(static_cast<unsigned int>(e)).to_string());
     }
+
+    cout << result << endl;
     return result;
 }
 
