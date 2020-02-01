@@ -4,11 +4,58 @@
 using namespace sqlite;
 using namespace std;
 
-int main()
+class Movie
 {
-    try{
-        database db("dbfile.db");
+public:
+    Movie(){}
+    Movie(string title, int year, int length)
+        : title(title), year(year), length(length){}
+    string getTitle()
+    {
+        return title;
+    }
+    int getYear()
+    {
+        return year;
+    }
+    int getLength()
+    {
+        return length;
+    }
+    void setTitle(string t)
+    {
+        title = t;
+    }
+    void setYear(int y)
+    {
+        year = y;
+    }
+    void setLength(int l)
+    {
+        length = l;
+    }
+private:
+    int rowId;
+    string title;
+    int year;
+    int length;
+};
+ostream& operator<<(ostream& os, Movie &m)
+{
+    os << "Title: " << m.getTitle() << ", Year: " << m.getYear() << ", Length: " << m.getLength() << endl;
+    return os;
+}
 
+
+
+class Mydb
+{
+public:
+    Mydb(string dbname)
+        : db(dbname)
+    {}
+    void init()
+    {
         db << "drop table if exists movies";
         db << "drop table if exists persons";
         db << "drop table if exists directors";
@@ -40,44 +87,89 @@ int main()
         " _id integer primary key autoincrement, movieid integer, personid interger, role string);";
         cout << "created casting table" << endl;
 
-        string title("forest gump");
-        int year = 2000;
-        int length = 120;
+    }
+
+    int insert_movies(string title, int year, int length)
+    {
         db << "insert into movies(title, year, length) values (?, ?, ?);"
             << title
             << year
             << length;
         int movieId = db.last_insert_rowid();
         cout << "movieId: " << movieId << endl;
+        return movieId;
+    }
 
-        string personName("Lucus");
-
+    int insert_persons(string personName)
+    {
         db << "insert into persons(name) values (?);"
             << personName;
         int personId = db.last_insert_rowid();
         cout << "personId: " << personId << endl;
+        return personId;
+    }
 
+    int insert_directors(int movieId, int personId)
+    {
         db << "insert into directors(movieId, personId) values (?, ?);"
             << movieId
             << personId;
-        cout << "inserted" << endl;
+        int directorId = db.last_insert_rowid();
+        cout << "directorId: " << directorId << endl;
+        return directorId;
+    }
 
+    int insert_writers(int movieId, int personId)
+    {
         db << "insert into writers(movieId, personId) values (?, ?);"
             << movieId
             << personId;
-        cout << "inserted" << endl;
+        int writerId = db.last_insert_rowid();
+        cout << "writerId: " << writerId << endl;
+        return writerId;
+    }
 
-        string role("cameo");
+    int insert_casting(int movieId, int personId, string role)
+    {
         db << "insert into casting(movieId, personId, role) values (?, ?, ?);"
             << movieId
             << personId
             << role;
-        cout << "inserted" << endl;
+        int castingId = db.last_insert_rowid();
+        cout << "castingId: " << castingId << endl;
+        return castingId;
+    }
 
-        db << "select title from movies;"
-            >> [&](string title) {
-                cout << "title: " << title << endl;
+    Movie selectMovieById(int movieId)
+    {
+        Movie m;
+        db << "select title, year, length from movies where _id = ?;"
+            << movieId
+            >> [&](string title, int year, int length) {
+                m.setTitle(title);
+                m.setYear(year);
+                m.setLength(length);
             };
+        return m;
+    }
+
+private:
+    database db;
+};
+
+int main()
+{
+    try{
+        Mydb db("dbfile.db");
+
+        db.init();
+        string title("forest gump");
+        int year = 2000;
+        int length = 120;
+        int movieId = db.insert_movies(title, year, length);
+        Movie m = db.selectMovieById(movieId);
+        cout << m << endl;
+
     }
     catch(exception &e)
     {
