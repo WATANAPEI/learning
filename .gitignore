@@ -5,3 +5,10 @@ ezoe/
 atcoder/
 *.o
 build/
+
+# rust settings
+**/target/
+
+Cargo.lock
+
+**/*.rs.bk
