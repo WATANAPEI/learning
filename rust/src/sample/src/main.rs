@@ -1,21 +1,39 @@
-fn first_word(s: &str) -> &str {
-    let bytes = s.as_bytes();
+#[derive(Debug)]
 
-    for (i, &item) in bytes.iter().enumerate() {
-        if item == b' ' {
-            return &s[0..i];
+enum UsState {
+    Alabama,
+    Alaska,
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+fn value_in_cents(coin: Coin) -> u32 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter(state) => {
+            println!("State quater from {:?}", state);
+            25
         }
     }
+}
 
-    &s[..]
+fn plus_one(x: Option<i32> ) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
 }
 
 fn main() {
-    let my_string = String::from("hello world!");
-    let word = first_word(&my_string[..]);
-    let my_string_literal = "hello, world";
-    let word = first_word(&my_string_literal[..]);
-    let word = first_word(my_string_literal);
+    let five: Option<i32> = Some(5);
+    let x = plus_one(five);
+    let none = plus_one(None);
 
 }
 
