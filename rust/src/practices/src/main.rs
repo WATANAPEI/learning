@@ -32,8 +32,15 @@ fn main() {
             println!("{}-fay", result);
         },
         None => println!("None"),
-
     }
+
+    let hr = HashMap::new();
+    let department: Vec<&str> = vec!["Engineering", "Sales"];
+    let employee = vec!["Sally", "Amir"];
+
+}
+
+fn add_person(name: &str) {
 
 
 }
