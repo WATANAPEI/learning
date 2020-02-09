@@ -18,6 +18,22 @@ fn main() {
     }
     println!("{:?}", map);
 
+    let text = "first";
+    let mut chars = text.chars();
+    match chars.next() {
+        Some('a') | Some('i') | Some('u') | Some('e') | Some('o') => {
+            println!("{}-hay", text);
+        },
+        Some(_) => {
+            let mut result = String::new();
+            for i in chars {
+                result.push(i);
+            };
+            println!("{}-fay", result);
+        },
+        None => println!("None"),
+
+    }
 
 
 }
