@@ -1,36 +1,41 @@
-#[derive(PartialEq, Debug)]
-struct Shoe {
-    size: u32,
-    style: String,
-}
-
-fn shoes_in_my_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
-    shoes.into_iter()
-        .filter(|s| s.size == shoe_size)
-        .collect()
-}
-
-#[test]
-fn filters_by_size() {
-    let shoes = vec![
-        Shoe { size: 10, style: String::from("sneaker")},
-        Shoe { size: 13, style: String::from("sandal")},
-        Shoe { size: 10, style: String::from("boot")},
-    ];
-
-    let in_my_size = shoes_in_my_size(shoes, 10);
-
-    assert_eq!(
-        in_my_size,
-        vec![
-            Shoe { size: 10, style: String::from("sneaker") },
-            Shoe { size: 10, style: String::from("boot") },
-        ]
-        );
-}
-
-
+use std::thread;
+use std::sync::mpsc;
+use std::time::Duration;
 
 fn main() {
+    let (tx, rx) = mpsc::channel();
 
+    let tx1 = mpsc::Sender::clone(&tx);
+
+    thread::spawn( move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
+        ];
+
+        for val in vals {
+            tx1.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("more"),
+            String::from("message"),
+            String::from("for"),
+            String::from("you"),
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    for received in rx {
+        println!("Got: {}", received);
+    }
 }
