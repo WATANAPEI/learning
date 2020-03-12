@@ -1,10 +1,9 @@
-pub struct ThreadPool;
+use std::thread;
+pub struct ThreadPool {
+    threads: Vec<thread::JoinHandle<()>>,
+}
 //use std::error;
 //use std::fmt;
-
-enum PoolCreationError {
-    ThreadCreation,
-}
 
 /* UNdone
 impl fmt::Display for PoolCreationError {
@@ -22,13 +21,18 @@ impl ThreadPool {
     /// sizeが0なら、`new`関数はパニックします。
     ///
     /// Create a new ThreadPool.
-    pub fn new(size: usize) -> Result<ThreadPool, PoolCreationError> {
+    pub fn new(size: usize) -> ThreadPool {
+        assert!(size > 0 );
 
-q
-qq
-:q
-:q
+        let mut threads = Vec::with_capacity(size);
 
+        for _ in 0..size {
+            // create new threads and store them in the vector
+        }
+
+        ThreadPool {
+            threads
+        }
     }
 
     pub fn execute<F>(&self, f: F)
