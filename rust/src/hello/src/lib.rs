@@ -1,16 +1,12 @@
 use std::thread;
-pub struct ThreadPool {
-    threads: Vec<thread::JoinHandle<()>>,
-}
-//use std::error;
-//use std::fmt;
+use std::sync::mpsc;
 
-/* UNdone
-impl fmt::Display for PoolCreationError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match *self {
-            PoolCreationError::ThreadCreation
-            */
+pub struct ThreadPool {
+    workers: Vec<Worker>,
+    sender: mpsc::Sender<Job>,
+}
+
+struct Job;
 
 impl ThreadPool {
     /// 新しいThreadPoolを生成する。
@@ -24,14 +20,17 @@ impl ThreadPool {
     pub fn new(size: usize) -> ThreadPool {
         assert!(size > 0 );
 
-        let mut threads = Vec::with_capacity(size);
+        let (sender, receiver) = mpsc::channel();
 
-        for _ in 0..size {
-            // create new threads and store them in the vector
+        let mut workers = Vec::with_capacity(size);
+
+        for id in 0..size {
+            workers.push(Worker::new(id));
         }
 
         ThreadPool {
-            threads
+            workers,
+            sender,
         }
     }
 
@@ -41,5 +40,21 @@ impl ThreadPool {
           {
 
           }
+}
+
+struct Worker {
+    id: usize,
+    thread: thread::JoinHandle<()>,
+}
+
+impl Worker {
+    fn new(id: usize) -> Worker {
+        let thread = thread::spawn(|| {});
+
+        Worker {
+            id,
+            thread,
+        }
+    }
 }
 
