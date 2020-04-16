@@ -1,5 +1,5 @@
 //TODO: cmake with clang
-#include "/home/baystars/src/llvm/llvm-project/llvm/include/llvm/ADT/STLExtras.h"
+#include "llvm/ADT/STLExtras.h"
 #include <algotithm>
 #include <cctype>
 #include <cstdio>
