@@ -1,6 +1,10 @@
+//complie with commands below:
+//clang++ toy.o $(llvm-config --libs) -lpthread
+//./a.out
+//https://stackoverflow.com/questions/54170006/undefined-reference-to-llvmenableabibreakingchecks
 //TODO: cmake with clang
 #include "llvm/ADT/STLExtras.h"
-#include <algotithm>
+#include <algorithm>
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
@@ -87,14 +91,14 @@ public:
     virtual ~ExprAST() = default;
 };
 
-class NumberExprAST : ExprAST {
+class NumberExprAST : public ExprAST {
     double Val;
 
 public:
     NumberExprAST(double Val) : Val(Val) {}
 };
 
-public VariableExprAST : public ExprAST {
+class VariableExprAST : public ExprAST {
     std::string Name;
 
 public:
@@ -108,7 +112,7 @@ class BinaryExprAST : public ExprAST {
 public:
     BinaryExprAST(char Op, std::unique_ptr<ExprAST> LHS,
             std::unique_ptr<ExprAST> RHS)
-        : Op(Op), LHS(std::move(LHS), RHS(std::move(RHS)) {}
+        : Op(Op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
 };
 
 class CallExprAST : public ExprAST {
@@ -136,10 +140,10 @@ class FunctionAST {
     std::unique_ptr<PrototypeAST> Proto;
     std::unique_ptr<ExprAST> Body;
 
-public
+public:
     FunctionAST(std::unique_ptr<PrototypeAST> Proto,
             std::unique_ptr<ExprAST> Body)
-        : Proto(std::move(Proto)), std::Body(std::move(Body)) {}
+        : Proto(std::move(Proto)), Body(std::move(Body)) {}
 };
 
 }
@@ -170,7 +174,7 @@ std::unique_ptr<ExprAST> LogError(const char *Str) {
 
 std::unique_ptr<PrototypeAST> LogErrorP(const char *Str) {
     LogError(Str);
-    return nullprt;
+    return nullptr;
 }
 
 static std::unique_ptr<ExprAST> ParseExpression();
@@ -179,7 +183,7 @@ static std::unique_ptr<ExprAST> ParseExpression();
 static std::unique_ptr<ExprAST> ParseNumberExpr() {
     auto Result = std::make_unique<NumberExprAST>(NumVal);
     getNextToken();
-    return std::Move(Result);
+    return std::move(Result);
 }
 
 // parenexpr ::= '(' expression ')'
@@ -228,7 +232,7 @@ static std::unique_ptr<ExprAST> ParseIdentifierExpr() {
     // eat ')'
     getNextToken();
 
-    return make_unique<CallExprAST>(IdName, std::move(Args));
+    return std::make_unique<CallExprAST>(IdName, std::move(Args));
 }
 
 // primary
@@ -241,7 +245,7 @@ static std::unique_ptr<ExprAST> ParsePrimary() {
             return LogError("unknown token when expecting an expression");
         case tok_identifier:
             return ParseIdentifierExpr();
-        case token_number:
+        case tok_number:
             return ParseNumberExpr();
         case '(':
             return ParseParenExpr();
@@ -311,7 +315,7 @@ static std::unique_ptr<PrototypeAST> ParsePrototype() {
 
     getNextToken();
 
-    return std::make_unique<PrototypeAST>(FnName, std::move(ArgsNames));
+    return std::make_unique<PrototypeAST>(FnName, std::move(ArgNames));
 }
 
 // definition ::= 'def' prototype expression
