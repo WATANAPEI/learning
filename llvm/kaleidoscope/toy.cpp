@@ -4,6 +4,16 @@
 //https://stackoverflow.com/questions/54170006/undefined-reference-to-llvmenableabibreakingchecks
 //TODO: cmake with clang
 #include "llvm/ADT/STLExtras.h"
+#include "llvm/ADT/APFloat.h"
+#include "llvm/IR/BasicBlock.h"
+#include "llvm/IR/Constants.h"
+#include "llvm/IR/DerivedTypes.h"
+#include "llvm/IR/Function.h"
+#include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Module.h"
+#include "llvm/IR/Type.h"
+#include "llvm/IR/Verifier.h"
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
@@ -13,6 +23,7 @@
 #include <string>
 #include <vector>
 
+using namespace llvm;
 //==--------------------------------------------------------------------===//
 //Lexeer
 //==--------------------------------------------------------------------===//
@@ -89,6 +100,7 @@ namespace {
 class ExprAST {
 public:
     virtual ~ExprAST() = default;
+    virtual Value *codegen() = 0;
 };
 
 class NumberExprAST : public ExprAST {
@@ -96,6 +108,7 @@ class NumberExprAST : public ExprAST {
 
 public:
     NumberExprAST(double Val) : Val(Val) {}
+    virtual Value *codegen() override;
 };
 
 class VariableExprAST : public ExprAST {
@@ -103,6 +116,7 @@ class VariableExprAST : public ExprAST {
 
 public:
     VariableExprAST(const std::string &Name) : Name(Name) {}
+    Value *codegen() override;
 };
 
 class BinaryExprAST : public ExprAST {
@@ -113,6 +127,7 @@ public:
     BinaryExprAST(char Op, std::unique_ptr<ExprAST> LHS,
             std::unique_ptr<ExprAST> RHS)
         : Op(Op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
+    Value *codegen() override;
 };
 
 class CallExprAST : public ExprAST {
@@ -123,6 +138,8 @@ public:
     CallExprAST(const std::string &Callee,
             std::vector<std::unique_ptr<ExprAST>> Args)
     : Callee(Callee), Args(std::move(Args)) {}
+
+    Value *codegen() override;
 };
 
 class PrototypeAST {
@@ -133,6 +150,7 @@ public:
     PrototypeAST(const std::string &Name, std::vector<std::string> Args)
         : Name(Name), Args(std::move(Args)) {}
 
+    Function *codegen();
     const std::string &getName() { return Name; }
 };
 
@@ -144,6 +162,8 @@ public:
     FunctionAST(std::unique_ptr<PrototypeAST> Proto,
             std::unique_ptr<ExprAST> Body)
         : Proto(std::move(Proto)), Body(std::move(Body)) {}
+
+    Function *codegen();
 };
 
 }
@@ -346,6 +366,14 @@ static std::unique_ptr<PrototypeAST> ParseExtern() {
     return ParsePrototype();
 }
 
+//==--------------------------------------------------------------------===//
+// Code Generation
+//==--------------------------------------------------------------------===//
+
+static LLVMContext TheContext;
+static IRBuilder<> Builder(TheContext);
+static std::unique_ptr<Module> TheModule;
+static std::map<std::string, Value *> NamedValues;
 
 //==--------------------------------------------------------------------===//
 //Top-Level Parsing
