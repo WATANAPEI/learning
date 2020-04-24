@@ -1,7 +1,8 @@
 //complie with commands below:
-//clang++ toy.o $(llvm-config --libs) -lpthread
-//./a.out
+//clang++ -g -O3 toy.cpp `llvm-config --cxxflags --ldflags --system-libs --libs core` -o toy
+//./toy
 //https://stackoverflow.com/questions/54170006/undefined-reference-to-llvmenableabibreakingchecks
+//clang++ toy.o $(llvm-config --libs) -lpthread
 //TODO: cmake with clang
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/ADT/APFloat.h"
@@ -480,7 +481,7 @@ static void HandleDefinition() {
     if (auto FnAST = ParseDefinition()) {
         if (auto *FnIR = FnAST->codegen()) {
 
-            fprintf(stderr, "Rread function definition:");
+            fprintf(stderr, "Read function definition:");
             FnIR->print(errs());
             fprintf(stderr, "\n");
         }
@@ -493,7 +494,7 @@ static void HandleDefinition() {
 static void HandleExtern() {
     if (auto ProtoAST = ParseExtern()) {
         if (auto *FnIR = ProtoAST->codegen()) {
-            fprintf(stderr, "Parsed an extern\n");
+            fprintf(stderr, "Read extern: ");
             FnIR->print(errs());
             fprintf(stderr, "\n");
         }
@@ -506,13 +507,13 @@ static void HandleExtern() {
 static void HandleTopLevelExprssion() {
     if (auto FnAST = ParseTopLevelExpr()) {
         if (auto *FnIR = FnAST->codegen()) {
-            fprintf(stderr, "Parsed a top-level expr\n");
+            fprintf(stderr, "Read top-level expression: ");
             FnIR->print(errs());
             fprintf(stderr, "\n");
-        } else {
-            // Skip token for error recovery
-            getNextToken();
         }
+    } else {
+        // Skip token for error recovery
+        getNextToken();
     }
 }
 
