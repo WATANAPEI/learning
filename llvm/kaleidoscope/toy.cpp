@@ -18,9 +18,9 @@
 #include "llvm/IR/Verifier.h"
 #include "llvm/Support/TargetSelect.h"
 #include "llvm/Target/TargetMachine.h"
-#include "llvm/Transform/InstCombine/InstCombine.h"
-#include "llvm/Transform/Scalar.h"
-#include "llvm/Transform/Scalar/GVN.h"
+#include "llvm/Transforms/InstCombine/InstCombine.h"
+#include "llvm/Transforms/Scalar.h"
+#include "llvm/Transforms/Scalar/GVN.h"
 #include <algorithm>
 #include <cctype>
 #include <cstdint>j
@@ -399,7 +399,7 @@ Function *getFunction(std::string Name) {
 
     // if not, check if we can codegen the declaration from some prototype.
     auto FI = FunctionProtos.find(Name);
-    if (FI != FUnctinoProtos.end())
+    if (FI != FunctinoProtos.end())
         return FI->second->codegen();
 
     return nullptr;
@@ -510,10 +510,10 @@ static void InitializeModuleAndPassManager() {
     TheModule->setDataLayout(TheJIT->getTargetMachine().createDataLayout());
 
     // Create a new pass manager attached to it.
-    TheFPM = std::make_unique<lagacy::FunctionPassManger>(TheModule.get());
+    TheFPM = std::make_unique<legacy::FunctionPassManger>(TheModule.get());
 
     // Do simple "peephole" optimizations and bit-twiddling optzns.
-    TheFPM->add(createInstrunctionCombiningPass());
+    TheFPM->add(createInstructionCombiningPass());
     // Reassociate expressions
     TheFPM->add(createReassociatePass());
     // Eliminate Common SubExpressions.
@@ -603,9 +603,33 @@ static void MainLoop() {
 }
 
 //==--------------------------------------------------------------------===//
+// "Library" fuinctions that can be "extern'd" from user code.
+//==--------------------------------------------------------------------===//
+
+#ifdef _WIN32
+#define DLLEXPORT __declspec(dllexport)
+#else
+#define DLLEXPORT
+#endif
+
+extern "C" DLLEXPORT double putchard(double X) {
+    fputc((char)X, stderr);
+    return 0;
+}
+
+extern "C" DLLEXPORT double printd(double X) {
+    fprintf(stderr, "%f\n", X);
+    return 0;
+}
+
+//==--------------------------------------------------------------------===//
 // Main driver code
 //==--------------------------------------------------------------------===//
 int main() {
+    InitializeNativeTarget();
+    InitializeNativeTargetAsmPrinter();
+    InitializeNativeTargetAsmParser();
+
     BinopPrecedence['<'] = 10;
     BinopPrecedence['+'] = 20;
     BinopPrecedence['-'] = 20;
@@ -615,10 +639,11 @@ int main() {
     getNextToken();
 
     // make the module, which holds all the code.
-    TheModule = std::make_unique<Module>("my cool jit", TheContext);
+    TheJIT = std::make_unique<KaleidoscopeJIT>();
+
+    InitializeModuleAndPassManager();
 
     MainLoop();
 
-    TheModule->print(errs(), nullptr);
     return 0;
 }
