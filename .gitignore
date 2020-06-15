@@ -12,3 +12,4 @@ build/
 Cargo.lock
 
 **/*.rs.bk
+*.png
