@@ -13,3 +13,7 @@ Cargo.lock
 
 **/*.rs.bk
 *.png
+
+\.idea/
+*.jar
+*.class
