@@ -2,6 +2,7 @@ package Lexer;
 
 import Core.LexicalType;
 import Core.LexicalUnit;
+import Core.ValueImpl;
 
 import java.util.EnumSet;
 
@@ -55,7 +56,7 @@ public class Token {
             return new LexicalUnit(type);
         }
 
-        return new LexicalUnit(LexicalTYpe.NAME, new ValueImple(value));
+        return new LexicalUnit(LexicalType.NAME, new ValueImpl(value));
     }
 
     private LexicalUnit parseNumberToken() {
@@ -68,7 +69,7 @@ public class Token {
 
     private LexicalUnit parseLiteralToken() {
         String literalVal = value.replaceAll("\"", "");
-        return new LexicalUnit(LexicalType.LITERAL, new ValueImple(value));
+        return new LexicalUnit(LexicalType.LITERAL, new ValueImpl(value));
     }
 
     private LexicalUnit parseOperatorToken() {
