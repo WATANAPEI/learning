@@ -1,3 +1,5 @@
+package Core;
+
 public interface Value {
     public String getSValue();
     public int getIValue();

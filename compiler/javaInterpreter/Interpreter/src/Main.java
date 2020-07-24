@@ -1,3 +1,8 @@
+import Lexer.LexicalAnalyzer;
+import Lexer.LexicalAnalyzerImpl;
+import Core.LexicalType;
+import Core.LexicalUnit;
+
 public class Main {
     public static void main(String[] args) {
         LexicalAnalyzer analyzer = new LexicalAnalyzerImpl("test1.bas");

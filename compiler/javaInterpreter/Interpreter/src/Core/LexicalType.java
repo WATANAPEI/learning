@@ -1,3 +1,5 @@
+package Core;
+
 public enum LexicalType {
     LITERAL,
     INTVAL,

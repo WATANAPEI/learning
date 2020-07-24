@@ -1,4 +1,5 @@
-//TODO 残っているswitch文を埋める
+package Core;
+
 public class LexicalUnit {
     LexicalType type;
     Value value;
@@ -44,33 +45,63 @@ public class LexicalUnit {
             case FOR:
                 return "FOR";
             case FORALL:
+                return "FORALL";
             case NEXT:
+                return "NEXT";
             case EQ:
+                return "EQ";
             case LT:
+                return "LT";
             case GT:
+                return "GT";
             case LE:
+                return "LE";
             case GE:
+                return "GE";
             case NE:
+                return "NE";
             case FUNC:
+                return "FUNC";
             case DIM:
+                return "DIM";
             case AS:
+                return "AS";
             case END:
+                return "END";
             case NL:
+                return "NL";
             case DOT:
+                return "DOT";
             case WHILE:
+                return "WHILE";
             case DO:
+                return "DO";
             case UNTIL:
+                return "UNTIL";
             case ADD:
+                return "ADD";
             case SUB:
+                return "SUB";
             case MUL:
+                return "MUL";
             case DIV:
+                return "DIV";
             case LP:
+                return "LP";
             case RP:
+                return "RP";
             case COMMA:
+                return "COMMA";
             case LOOP:
+                return "LOOP";
             case TO:
+                return "TO";
             case WEND:
+                return "WEND";
             case EOF:
+                return "EOF";
+            default:
+                return "Unknown type";
 
         }
     }

@@ -1,3 +1,8 @@
+package Lexer;
+
+import Core.LexicalType;
+import Core.LexicalUnit;
+
 import java.util.EnumSet;
 
 public class Token {

@@ -1,10 +1,12 @@
+package Lexer;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.util.EnumSet;
 import java.util.Optional;
 
 /**
- * Read stream and separate into Token
+ * Read stream and separate into Lexer.Token
  *
  */
 public class TokenParser {

@@ -1,4 +1,10 @@
+package Lexer;
+
+import Core.LexicalType;
+import Core.LexicalUnit;
+
 import java.io.FileReader;
+import java.util.Deque;
 
 
 public class LexicalAnalyzerImpl implements LexicalAnalyzer {

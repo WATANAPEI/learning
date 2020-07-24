@@ -1,3 +1,5 @@
+package Lexer;
+
 import java.util.regex.Pattern;
 
 public enum TokenType {
