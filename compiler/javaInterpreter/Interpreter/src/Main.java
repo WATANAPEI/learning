@@ -3,14 +3,20 @@ import Lexer.LexicalAnalyzerImpl;
 import Core.LexicalType;
 import Core.LexicalUnit;
 
-public class Main {
-    public static void main(String[] args) {
-        LexicalAnalyzer analyzer = new LexicalAnalyzerImpl("test1.bas");
+import java.io.File;
 
-        LexicalUnit unit;
-        for (unit = analyzer.get(); unit.type != LexicalType.EOF; unit = analyzer.get()) {
-            System.out.println(unit);
+
+public class Main {
+    public static final String SOURCE_PATH = "test1.bas";
+    public static void main(String[] args) throws Exception{
+        LexicalAnalyzer lex;
+        LexicalUnit first;
+
+        if(new File(SOURCE_PATH).exists() == false) {
+            System.out.println("No file exists.");
+            return;
         }
-        System.out.println(unit);
+
+        lex = new LexicalAnalyzerImpl(SOURCE_PATH);
     }
 }

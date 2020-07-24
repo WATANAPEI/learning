@@ -5,6 +5,7 @@ import Core.LexicalUnit;
 import Core.ValueImpl;
 
 import java.util.EnumSet;
+import java.util.Optional;
 
 public class Token {
     private TokenType type;
