@@ -1,5 +1,6 @@
 package Syntax;
 
+import Core.Environment;
 import Core.LexicalType;
 import Core.LexicalUnit;
 import Core.Value;
@@ -55,7 +56,7 @@ public abstract class Node {
      */
     protected  boolean skipExpectNode(LexicalType... expectedType) {
         for(LexicalType expected: expectedType) {
-            if(peekLexicalUnit().getType() == expect) {
+            if(peekLexicalUnit().getType() == expected) {
                 env.getInput().get();
                 continue;
             }

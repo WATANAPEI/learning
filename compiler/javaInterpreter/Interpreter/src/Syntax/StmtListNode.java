@@ -1,5 +1,6 @@
 package Syntax;
 
+import Core.Environment;
 import Core.LexicalType;
 import Core.LexicalUnit;
 import Core.Value;

@@ -1,5 +1,6 @@
 package Syntax;
 
+import Core.Environment;
 import Core.LexicalUnit;
 
 import java.lang.reflect.InvocationTargetException;
@@ -20,7 +21,7 @@ public class NextNodeList extends ArrayList<Class<? extends Node>> {
         while(i.hasNext()) {
             Method isMatch;
             try {
-                isMatch = i.next().getMethod("isMatch", Environment.clas, LexicalUnit.class);
+                isMatch = i.next().getMethod("isMatch", Environment.class, LexicalUnit.class);
                 Object res = isMatch.invoke(null, env, unit);
                 if(res != null) {
                     return (Node) res;
@@ -30,5 +31,6 @@ public class NextNodeList extends ArrayList<Class<? extends Node>> {
                 e.printStackTrace();
             }
         }
+        return null;
     }
 }

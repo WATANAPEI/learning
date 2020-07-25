@@ -1,5 +1,6 @@
 package Syntax;
 
+import Core.Environment;
 import Core.LexicalType;
 import Core.LexicalUnit;
 import Core.Value;
@@ -23,7 +24,7 @@ public class StmtNode extends Node{
         LexicalType.FOR,
         LexicalType.END,
         LexicalType.NAME //STMT
-    )
+    );
 
     public static Node isMatch(Environment env, LexicalUnit first) {
         if (fc.contains(first)) {

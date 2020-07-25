@@ -1,5 +1,6 @@
 package Syntax;
 
+import Core.Environment;
 import Core.LexicalUnit;
 import Core.Value;
 
@@ -27,7 +28,7 @@ public class BlockNode extends Node{
     @Override
     public boolean parse() {
         NextNodeList nextNodeList = new NextNodeList(LoopBlockNode.class, IFBlockNode.class);
-        chileNode = nextNodeList.nextNode(env, peekLexicalUnit());
+        childNode = nextNodeList.nextNode(env, peekLexicalUnit());
         if(childNode != null) {
             return childNode.parse();
         }

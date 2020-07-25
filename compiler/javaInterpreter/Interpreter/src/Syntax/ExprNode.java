@@ -85,10 +85,10 @@ public class ExprNode extends Node{
                 LexicalUnit test = env.getInput().get();
                 if (test.getType() == LexicalType.RP) {
                     // brig back lexical unit to parse FCN
-                    env.getInput().unget( int);
+                    env.getInput().unget(in);
                     env.getInput().unget(test);
                     //CALL SUB always returns one value and can be handled in the same way of NUM
-                    FunctionCallNode fcN = new FnctionCallNode(NodeType.FUNCTION_CALL, env);
+                    FunctionCallNode fcN = new FunctionCallNode(NodeType.FUNCTION_CALL, env);
                     if (!fcN.parse()) {
                         return false;
                     }
