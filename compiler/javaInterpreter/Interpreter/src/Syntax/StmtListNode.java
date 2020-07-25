@@ -2,6 +2,7 @@ package Syntax;
 
 import Core.LexicalType;
 import Core.LexicalUnit;
+import Core.Value;
 
 import java.util.ArrayList;
 import java.util.List;

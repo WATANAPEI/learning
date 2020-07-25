@@ -1,6 +1,7 @@
 package Syntax;
 
 import Core.LexicalUnit;
+import Core.Value;
 
 public class ProgramNode extends Node{
     private Node child;

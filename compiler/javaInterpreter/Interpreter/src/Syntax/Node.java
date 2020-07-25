@@ -2,6 +2,7 @@ package Syntax;
 
 import Core.LexicalType;
 import Core.LexicalUnit;
+import Core.Value;
 
 public abstract class Node {
 
@@ -28,6 +29,7 @@ public abstract class Node {
 
     /**
      * evaluate Node
+     * @return
      */
     public abstract Value eval();
 
