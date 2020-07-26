@@ -63,9 +63,9 @@ public class Token {
     private LexicalUnit parseNumberToken() {
 
         if(value.contains(".")) {
-            return new LexicalUnit(LexicalType.DOUBLEVAL, new ValueImpl(value));
+            return new LexicalUnit(LexicalType.DOUBLEVAL, new ValueImpl(Double.parseDouble(value)));
         }
-        return new LexicalUnit(LexicalType.INTVAL, new ValueImpl(value));
+        return new LexicalUnit(LexicalType.INTVAL, new ValueImpl(Integer.parseInt(value)));
     }
 
     private LexicalUnit parseLiteralToken() {
