@@ -18,3 +18,4 @@ Cargo.lock
 *.jar
 *.class
 **/.vscode/settings.json
+**/.mypy_cache/*
