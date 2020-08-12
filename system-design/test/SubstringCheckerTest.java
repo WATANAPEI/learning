@@ -5,8 +5,8 @@ class SubstringCheckerTest {
 
     @Test
     public void testSubString() {
-        String s1 = "bcabca";
-        String s2 = "abc";
+        String s1 = "ABC ABCDAB ABCDABCDABDE";
+        String s2 = "ABCDABD";
         assertEquals(true, SubstringChecker.is_substring(s1, s2));
     }
 

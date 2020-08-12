@@ -11,36 +11,38 @@ public class SubstringChecker {
      * is_substring("aaaaaa", "abc") -> false
      * is_substring("abcabc", "bca") -> true
      *
-     * @param s1 : string to be checked
-     * @param s2 : substring pattern
+     * @param str : string to be checked
+     * @param pattern : substring pattern
      * @return boolean
      */
-    public static boolean is_substring(String s1, String s2) {
-        return bubbleImpl(s1, s2);
+    public static boolean is_substring(String str, String pattern) {
+        return bruteForceImpl(str, pattern);
     }
 
-    private static boolean bubbleImpl(String s1, String s2) {
-        Set charSetS1 = new HashSet();
-        Set charSetS2 = new HashSet();
-        for(char c: removeDuplicate(s1).toCharArray()) {
-            charSetS1.add(c);
-        }
-        for(char c: removeDuplicate(s2).toCharArray()) {
-            charSetS2.add(c);
-        }
-        if(!charSetS1.equals(charSetS2)) {
-            return false;
-        }
-        List<Character> listS1 = new ArrayList(charSetS1);
-        Collections.sort(listS1);
-        List<Character> listS2 = new ArrayList(charSetS2);
-        Collections.sort(listS2);
-        if(listS1.equals(listS2)) {
+    private static boolean bruteForceImpl(String str, String pattern) {
+        boolean foundMismatch;
+        for(int i = 0; i < str.length(); i++){
+            foundMismatch = false;
+            for(int j = 0 ; j < pattern.length(); j++) {
+                if(str.charAt(i+j) != pattern.charAt(j)) {
+                    foundMismatch = true;
+                    break;
+                }
+            }
+            if(foundMismatch) {
+                continue;
+            }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
+
+
+//    private boolean kmpImpl(String str, String pattern) {
+//        int locationInStr;
+//
+//
+//    }
 
 
     public static String removeDuplicate(String str) {
