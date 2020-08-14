@@ -1,3 +1,4 @@
+import Queue.Queue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +42,7 @@ class QueueTest {
 //    @Test
 //    public void checkArrayLengthProperty()
 //    {
-//        Queue pq = new Queue();
+//        Queue.Queue pq = new Queue.Queue();
 //        pq.enq(3);
 //        pq.enq(4);
 //        pq.deq();

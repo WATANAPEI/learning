@@ -1,3 +1,5 @@
+package Queue;
+
 import java.util.Arrays;
 
 public class Queue {
@@ -58,7 +60,7 @@ public class Queue {
 
     public int deq() {
         if(front == rear && _list[front] == 0) {
-            System.out.println("Queue is empty. Enqueue first.");
+            System.out.println("Queue.Queue is empty. Enqueue first.");
             return 0;
         }
         int result = _list[front];

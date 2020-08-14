@@ -1,3 +1,5 @@
+package SubstringChecker;
+
 import java.util.*;
 
 public class SubstringChecker {

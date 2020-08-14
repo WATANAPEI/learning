@@ -1,9 +1,6 @@
+import MyHashTable.MyHashTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,7 +53,7 @@ class MyHashTableTest {
 //        }
 //        int salt = 2453252;
 //        hashed = (hashed + salt) % (100000);
-//        assertEquals(hashed, MyHashTable.hash(key));
+//        assertEquals(hashed, MyHashTable.MyHashTable.hash(key));
 //    }
 //    @Test
 //    public void checkLibHashSet() {

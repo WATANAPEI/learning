@@ -1,3 +1,4 @@
+import UniqueString.UniqueStringChecker;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,9 +21,9 @@ class UniqueStringCheckerTest {
 
 //    @Test
 //    public void checkAsciiNum() {
-//        System.out.println("a: " + UniqueStringChecker.checkAsciiNumber('a'));
-//        System.out.println("Z: " + UniqueStringChecker.checkAsciiNumber('Z'));
-//        System.out.println("): " + UniqueStringChecker.checkAsciiNumber(')'));
+//        System.out.println("a: " + UniqueString.UniqueStringChecker.checkAsciiNumber('a'));
+//        System.out.println("Z: " + UniqueString.UniqueStringChecker.checkAsciiNumber('Z'));
+//        System.out.println("): " + UniqueString.UniqueStringChecker.checkAsciiNumber(')'));
 //    }
 
 //    @Test

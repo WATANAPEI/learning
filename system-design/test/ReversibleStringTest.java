@@ -1,4 +1,4 @@
-import org.junit.jupiter.api.BeforeEach;
+import ReverseString.ReversibleString;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,7 +6,7 @@ class ReversibleStringTest {
 
 //    @Test
 //    public void testReverse() {
-//        ReversibleString rs = new ReversibleString("aaaabbc");
+//        ReverseString.ReversibleString rs = new ReverseString.ReversibleString("aaaabbc");
 //        String correctStr = "cbbaaaa";
 //        assertEquals(correctStr, rs.reverse());
 //    }

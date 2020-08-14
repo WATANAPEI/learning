@@ -1,3 +1,5 @@
+package UniqueString;
+
 public class UniqueStringChecker {
     /**
      * case sensitive

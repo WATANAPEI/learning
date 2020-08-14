@@ -1,3 +1,5 @@
+package ReverseString;
+
 public class ReversibleString {
     char[] str;
 
