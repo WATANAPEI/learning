@@ -4,7 +4,7 @@ public class Queue {
     private int[] _list;
     private int front;
     private int rear;
-    private int defaultCapacity = 10;
+    private int defaultCapacity = 20;
 
     public Queue() {
         _list = new int[defaultCapacity];
@@ -17,11 +17,43 @@ public class Queue {
             System.out.println("Buffer overflow. Deque first.");
             return;
         }
-        _list[rear++] = val;
+        _list[rear] = val;
         if(rear == _list.length) {
             //_list = Arrays.copyOf(_list, _list.length * 2);
             rear = 0;
         }
+        upheap(rear);
+        rear++;
+    }
+
+    private void upheap(int i) {
+        int parentIndex;
+        if(isOutIndex(i)) {
+            throw new IndexOutOfBoundsException("index error.");
+        }
+        if(isRoot(i)) {
+            return;
+        }
+        parentIndex = (i-1) / 2;
+        if(_list[parentIndex] > _list[i]) {
+            swap(i, parentIndex);
+            upheap(parentIndex);
+        }
+        return;
+    }
+
+    private boolean isOutIndex(int i) {
+        return i < 0 || i > rear;
+    }
+
+    private boolean isRoot(int i) {
+        return i == 0;
+    }
+
+    private void swap(int i, int j) {
+        int tmp = _list[i];
+        _list[i] = _list[j];
+        _list[j] = tmp;
     }
 
     public int deq() {

@@ -12,10 +12,10 @@ class QueueTest {
 
     @Test
     public void testQueueAndDeque() {
-        pq.enq(3);
+        pq.enq(5);
         pq.enq(4);
         int result = pq.deq();
-        assertEquals(3, result);
+        assertEquals(4, result);
     }
 
     @Test
@@ -23,13 +23,14 @@ class QueueTest {
         for(int i = 0; i < 10; i++) {
             pq.enq(i);
         }
-        pq.deq();
+        assertEquals(0, pq.deq());
         pq.enq(20);
-        pq.dump();
-        pq.enq(3);
-        pq.deq();
+        assertEquals(1, pq.deq());
+//        pq.dump();
+        pq.enq(1);
+        assertEquals(1, pq.deq());
 
-        pq.dump();
+//        pq.dump();
     }
 
     @Test
@@ -37,13 +38,13 @@ class QueueTest {
         assertEquals(0, pq.deq());
     }
 
-    @Test
-    public void checkArrayLengthProperty()
-    {
-        Queue pq = new Queue();
-        pq.enq(3);
-        pq.enq(4);
-        pq.deq();
-        pq.dump();
-    }
+//    @Test
+//    public void checkArrayLengthProperty()
+//    {
+//        Queue pq = new Queue();
+//        pq.enq(3);
+//        pq.enq(4);
+//        pq.deq();
+//        pq.dump();
+//    }
 }
