@@ -1,4 +1,4 @@
-package MyHashTable;
+package myHashTable;
 public class MarkableElement {
     private Integer value;
     private boolean empty;

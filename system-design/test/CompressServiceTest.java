@@ -1,4 +1,4 @@
-import Compress.CompressService;
+import compress.CompressService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

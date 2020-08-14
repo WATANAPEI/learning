@@ -1,4 +1,4 @@
-import UniqueString.UniqueStringChecker;
+import uniqueString.UniqueStringChecker;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

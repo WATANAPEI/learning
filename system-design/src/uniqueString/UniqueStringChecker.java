@@ -1,4 +1,4 @@
-package UniqueString;
+package uniqueString;
 
 public class UniqueStringChecker {
     /**

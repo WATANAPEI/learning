@@ -1,4 +1,4 @@
-package MyHashTable;
+package myHashTable;
 
 /**
  * MyHashTable.MyHashTable

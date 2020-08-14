@@ -1,4 +1,4 @@
-package MiniHeap;
+package miniHeap;
 
 import java.util.ArrayList;
 import java.util.List;

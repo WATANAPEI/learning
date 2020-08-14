@@ -1,6 +1,4 @@
-package Queue;
-
-import java.util.Arrays;
+package queue;
 
 public class Queue {
     private int[] _list;

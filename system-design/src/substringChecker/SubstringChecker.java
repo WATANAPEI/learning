@@ -1,4 +1,4 @@
-package SubstringChecker;
+package substringChecker;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package StringPermutation;
+package stringPermutation;
 
 /**
  * case sensitive
