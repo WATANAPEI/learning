@@ -38,4 +38,10 @@ class StackTest {
 
     }
 
+    @Test
+    public void testIsEmpty() {
+        s = new Stack();
+        assertEquals(true, s.isEmpty());
+    }
+
 }

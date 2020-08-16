@@ -1,6 +1,6 @@
 package stack;
 
-public class Stack {
+public class Stack{
     private Integer[] _list;
     private int size = 0;
     private int maxCapacity = 20;
@@ -35,6 +35,10 @@ public class Stack {
 
     public int size() {
         return this.size;
+    }
+
+    public boolean isEmpty() {
+        return this.size == 0;
     }
 
 //    public int size() {
