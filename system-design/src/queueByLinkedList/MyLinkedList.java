@@ -1,6 +1,5 @@
 package queueByLinkedList;
 
-
 public class MyLinkedList {
     private ListElement first;
     private ListElement last;
@@ -24,6 +23,27 @@ public class MyLinkedList {
             l.next = newElement;
         }
         size++;
+    }
+
+    public void delete(int index) {
+        ListElement current = getElement(index);
+        ListElement previous = current.previous;
+        if(index == 0) {
+            if(size != 1) {
+                first = current.next;
+                first.previous = null;
+            } else {
+                first = null;
+                last = null;
+            }
+        } else if(index == size - 1) {
+            last = previous;
+            last.next = null;
+        } else {
+            previous.next = current.next;
+            current.previous = previous;
+        }
+        size--;
     }
 
     public int get(int index) {
