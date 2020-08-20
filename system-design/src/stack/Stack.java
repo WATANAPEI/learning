@@ -30,8 +30,16 @@ public class Stack{
 
     public int peek() {
         return _list[size-1];
-
     }
+
+    public boolean isCapable() {
+        return size < maxCapacity;
+    }
+
+    public int getStackLength() {
+        return this.maxCapacity;
+    }
+
 
     public int size() {
         return this.size;
