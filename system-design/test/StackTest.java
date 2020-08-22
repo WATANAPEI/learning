@@ -1,3 +1,4 @@
+import stack.Order;
 import stack.Stack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,4 +45,16 @@ class StackTest {
         assertEquals(true, s.isEmpty());
     }
 
+    @Test
+    public void testStackSort() {
+        s = new Stack();
+        s.push(3);
+        s.push(6);
+        s.push(2);
+        s.push(8);
+        s.push(1);
+        s.sort();
+        assertEquals(8, s.peek());
+
+    }
 }

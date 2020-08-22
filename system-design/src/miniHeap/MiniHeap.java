@@ -16,7 +16,7 @@ public class MiniHeap {
 
     public int extractMin() {
         int minValue = top();
-        list.set(0, getTail());
+        list.set(0, getTailValue());
         if(list.size() > 2) {
             int smallerChildIndex =
                     (int)list.get(1) > (int)list.get(2) ?
@@ -32,7 +32,7 @@ public class MiniHeap {
         list.set(j, tmp);
 
     }
-    private int getTail() {
+    private int getTailValue() {
         return (int)list.get(list.size()-1);
     }
 

@@ -49,6 +49,30 @@ public class Stack{
         return this.size == 0;
     }
 
+    /**
+     * sort stacked element.
+     * After sorting, elements which are sorted along with specified order
+     * can be popped.
+     * for now, sort descending.
+     */
+    public void sort() {
+        // use a stack as a buffer. order elements reversed argument order.
+        Stack buffer = new Stack();
+        int tmp;
+        while (!this.isEmpty()) {
+            tmp = this.pop();
+            if (!buffer.isEmpty()) {
+                if (tmp >= buffer.peek()) {
+                    this.push(buffer.pop());
+                }
+            }
+            buffer.push(tmp);
+        }
+        while(!buffer.isEmpty()) {
+            this.push(buffer.pop());
+        }
+    }
+
 //    public int size() {
 //        int count = 0;
 //        for(int i = 0; i < maxCapacity; i++) {

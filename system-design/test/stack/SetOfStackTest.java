@@ -36,6 +36,9 @@ class SetOfStackTest {
         }
         assertEquals(19, s.pop());
         assertEquals(2, s.getStackNumber());
+        s.push(20);
+        s.push(21);
+        assertEquals(3, s.getStackNumber());
     }
 
 }
