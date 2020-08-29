@@ -26,7 +26,16 @@ public class Deck {
         return c;
     }
 
+    public Card peek() {
+        return cards.getLast();
+    }
+
     public int count() {
         return cards.size();
     }
+
+    public void shuffle() {
+
+    }
+
 }
