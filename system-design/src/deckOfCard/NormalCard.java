@@ -1,7 +1,7 @@
 package deckOfCard;
 
 public class NormalCard extends Card {
-    int number;
+    private int number;
 
     public NormalCard(Mark mark, int number) {
         super(mark);
@@ -11,8 +11,19 @@ public class NormalCard extends Card {
         this.number = number;
     }
 
+    @Override
     public int getNumber() {
         return this.number;
     }
 
+    @Override
+    public boolean equals(Card other) {
+        return this.mark == other.mark && this.number == other.getNumber();
+
+    }
+
+    @Override
+    public String toString() {
+        return "Mark: " + this.mark + ", Number: "+ this.number;
+    }
 }

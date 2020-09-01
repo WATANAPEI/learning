@@ -17,29 +17,35 @@ class DeckTest {
     public void testShuffle() {
         Deck d = new Deck();
         d.shuffle();
-        Card[] cards1 = new Card[53];
-        for(int i = 0; i < 53; i++) {
-            cards1[i] = d.draw();
-        }
         Deck d2 = new Deck();
         d2.shuffle();
-        Card[] cards2 = new Card[53];
-        for(int j = 0; j < 53; j++) {
-            cards2[j] = d2.draw();
+        int testTimes = 10;
+        int equalTime = 0;
+        for(int i = 0; i < testTimes; i++) {
+            if(d.draw().equals(d2.draw())) {
+                equalTime++;
+            }
         }
+        assertTrue(equalTime < 3); // Same card can appear in the same order three times at best
     }
 
     @Test
     public void checkMT19937() {
         MTRandom m = new MTRandom();
+        int bitNum = 6;
+        int cardNum = 53;
         //int[] seeds = {1, 2, 3, 4, 5};
         //m.setSeed(seeds);
-        System.out.println(m.next(32));
-        System.out.println(m.next(32));
-        System.out.println(m.next(32));
-        System.out.println(m.next(32));
-        System.out.println(m.next(32));
-        System.out.println(m.next(32));
+        boolean[] used = new boolean[cardNum];
+        for(int i = 0; i < cardNum; i++) {
+            int rand = m.next(bitNum);
+            while(rand >= cardNum || used[rand] == true) {
+                rand = m.next(bitNum);
+            }
+            System.out.println(rand);
+            used[rand] = true;
+
+        }
     }
 
 }
