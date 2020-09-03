@@ -25,6 +25,16 @@ public class BlackJack {
 
     }
 
+    public int score(Participant p) {
+        if(!participantList.contains(p)) {
+            throw new IllegalStateException("Participant " + p.getName() + " is already member.");
+        }
+        if(p == null) {
+            throw new IllegalArgumentException("Participant is null");
+        }
+        return 1;
+    }
+
     public void deal() {
         int dealTimes = 2;
 
