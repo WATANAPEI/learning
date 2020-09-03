@@ -5,9 +5,9 @@ import java.util.*;
 public class BlackJack {
     Deck deck;
     List<Participant> participantList;
-    public BlackJack() {
-        deck = new Deck();
-        participantList = new ArrayList<>();
+    public BlackJack(Deck deck, List<Participant> participants) {
+        this.deck = deck;
+        this.participantList = participants;
     }
 
     public void participate(Participant p) {

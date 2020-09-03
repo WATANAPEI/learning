@@ -6,27 +6,31 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class BlackJackTest {
-    @Spy
-    BlackJack bj = new BlackJack();
-
     @Test
     public void testScore() {
+        Deck deck = new Deck();
+        List<Participant> participantList = new ArrayList();
 
-        bj = new BlackJack();
+        BlackJack bj = new BlackJack(deck, participantList);
         bj.prepare();
         Participant p1 = new Participant("Alice");
         bj.participate(p1);
         bj.deal();
         assertEquals(1, bj.score(p1));
-
     }
+
     @Test
     public void testBlackJackStart() {
-        bj = new BlackJack();
+        Deck deck = new Deck();
+        List<Participant> participantList = new ArrayList();
+        BlackJack bj = new BlackJack(deck, participantList);
         bj.prepare();
         Participant p1 = new Participant("Alice");
         Participant p2 = new Participant("Bob");
