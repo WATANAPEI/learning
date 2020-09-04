@@ -22,7 +22,11 @@ public class BlackJack {
 
     public void prepare() {
         deck.shuffle();
+    }
 
+    public void hit(Participant p) {
+        Card c = deck.draw();
+        p.haveCard(c);
     }
 
     public int score(Participant p) {

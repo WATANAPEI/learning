@@ -13,11 +13,12 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BlackJackTest {
-    private Deck deck = spy(Deck.class);
+    private Deck deck;
     List<Participant> participantList;
 
     @BeforeEach
     public void setUp() {
+        deck = spy(Deck.class);
         participantList = new ArrayList();
         Participant p1 = new Participant("Alice");
         participantList.add(p1);
@@ -68,5 +69,38 @@ class BlackJackTest {
         assertEquals(10 + 10, bj.score(bj.participantList.get(0))); // 12 -> 10
         assertEquals(10 + 10, bj.score(bj.participantList.get(1))); // 11 -> 10
     }
+
+    @Test
+    public void testDraw3Times() {
+        when(deck.draw())
+                .thenReturn(new NormalCard(Mark.Heart, 3))
+                .thenReturn(new NormalCard(Mark.Spade, 8))
+                .thenReturn(new NormalCard(Mark.Spade, 4))
+                .thenReturn(new NormalCard(Mark.Clover, 10))
+                .thenReturn(new NormalCard(Mark.Clover, 10));
+
+        BlackJack bj = new BlackJack(deck, participantList);
+        bj.prepare();
+        bj.deal();
+        bj.hit(participantList.get(0));
+        assertEquals(3 + 4 + 10, bj.score(bj.participantList.get(0)));
+        assertEquals(8 + 10, bj.score(bj.participantList.get(1)));
+    }
+
+    @Test
+    public void testWithAce() {
+        when(deck.draw())
+                .thenReturn(new NormalCard(Mark.Heart, 7))
+                .thenReturn(new NormalCard(Mark.Spade, 8))
+                .thenReturn(new NormalCard(Mark.Spade, 1))
+                .thenReturn(new NormalCard(Mark.Clover, 10));
+
+        BlackJack bj = new BlackJack(deck, participantList);
+        bj.prepare();
+        bj.deal();
+        assertEquals(7 + 11, bj.score(bj.participantList.get(0)));
+        assertEquals(8 + 10, bj.score(bj.participantList.get(1)));
+    }
+
 
 }
