@@ -32,7 +32,8 @@ public class BlackJack {
         if(p == null) {
             throw new IllegalArgumentException("Participant is null");
         }
-        return 1;
+
+        return p.score();
     }
 
     public void deal() {
@@ -83,5 +84,20 @@ class Participant {
 
     Set<Card> getHand() {
         return this.hand;
+    }
+
+    public int score() {
+        int result = 0;
+        for(Card c : hand) {
+            if(c.getNumber() >= 10) {
+                result += 10;
+            }else {
+                result += c.getNumber();
+            }
+        }
+        if(result > 21) {
+            result = 0;
+        }
+        return result;
     }
 }
