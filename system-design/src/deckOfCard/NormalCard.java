@@ -1,6 +1,6 @@
 package deckOfCard;
 
-public class NormalCard extends Card {
+public class NormalCard extends Card implements Comparable<NormalCard>{
     private int number;
 
     public NormalCard(Mark mark, int number) {
@@ -25,5 +25,17 @@ public class NormalCard extends Card {
     @Override
     public String toString() {
         return "Mark: " + this.mark + ", Number: "+ this.number;
+    }
+
+    /**
+     * reverse order
+     * Cards are set by descending order
+     * @param other
+     * @return
+     */
+    @Override
+    public int compareTo(NormalCard other) {
+        int markCompare = this.mark.ordinal() - other.mark.ordinal();
+        return 10 * (other.number - this.number) + markCompare;
     }
 }

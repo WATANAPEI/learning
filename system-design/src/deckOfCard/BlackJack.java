@@ -4,51 +4,55 @@ import java.util.*;
 
 public class BlackJack {
     Deck deck;
-    List<Participant> participantList;
-    public BlackJack(Deck deck, List<Participant> participants) {
+    List<Player> playerList;
+    public BlackJack(Deck deck, List<Player> players) {
         this.deck = deck;
-        this.participantList = participants;
+        this.playerList = players;
     }
 
-    public void participate(Participant p) {
-        if(participantList.contains(p)) {
+    public void participate(Player p) {
+        if(playerList.contains(p)) {
             throw new IllegalStateException("Already exists participant " + p.getName());
         }
         if(p == null) {
             throw new IllegalArgumentException("Participant is null.");
         }
-        participantList.add(p);
+        playerList.add(p);
     }
 
     public void prepare() {
         deck.shuffle();
     }
 
-    public void hit(Participant p) {
+    public void hit(Player p) {
         Card c = deck.draw();
         p.haveCard(c);
     }
 
-    public int score(Participant p) {
-        if(!participantList.contains(p)) {
+
+    public int score(Player p) {
+        if(!playerList.contains(p)) {
             throw new IllegalStateException("Participant " + p.getName() + " is already member.");
         }
         if(p == null) {
             throw new IllegalArgumentException("Participant is null");
         }
+        TreeSet<Card> treeSet = p.getHand();
+        ScoreTree scoreTree = new ScoreTree(treeSet);
 
-        return p.score();
+        return scoreTree.getBestScore();
+
     }
 
     public void deal() {
         int dealTimes = 2;
 
-        if(participantList.isEmpty()) {
+        if(playerList.isEmpty()) {
             throw new IllegalStateException("No participants in this game.");
         }
 
         for(int i = 0; i < dealTimes; i++) {
-            for(Participant p: participantList) {
+            for(Player p: playerList) {
                 Card c = deck.draw();
                 p.haveCard(c);
             }
@@ -56,21 +60,21 @@ public class BlackJack {
     }
 }
 
-class Participant {
+class Player {
     private UUID id;
-    private Set<Card> hand;
+    private TreeSet<Card> hand;
     private String name;
 
-    public Participant() {
+    public Player() {
         this.name = "Anonymous";
         this.id = UUID.randomUUID();
-        this.hand = new HashSet<>();
+        this.hand = new TreeSet<>();
     }
 
-    public Participant(String name) {
+    public Player(String name) {
         this.name = name;
         this.id = UUID.randomUUID();
-        this.hand = new HashSet<>();
+        this.hand = new TreeSet();
     }
 
     public String getName() {
@@ -86,22 +90,10 @@ class Participant {
         this.hand.add(c);
     }
 
-    Set<Card> getHand() {
+    TreeSet<Card> getHand() {
         return this.hand;
     }
 
-    public int score() {
-        int result = 0;
-        for(Card c : hand) {
-            if(c.getNumber() >= 10) {
-                result += 10;
-            }else {
-                result += c.getNumber();
-            }
-        }
-        if(result > 21) {
-            result = 0;
-        }
-        return result;
-    }
+
 }
+

@@ -6,4 +6,5 @@ public enum Mark {
     Clover,
     Diamond,
     Joker;
+
 }

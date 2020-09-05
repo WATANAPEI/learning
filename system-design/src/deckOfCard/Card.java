@@ -1,6 +1,6 @@
 package deckOfCard;
 
-public abstract class Card {
+public abstract class Card implements Comparable<NormalCard> {
     protected Mark mark;
     public Card(Mark mark) {
         this.mark = mark;

@@ -1,6 +1,6 @@
 package deckOfCard;
 
-public class JokerCard extends Card {
+public class JokerCard extends Card implements Comparable<NormalCard>{
     public JokerCard() {
         super(Mark.Joker);
     }
@@ -23,5 +23,10 @@ public class JokerCard extends Card {
     @Override
     public String toString() {
         return "Mark: " + this.mark;
+    }
+
+    @Override
+    public int compareTo(NormalCard o) {
+        return 0;
     }
 }
