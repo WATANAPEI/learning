@@ -17,7 +17,7 @@ class NumberNode extends Node {
     }
 
     @Override
-    public Value eval() {
-        return this.val;
+    public void eval() {
+        System.out.println(this.val.getIValue());
     }
 }

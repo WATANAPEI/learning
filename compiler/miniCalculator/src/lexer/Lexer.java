@@ -9,6 +9,10 @@ public class Lexer {
     Scanner sc;
     String next;
     List<Token> tokenList;
+    public Lexer(String str) {
+        sc = new Scanner(str);
+        tokenList = new ArrayList();
+    }
     public Lexer(Reader reader) {
         sc = new Scanner(reader);
         tokenList = new ArrayList();

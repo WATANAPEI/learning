@@ -1,8 +1,10 @@
+import evaluator.Evaluator;
 import lexer.Lexer;
 import lexer.Token;
 import org.junit.jupiter.api.Test;
 import parser.Parser;
 import parser.Node;
+import semanticAnalyzer.SemanticAnalyzer;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.Reader;
@@ -10,6 +12,19 @@ import java.io.StringReader;
 import java.util.List;
 
 class LexerTest {
+
+    @Test
+    public void testTokens() {
+        String numStr = "42";
+        String strStr = "ufo";
+        String symbolStr = "*";
+        List<Token> tokens = new Lexer(numStr).analyze();
+        Node node = new Parser(tokens).parse();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        evaluator.eval();
+
+    }
 
     @Test
     public void testParseNumber() {
@@ -22,9 +37,6 @@ class LexerTest {
         Parser parser = new Parser(tokens);
         Node node = parser.parse();
         assertEquals(2, node.value().getIValue());
-        assertEquals(2, node.eval().getIValue());
-
-
     }
 
     @Test
