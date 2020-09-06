@@ -24,17 +24,24 @@ public class Parser {
      * @return
      */
     public Optional<Node> parseRoot() {
-        Optional<Node> node = Optional.ofNullable(parseStmt());
-        return node;
+        RootNode rootNode = new RootNode();
+
+        Optional<Node> node = parseStmt();
+        rootNode.addChildNode(node.orElseThrow());
+        while(itr.hasNext()) {
+            node = parseStmt();
+            rootNode.addChildNode(node.orElseThrow());
+        }
+        return Optional.ofNullable(rootNode);
     }
-    public Node parseStmt() {
+    public Optional<Node> parseStmt() {
         Token token = itr.next();
         if(token.tokenType() == TokenType.NUMBER) {
-            return new NumberLiteralNode(token);
+            return Optional.of(new NumberLiteralNode(token));
         } else if(token.tokenType() == TokenType.STRING) {
-            return new StringLiteralNode(token);
+            return Optional.of(new StringLiteralNode(token));
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 }

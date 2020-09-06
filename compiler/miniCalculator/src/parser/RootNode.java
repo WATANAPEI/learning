@@ -9,8 +9,12 @@ import java.util.Optional;
 class RootNode extends Node {
     List<Node> nodes;
 
-    public RootNode(Token token) {
+    public RootNode() {
         nodes = new ArrayList();
+    }
+
+    public void addChildNode(Node node) {
+        this.nodes.add(node);
     }
 
     /**

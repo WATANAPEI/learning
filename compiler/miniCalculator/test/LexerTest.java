@@ -39,6 +39,18 @@ class LexerTest {
     }
 
     @Test
+    public void testRootNode() {
+        String str = "\"ufo\" 42";
+        List<Token> tokens = new Lexer(str).analyze();
+        Node node = new Parser(tokens).parseRoot()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        evaluator.eval();
+
+    }
+
+    @Test
     public void testMulToken() {
         String symbolStr = "*";
         List<Token> tokens = new Lexer(symbolStr).analyze();
