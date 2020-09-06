@@ -2,6 +2,8 @@ package parser;
 
 import lexer.Token;
 
+import java.util.Optional;
+
 class StringLiteralNode extends Node {
     Value val;
 
@@ -14,8 +16,8 @@ class StringLiteralNode extends Node {
      * @return
      */
     @Override
-    public Value value() {
-        return this.val;
+    public Optional<Value> value() {
+        return Optional.of(this.val);
     }
 
     @Override

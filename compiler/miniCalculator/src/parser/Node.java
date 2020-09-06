@@ -1,7 +1,9 @@
 package parser;
 
+import java.util.Optional;
+
 public abstract class Node {
-    public abstract Value value();
+    public abstract Optional<Value> value();
     public abstract void eval();
 
 }
