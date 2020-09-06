@@ -1,5 +1,6 @@
 package parser;
 
+import lexer.LexicalType;
 import lexer.Token;
 import lexer.TokenType;
 
@@ -25,6 +26,14 @@ public class Parser {
             return Optional.of(next);
         }
         return Optional.empty();
+    }
+
+    public boolean consume(LexicalType type) {
+        Token token = getNext().orElseThrow();
+        if(token.lexicalType() != type) {
+            return false;
+        }
+        return true;
     }
 
     public Optional<Token> getNext() {
@@ -58,8 +67,28 @@ public class Parser {
         }
         return Optional.ofNullable(rootNode);
     }
+
+    public Optional<Node> parseTerm() {
+        Token token = getNext().orElseThrow();
+        LexicalType[] acceptable = {LexicalType.ADD, LexicalType.SUB, LexicalType.MUL, LexicalType.DIV};
+
+    }
+
     public Optional<Node> parseStmt() {
         Token token = getNext().orElseThrow();
+        if(token.tokenType() == TokenType.NUMBER) {
+            if(peekNext().orElseThrow().tokenType() == TokenType.SINGLE_SYMBOL) {
+                return new BiOppNode(next, new NumberLiteralNode(token), parseTerm());
+            }
+            return Optional.of(new NumberLiteralNode(token));
+        } else if(token.tokenType() == TokenType.STRING) {
+            return Optional.of(new StringLiteralNode(token));
+        } else {
+            return Optional.empty();
+        }
+
+
+        /*
         if(token.tokenType() == TokenType.NUMBER) {
             return Optional.of(new NumberLiteralNode(token));
         } else if(token.tokenType() == TokenType.STRING) {
@@ -67,5 +96,6 @@ public class Parser {
         } else {
             return Optional.empty();
         }
+         */
     }
 }
