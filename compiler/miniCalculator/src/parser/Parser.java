@@ -1,6 +1,7 @@
 package parser;
 
 import lexer.LexicalType;
+import lexer.NullToken;
 import lexer.Token;
 import lexer.TokenType;
 
@@ -19,21 +20,23 @@ public class Parser {
         this.next = null;
     }
 
-
     public Optional<Token> peekNext() {
         if(itr.hasNext()) {
+            if(next != null) {
+                return Optional.of(next);
+            }
             next = itr.next();
             return Optional.of(next);
         }
         return Optional.empty();
     }
 
-    public boolean consume(LexicalType type) {
-        Token token = getNext().orElseThrow();
-        if(token.lexicalType() != type) {
-            return false;
+    public boolean checkLexicalType(LexicalType type) {
+        Token token = peekNext().orElse(new NullToken());
+        if(token.tokenType() != TokenType.NULL_TOKEN && token.lexicalType() == type) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     public Optional<Token> getNext() {
@@ -58,7 +61,6 @@ public class Parser {
      */
     public Optional<Node> parseRoot() {
         RootNode rootNode = new RootNode();
-
         Optional<Node> node = parseStmt();
         rootNode.addChildNode(node.orElseThrow());
         while(itr.hasNext()) {
@@ -68,34 +70,41 @@ public class Parser {
         return Optional.ofNullable(rootNode);
     }
 
-    public Optional<Node> parseTerm() {
-        Token token = getNext().orElseThrow();
-        LexicalType[] acceptable = {LexicalType.ADD, LexicalType.SUB, LexicalType.MUL, LexicalType.DIV};
+    public Optional<Node> parseFactor() {
+        Token token = getNext().orElse(new NullToken());
+        if(token.tokenType() == TokenType.NUMBER) {
+            return Optional.of(new NumberLiteralNode(token));
+        }else {
+            return Optional.empty();
+        }
+    }
 
+    public Optional<Node> parseTerm() {
+        Token token = getNext().orElse(new NullToken());
+        if(token.tokenType() == TokenType.NUMBER) {
+            Node lhsNode = parseFactor().orElseThrow();
+            while(checkLexicalType(LexicalType.MUL) || checkLexicalType(LexicalType.DIV)) {
+                return Optional.of(new BinOpNode(getNext().orElseThrow(), lhsNode, parseFactor().orElseThrow()));
+            }
+            return Optional.of(lhsNode);
+        } else {
+            return Optional.empty();
+        }
     }
 
     public Optional<Node> parseStmt() {
-        Token token = getNext().orElseThrow();
+        Token token = peekNext().orElse(new NullToken());
         if(token.tokenType() == TokenType.NUMBER) {
-            if(peekNext().orElseThrow().tokenType() == TokenType.SINGLE_SYMBOL) {
-                return new BiOppNode(next, new NumberLiteralNode(token), parseTerm());
+            Node lhsNode = parseTerm().orElseThrow();
+            while(checkLexicalType(LexicalType.ADD) || checkLexicalType(LexicalType.SUB)) {
+                return Optional.of(new BinOpNode(getNext().orElseThrow(), lhsNode, parseTerm().orElseThrow()));
             }
-            return Optional.of(new NumberLiteralNode(token));
+            return Optional.of(lhsNode);
         } else if(token.tokenType() == TokenType.STRING) {
             return Optional.of(new StringLiteralNode(token));
         } else {
             return Optional.empty();
         }
 
-
-        /*
-        if(token.tokenType() == TokenType.NUMBER) {
-            return Optional.of(new NumberLiteralNode(token));
-        } else if(token.tokenType() == TokenType.STRING) {
-            return Optional.of(new StringLiteralNode(token));
-        } else {
-            return Optional.empty();
-        }
-         */
     }
 }

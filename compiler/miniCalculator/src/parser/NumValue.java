@@ -11,6 +11,9 @@ public class NumValue implements Value{
     public NumValue(String str) {
         this.val = Integer.parseInt(str);
     }
+    public NumValue(Integer value) {
+        this.val = value;
+    }
 
     @Override
     public Optional<Integer> getIValue() {
