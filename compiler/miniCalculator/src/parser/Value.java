@@ -1,10 +1,12 @@
 package parser;
 
+import java.util.Optional;
+
 public interface Value {
-    public Integer getIValue();
-    public String getSValue();
-    public Double getDValue();
-    public Boolean getBValue();
+    public Optional<Integer> getIValue();
+    public Optional<String> getSValue();
+    //public Optional<Double> getDValue();
+    public Optional<Boolean> getBValue();
 }
 
 

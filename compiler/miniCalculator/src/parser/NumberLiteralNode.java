@@ -2,12 +2,10 @@ package parser;
 
 import lexer.Token;
 
-import java.util.Iterator;
-
-class NumberNode extends Node {
+class NumberLiteralNode extends Node {
     Value val;
 
-    public NumberNode(Token token, Iterator<Token> itr) {
+    public NumberLiteralNode(Token token) {
         val = new NumValue(token.getImage());
     }
 
@@ -18,6 +16,7 @@ class NumberNode extends Node {
 
     @Override
     public void eval() {
-        System.out.println(this.val.getIValue());
+        System.out.println(this.val.getIValue().orElse(null));
+
     }
 }

@@ -1,9 +1,10 @@
 package lexer;
 
 public enum TokenType {
-    Number("\\d+"),
-    String("\\w+"),
-    Symbol("[^a-zA-Z1-9]+");
+    NUMBER("[0-9]+"),
+    STRING("^\"[^\"]*\"?"),
+    WORD("^[a-zA-Z]\\w*"),
+    SINGLE_SYMBOL("[\\.\\+\\-\\*\\/\\)\\(,]");
 
     private String pattern;
 

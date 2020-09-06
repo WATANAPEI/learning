@@ -1,5 +1,6 @@
 package lexer;
 
+import java.awt.*;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,15 @@ public class Lexer {
     public List<Token> analyze() {
         while(sc.hasNext()) {
             next = sc.next();
-            if(next.matches(TokenType.Number.getPattern())) {
+            if(next.matches(TokenType.NUMBER.getPattern())) {
                 tokenList.add(new NumToken(next));
+            } else if(next.matches((TokenType.STRING.getPattern()))){
+                // strip double quotation
+                tokenList.add(new StringToken(next.replace("\"", "")));
+            } else if(next.matches(TokenType.STRING.getPattern())){
+                tokenList.add(new WordToken(next));
+            } else if(next.matches(TokenType.SINGLE_SYMBOL.getPattern())){
+                tokenList.add(new SingleSymbolToken(next));
             } else {
                 return null;
             }

@@ -3,7 +3,7 @@ package lexer;
 class NumToken extends Token {
     public NumToken(String image) {
         this.image = image;
-        this.type = TokenType.Number;
+        this.type = TokenType.NUMBER;
     }
 
 

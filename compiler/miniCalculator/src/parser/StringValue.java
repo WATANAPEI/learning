@@ -2,19 +2,16 @@ package parser;
 
 import java.util.Optional;
 
-/**
- * for now value limits integer
- */
-public class NumValue implements Value{
-    Integer val;
+public class StringValue implements Value{
+    String val;
 
-    public NumValue(String str) {
-        this.val = Integer.parseInt(str);
+    public StringValue(String str) {
+        this.val = str;
     }
 
     @Override
     public Optional<Integer> getIValue() {
-        return Optional.of(val);
+        return Optional.empty();
     }
 
     @Override
@@ -25,16 +22,16 @@ public class NumValue implements Value{
     /*
     @Override
     public Optional<Double> getDValue() {
-        return Optional.of(Double.valueOf(val));
+        return Optional.empty();
     }
      */
 
     /**
-     * return true if number value exists
+     * return true if value string exists
      * @return
      */
     @Override
     public Optional<Boolean> getBValue() {
-        return Optional.ofNullable(val != null);
+        return Optional.ofNullable(!val.isEmpty());
     }
 }
