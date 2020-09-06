@@ -10,10 +10,34 @@ import java.util.Optional;
 public class Parser {
     List<Token> tokens;
     Iterator<Token> itr;
+    Token next;
 
     public Parser(List<Token> tokens) {
         this.tokens = tokens;
         this.itr = tokens.iterator();
+        this.next = null;
+    }
+
+
+    public Optional<Token> peekNext() {
+        if(itr.hasNext()) {
+            next = itr.next();
+            return Optional.of(next);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Token> getNext() {
+        if(next != null) {
+            Token result = next;
+            next = null;
+            return Optional.of(result);
+        } else {
+            if(itr.hasNext()) {
+                return Optional.of(itr.next());
+            }
+            return Optional.empty();
+        }
     }
 
     /**
@@ -35,7 +59,7 @@ public class Parser {
         return Optional.ofNullable(rootNode);
     }
     public Optional<Node> parseStmt() {
-        Token token = itr.next();
+        Token token = getNext().orElseThrow();
         if(token.tokenType() == TokenType.NUMBER) {
             return Optional.of(new NumberLiteralNode(token));
         } else if(token.tokenType() == TokenType.STRING) {
