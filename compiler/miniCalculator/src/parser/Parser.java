@@ -21,10 +21,10 @@ public class Parser {
     }
 
     public Optional<Token> peekNext() {
+        if(next != null) {
+            return Optional.of(next);
+        }
         if(itr.hasNext()) {
-            if(next != null) {
-                return Optional.of(next);
-            }
             next = itr.next();
             return Optional.of(next);
         }
@@ -71,8 +71,9 @@ public class Parser {
     }
 
     public Optional<Node> parseFactor() {
-        Token token = getNext().orElse(new NullToken());
+        Token token = peekNext().orElse(new NullToken());
         if(token.tokenType() == TokenType.NUMBER) {
+            token = getNext().orElseThrow();
             return Optional.of(new NumberLiteralNode(token));
         }else {
             return Optional.empty();
@@ -80,7 +81,7 @@ public class Parser {
     }
 
     public Optional<Node> parseTerm() {
-        Token token = getNext().orElse(new NullToken());
+        Token token = peekNext().orElse(new NullToken());
         if(token.tokenType() == TokenType.NUMBER) {
             Node lhsNode = parseFactor().orElseThrow();
             while(checkLexicalType(LexicalType.MUL) || checkLexicalType(LexicalType.DIV)) {
@@ -101,6 +102,7 @@ public class Parser {
             }
             return Optional.of(lhsNode);
         } else if(token.tokenType() == TokenType.STRING) {
+            token = getNext().orElseThrow();
             return Optional.of(new StringLiteralNode(token));
         } else {
             return Optional.empty();
