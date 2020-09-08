@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 class RootNode extends Node {
-    List<Node> nodes;
+    private List<Node> nodes;
 
     public RootNode() {
         nodes = new ArrayList();

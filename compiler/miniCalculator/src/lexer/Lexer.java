@@ -26,7 +26,7 @@ public class Lexer {
             } else if(next.matches((TokenType.STRING.getPattern()))){
                 // strip double quotation
                 tokenList.add(new StringToken(next.replace("\"", "")));
-            } else if(next.matches(TokenType.STRING.getPattern())){
+            } else if(next.matches(TokenType.WORD.getPattern())){
                 tokenList.add(new WordToken(next));
             } else if(next.matches(TokenType.SINGLE_SYMBOL.getPattern())){
                 tokenList.add(new SingleSymbolToken(next));

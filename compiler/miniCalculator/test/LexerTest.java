@@ -10,6 +10,7 @@ import semanticAnalyzer.SemanticAnalyzer;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.Optional;
 
 class LexerTest {
 
@@ -62,6 +63,35 @@ class LexerTest {
         Evaluator evaluator = new Evaluator(ast);
         evaluator.eval();
          */
+    }
+
+    @Test
+    public void testAddCalculation() {
+        String symbolStr = "3 + 2";
+        List<Token> tokens = new Lexer(symbolStr).analyze();
+        assertEquals(TokenType.NUMBER, tokens.get(0).tokenType());
+        assertEquals(TokenType.SINGLE_SYMBOL, tokens.get(1).tokenType());
+        assertEquals(TokenType.NUMBER, tokens.get(2).tokenType());
+        Node node = new Parser(tokens).parseRoot()
+                .orElseThrow();
+        assertEquals(Optional.empty(), node.value()); //root node doesn't return value
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        evaluator.eval();
+
+    }
+
+    @Test
+    public void testMulCalculation() {
+        String symbolStr = "21 * 2";
+        List<Token> tokens = new Lexer(symbolStr).analyze();
+        Node node = new Parser(tokens).parseRoot()
+                .orElseThrow();
+        assertEquals(Optional.empty(), node.value()); //root node doesn't return value
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        evaluator.eval();
+
     }
 
     @Test
