@@ -13,9 +13,9 @@ public class MyLinkedList<T> {
         return this.size;
     }
 
-    public void append(int value) {
+    public void append(T e) {
         ListElement l = last;
-        ListElement newElement = new ListElement(value, last, null);
+        ListElement newElement = new ListElement(e, last, null);
         last = newElement;
         if(l == null) {
             first = newElement;
