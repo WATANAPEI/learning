@@ -53,4 +53,14 @@ class QueueByLinkedListTest {
 
     }
 
+    @Test
+    public void testFindStart() {
+        MyLinkedList<Integer> l = new MyLinkedList();
+        l.append(3);;
+        l.append(2);
+        l.append(4);;
+        assertEquals(4, l.last());
+
+    }
+
 }

@@ -1,8 +1,8 @@
 package queueByLinkedList;
 
-public class MyLinkedList {
-    private ListElement first;
-    private ListElement last;
+public class MyLinkedList<T> {
+    private ListElement<T> first;
+    private ListElement<T> last;
     private int size;
 
     public MyLinkedList() {
@@ -46,11 +46,11 @@ public class MyLinkedList {
         size--;
     }
 
-    public int get(int index) {
+    public T get(int index) {
         return getElement(index).value;
     }
 
-    private ListElement getElement(int index) {
+    private ListElement<T> getElement(int index) {
         //TODO: consider minus indexing
         ListElement current = first;
         ListElement nextElement = first.next;
@@ -79,15 +79,30 @@ public class MyLinkedList {
         size++;
     }
 
-    private static class ListElement {
+    public T last() {
+        return this.last.value;
+    }
+
+    private static class ListElement<T> {
         private ListElement previous;
         private ListElement next;
-        private int value;
+        private T value;
 
-        public ListElement(int value, ListElement previous, ListElement next) {
+        public ListElement() {
+            this.previous = null;
+            this.next = null;
+            this.value = null;
+        }
+
+        public ListElement(T value, ListElement previous, ListElement next) {
+            this(previous, next);
             this.value = value;
+        }
+
+        public ListElement(ListElement previous, ListElement next) {
             this.previous = previous;
             this.next = next;
+            this.value = null;
         }
 
     }

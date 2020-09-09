@@ -1,7 +1,7 @@
 package queueByLinkedList;
 
 public class QueueByLinkedList {
-    private MyLinkedList l;
+    private MyLinkedList<Integer> l;
     private int size;
 
     public QueueByLinkedList() {
