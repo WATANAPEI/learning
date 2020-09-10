@@ -91,6 +91,18 @@ class LexerTest {
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
         evaluator.eval();
+    }
+
+    @Test
+    public void testZeroDivision() {
+        String symbolStr = "21 / 0";
+        List<Token> tokens = new Lexer(symbolStr).analyze();
+        Node node = new Parser(tokens).parseRoot()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        assertThrows(ArithmeticException.class, () -> evaluator.eval()
+        );
 
     }
 

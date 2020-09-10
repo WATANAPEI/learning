@@ -2,6 +2,8 @@ package queueByLinkedList;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class QueueByLinkedListTest {
@@ -56,11 +58,12 @@ class QueueByLinkedListTest {
     @Test
     public void testFindStart() {
         MyLinkedList<Integer> l = new MyLinkedList();
+
         l.append(3);;
         l.append(2);
         l.append(4);;
         assertEquals(4, l.last());
-
     }
+
 
 }
