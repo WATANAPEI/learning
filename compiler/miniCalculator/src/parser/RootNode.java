@@ -4,6 +4,7 @@ import lexer.Token;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 class RootNode extends Node {
@@ -27,9 +28,9 @@ class RootNode extends Node {
     }
 
     @Override
-    public void eval() {
+    public void eval(Map symbolTable) {
         // call eval() in each node
         nodes.stream()
-                .forEach(e -> e.eval());
+                .forEach(e -> e.eval(symbolTable));
     }
 }

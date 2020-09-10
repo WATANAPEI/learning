@@ -2,6 +2,7 @@ package parser;
 
 import lexer.Token;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class BinOpNode extends Node{
@@ -36,7 +37,7 @@ public class BinOpNode extends Node{
     }
 
     @Override
-    public void eval() {
+    public void eval(Map symbolTable) {
         value().ifPresent(e -> System.out.println(e.getIValue().orElseThrow()));
 
     }

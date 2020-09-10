@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+// TODO: Use Regex to separate tokens
 public class Lexer {
     Scanner sc;
     String next;

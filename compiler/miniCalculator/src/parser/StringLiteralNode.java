@@ -2,6 +2,7 @@ package parser;
 
 import lexer.Token;
 
+import java.util.Map;
 import java.util.Optional;
 
 class StringLiteralNode extends Node {
@@ -21,7 +22,7 @@ class StringLiteralNode extends Node {
     }
 
     @Override
-    public void eval() {
+    public void eval(Map symbolTable) {
         System.out.println(this.val.getSValue()
                 .orElse("This node has no value: " + this));
     }
