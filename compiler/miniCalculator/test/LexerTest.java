@@ -107,10 +107,23 @@ class LexerTest {
     }
 
     @Test
+    public void testSemicolon() {
+        String str = "\"word\"; 21";
+        List<Token> tokens = new Lexer(str).analyze();
+        Node node = new Parser(tokens).parseRoot()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        evaluator.eval();
+
+    }
+
+    @Test
     public void checkRegex() {
         String str = "2";
         String pattern = "\\d+";
         assertEquals(true, str.matches(pattern));
     }
+
 
 }

@@ -12,10 +12,12 @@ public class Lexer {
     List<Token> tokenList;
     public Lexer(String str) {
         sc = new Scanner(str);
+        sc.useDelimiter("[\\p{javaWhitespace}|\\;]+");
         tokenList = new ArrayList();
     }
     public Lexer(Reader reader) {
         sc = new Scanner(reader);
+        sc.useDelimiter("[\\p{javaWhitespace}|\\;]+");
         tokenList = new ArrayList();
     }
     public List<Token> analyze() {
