@@ -119,6 +119,19 @@ class LexerTest {
     }
 
     @Test
+    public void testAssign() {
+        String assign = "x = 2 + 2";
+        List<Token> tokens = new Lexer(assign).analyze();
+        tokens.stream().forEach(e -> System.out.println(e.toString()));
+        Node node = new Parser(tokens).parseRoot()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        evaluator.eval();
+
+    }
+
+    @Test
     public void checkRegex() {
         String str = "2";
         String pattern = "\\d+";

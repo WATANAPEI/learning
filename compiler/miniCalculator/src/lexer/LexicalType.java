@@ -6,7 +6,8 @@ public enum LexicalType {
     MUL("*"),
     DIV("/"),
     COMMA(","),
-    SEMI_COLON(";");
+    SEMI_COLON(";"),
+    ASSIGN("=");
 
     String image;
 

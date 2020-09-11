@@ -17,4 +17,8 @@ public abstract class Token {
         return this.lexicalType;
     }
 
+    public String toString() {
+        return image + ": " + type.toString();
+    }
+
 }
