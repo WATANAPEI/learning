@@ -10,7 +10,8 @@ import java.util.Optional;
 
 /**
  * <Root> := {<Stmt>}
- * <Stmt> := <Term> { <+|-> <Term>} | <String>
+ * <Stmt> := <Expr> | <String> | <Word> <=> <Expr>
+ * <Expr> := <Term> { <+|-> <Term>}
  * <Term> := <Factor> { <*|/> <Factor>}
  * <Factor> := <Number>
  * @return
