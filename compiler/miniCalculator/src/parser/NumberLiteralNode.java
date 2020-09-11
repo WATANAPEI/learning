@@ -1,6 +1,8 @@
 package parser;
 
+import lexer.NullToken;
 import lexer.Token;
+import lexer.TokenType;
 
 import java.util.Map;
 import java.util.Optional;
@@ -8,8 +10,23 @@ import java.util.Optional;
 class NumberLiteralNode extends Node {
     Value val;
 
+    public NumberLiteralNode() {
+
+    }
+
     public NumberLiteralNode(Token token) {
         val = new NumValue(token.getImage());
+    }
+
+    public Optional<Node> checkNode(Parser parser) {
+        Token token = parser.peekNext().orElse(new NullToken());
+        if(token.tokenType() == TokenType.NUMBER) {
+            token = parser.getNext().orElseThrow();
+            return Optional.of(new NumberLiteralNode(token));
+        }else {
+            return Optional.empty();
+        }
+
     }
 
     @Override

@@ -17,9 +17,9 @@ import java.util.Optional;
  * @return
  */
 
-class StmtNode extends Node {
+class ExprNode extends Node {
 
-    public StmtNode() {
+    public ExprNode() {
     }
 
     public Optional<Node> checkNode(Parser parser) {
@@ -30,9 +30,6 @@ class StmtNode extends Node {
                 return Optional.of(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, new TermNode().checkNode(parser).orElseThrow()));
             }
             return Optional.of(lhsNode);
-        } else if(token.tokenType() == TokenType.STRING) {
-            token = parser.getNext().orElseThrow();
-            return Optional.of(new StringLiteralNode(token));
         } else {
             return Optional.empty();
         }

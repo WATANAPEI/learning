@@ -21,13 +21,7 @@ class FactorNode extends Node {
     }
 
     public Optional<Node> checkNode(Parser parser) {
-        Token token = parser.peekNext().orElse(new NullToken());
-        if(token.tokenType() == TokenType.NUMBER) {
-            token = parser.getNext().orElseThrow();
-            return Optional.of(new NumberLiteralNode(token));
-        }else {
-            return Optional.empty();
-        }
+        return new NumberLiteralNode().checkNode(parser);
     }
 
     @Override
