@@ -18,7 +18,7 @@ class LexerTest {
     public void testNumToken() {
         String numStr = "42";
         List<Token> tokens = new Lexer(numStr).analyze();
-        Node node = new Parser(tokens).parseRoot()
+        Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
@@ -31,7 +31,7 @@ class LexerTest {
         String strStr = "\"ufo\"";
         String symbolStr = "*";
         List<Token> tokens = new Lexer(strStr).analyze();
-        Node node = new Parser(tokens).parseRoot()
+        Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
@@ -43,7 +43,7 @@ class LexerTest {
     public void testRootNode() {
         String str = "\"ufo\" 42";
         List<Token> tokens = new Lexer(str).analyze();
-        Node node = new Parser(tokens).parseRoot()
+        Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
@@ -72,7 +72,7 @@ class LexerTest {
         assertEquals(TokenType.NUMBER, tokens.get(0).tokenType());
         assertEquals(TokenType.SINGLE_SYMBOL, tokens.get(1).tokenType());
         assertEquals(TokenType.NUMBER, tokens.get(2).tokenType());
-        Node node = new Parser(tokens).parseRoot()
+        Node node = new Parser(tokens).parse()
                 .orElseThrow();
         assertEquals(Optional.empty(), node.value()); //root node doesn't return value
         Node ast = new SemanticAnalyzer(node).check();
@@ -85,7 +85,7 @@ class LexerTest {
     public void testMulCalculation() {
         String symbolStr = "21 * 2";
         List<Token> tokens = new Lexer(symbolStr).analyze();
-        Node node = new Parser(tokens).parseRoot()
+        Node node = new Parser(tokens).parse()
                 .orElseThrow();
         assertEquals(Optional.empty(), node.value()); //root node doesn't return value
         Node ast = new SemanticAnalyzer(node).check();
@@ -97,7 +97,7 @@ class LexerTest {
     public void testZeroDivision() {
         String symbolStr = "21 / 0";
         List<Token> tokens = new Lexer(symbolStr).analyze();
-        Node node = new Parser(tokens).parseRoot()
+        Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
@@ -110,7 +110,7 @@ class LexerTest {
     public void testSemicolon() {
         String str = "\"word\"; 21";
         List<Token> tokens = new Lexer(str).analyze();
-        Node node = new Parser(tokens).parseRoot()
+        Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
@@ -118,12 +118,11 @@ class LexerTest {
 
     }
 
-    @Test
     public void testAssign() {
         String assign = "x = 2 + 2";
         List<Token> tokens = new Lexer(assign).analyze();
         tokens.stream().forEach(e -> System.out.println(e.toString()));
-        Node node = new Parser(tokens).parseRoot()
+        Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);

@@ -59,54 +59,15 @@ public class Parser {
      * <Factor> := <Number>
      * @return
      */
-    public Optional<Node> parseRoot() {
+    public Optional<Node> parse() {
         RootNode rootNode = new RootNode();
-        Optional<Node> node = parseStmt();
+        Optional<Node> node = new StmtNode().checkNode(this);
         rootNode.addChildNode(node.orElseThrow());
         while(itr.hasNext()) {
-            node = parseStmt();
+            node = new StmtNode().checkNode(this);
             rootNode.addChildNode(node.orElseThrow());
         }
         return Optional.ofNullable(rootNode);
     }
 
-    public Optional<Node> parseFactor() {
-        Token token = peekNext().orElse(new NullToken());
-        if(token.tokenType() == TokenType.NUMBER) {
-            token = getNext().orElseThrow();
-            return Optional.of(new NumberLiteralNode(token));
-        }else {
-            return Optional.empty();
-        }
-    }
-
-    public Optional<Node> parseTerm() {
-        Token token = peekNext().orElse(new NullToken());
-        if(token.tokenType() == TokenType.NUMBER) {
-            Node lhsNode = parseFactor().orElseThrow();
-            while(checkLexicalType(LexicalType.MUL) || checkLexicalType(LexicalType.DIV)) {
-                return Optional.of(new BinOpNode(getNext().orElseThrow(), lhsNode, parseFactor().orElseThrow()));
-            }
-            return Optional.of(lhsNode);
-        } else {
-            return Optional.empty();
-        }
-    }
-
-    public Optional<Node> parseStmt() {
-        Token token = peekNext().orElse(new NullToken());
-        if(token.tokenType() == TokenType.NUMBER) {
-            Node lhsNode = parseTerm().orElseThrow();
-            while(checkLexicalType(LexicalType.ADD) || checkLexicalType(LexicalType.SUB)) {
-                return Optional.of(new BinOpNode(getNext().orElseThrow(), lhsNode, parseTerm().orElseThrow()));
-            }
-            return Optional.of(lhsNode);
-        } else if(token.tokenType() == TokenType.STRING) {
-            token = getNext().orElseThrow();
-            return Optional.of(new StringLiteralNode(token));
-        } else {
-            return Optional.empty();
-        }
-
-    }
 }
