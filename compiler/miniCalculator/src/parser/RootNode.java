@@ -1,6 +1,9 @@
 package parser;
 
+import lexer.LexicalType;
+import lexer.NullToken;
 import lexer.Token;
+import lexer.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,17 @@ class RootNode extends Node {
     public void addChildNode(Node node) {
         this.nodes.add(node);
     }
+
+    public Optional<Node> checkNode(Parser parser) {
+        Optional<Node> node = new StmtNode().checkNode(parser);
+        addChildNode(node.orElseThrow());
+        while(parser.peekNext().isPresent()) {
+            node = new StmtNode().checkNode(parser);
+            addChildNode(node.orElseThrow());
+        }
+        return Optional.ofNullable(this);
+    }
+
 
     /**
      * rootNode doesn't return value.

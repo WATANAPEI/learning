@@ -61,13 +61,7 @@ public class Parser {
      * @return
      */
     public Optional<Node> parse() {
-        RootNode rootNode = new RootNode();
-        Optional<Node> node = new StmtNode().checkNode(this);
-        rootNode.addChildNode(node.orElseThrow());
-        while(itr.hasNext()) {
-            node = new StmtNode().checkNode(this);
-            rootNode.addChildNode(node.orElseThrow());
-        }
+        Node rootNode = new RootNode().checkNode(this).orElseThrow();
         return Optional.ofNullable(rootNode);
     }
 
