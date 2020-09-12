@@ -10,7 +10,8 @@ import java.util.Optional;
 
 /**
  * <Root> := {<Stmt>}
- * <Stmt> := <Expr> | <String> | <Word> <=> <Expr>
+ * <Stmt> := <Expr> | <String> | <Assign>
+ * <Assign> := <Word> <=> <Expr>
  * <Expr> := <Term> { <+|-> <Term>}
  * <Term> := <Factor> { <*|/> <Factor>}
  * <Factor> := <Number>
@@ -18,21 +19,30 @@ import java.util.Optional;
  */
 
 class StmtNode extends Node {
+    Node node;
 
     private StmtNode() {
     }
 
+    public void addChildNode(Node node) {
+        this.node = node;
+    }
+
     public static Optional<Node> checkNode(Parser parser) {
+        StmtNode stmtNode = new StmtNode();
         Token token = parser.peekNext().orElse(new NullToken());
         if(token.tokenType() == TokenType.NUMBER) {
             Node lhsNode = TermNode.checkNode(parser).orElseThrow();
             while(parser.checkLexicalType(LexicalType.ADD) || parser.checkLexicalType(LexicalType.SUB)) {
-                return Optional.of(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
+                stmtNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
+                return Optional.of(stmtNode);
             }
-            return Optional.of(lhsNode);
+            stmtNode.addChildNode(lhsNode);
+            return Optional.of(stmtNode);
         } else if(token.tokenType() == TokenType.STRING) {
             token = parser.getNext().orElseThrow();
-            return Optional.of(new StringLiteralNode(token));
+            stmtNode.addChildNode(new StringLiteralNode(token));
+            return Optional.of(stmtNode);
         } else {
             return Optional.empty();
         }
@@ -40,11 +50,11 @@ class StmtNode extends Node {
 
     @Override
     public Optional<Value> value() {
-        return Optional.empty();
+        return Optional.ofNullable(node.value().orElse(null));
     }
 
     @Override
     public void eval(Map symbolTable) {
-
+        node.eval(symbolTable);
     }
 }

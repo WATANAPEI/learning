@@ -18,18 +18,26 @@ import java.util.Optional;
  */
 
 class TermNode extends Node {
+    Node node;
 
     private TermNode() {
     }
 
+    public void addChildNode(Node node) {
+        this.node = node;
+    }
+
     public static Optional<Node> checkNode(Parser parser) {
+        TermNode termNode = new TermNode();
         Token token = parser.peekNext().orElse(new NullToken());
         if(token.tokenType() == TokenType.NUMBER) {
             Node lhsNode = FactorNode.checkNode(parser).orElseThrow();
             while(parser.checkLexicalType(LexicalType.MUL) || parser.checkLexicalType(LexicalType.DIV)) {
-                return Optional.of(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, FactorNode.checkNode(parser).orElseThrow()));
+                termNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, FactorNode.checkNode(parser).orElseThrow()));
+                return Optional.of(termNode);
             }
-            return Optional.of(lhsNode);
+            termNode.addChildNode(lhsNode);
+            return Optional.of(termNode);
         } else {
             return Optional.empty();
         }
@@ -37,11 +45,11 @@ class TermNode extends Node {
 
     @Override
     public Optional<Value> value() {
-        return Optional.empty();
+        return Optional.ofNullable(node.value().orElse(null));
     }
 
     @Override
     public void eval(Map symbolTable) {
-
+        node.eval(symbolTable);
     }
 }

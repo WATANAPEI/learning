@@ -16,15 +16,22 @@ import java.util.Optional;
  * @return
  */
 class FactorNode extends Node {
+    Node node;
 
     private FactorNode() {
     }
 
+    public void addChildNode(Node node) {
+        this.node = node;
+    }
+
     public static Optional<Node> checkNode(Parser parser) {
+        FactorNode factorNode = new FactorNode();
         Token token = parser.peekNext().orElse(new NullToken());
         if(token.tokenType() == TokenType.NUMBER) {
             token = parser.getNext().orElseThrow();
-            return Optional.of(new NumberLiteralNode(token));
+            factorNode.addChildNode(new NumberLiteralNode(token));
+            return Optional.of(factorNode);
         }else {
             return Optional.empty();
         }
@@ -32,11 +39,11 @@ class FactorNode extends Node {
 
     @Override
     public Optional<Value> value() {
-        return Optional.empty();
+        return Optional.ofNullable(node.value().orElse(null));
     }
 
     @Override
     public void eval(Map symbolTable) {
-
+        node.eval(symbolTable);
     }
 }
