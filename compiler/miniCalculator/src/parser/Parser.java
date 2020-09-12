@@ -61,7 +61,7 @@ public class Parser {
      * @return
      */
     public Optional<Node> parse() {
-        Node rootNode = new RootNode().checkNode(this).orElseThrow();
+        Node rootNode = RootNode.checkNode(this).orElseThrow();
         return Optional.ofNullable(rootNode);
     }
 

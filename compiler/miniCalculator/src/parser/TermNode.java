@@ -19,15 +19,15 @@ import java.util.Optional;
 
 class TermNode extends Node {
 
-    public TermNode() {
+    private TermNode() {
     }
 
-    public Optional<Node> checkNode(Parser parser) {
+    public static Optional<Node> checkNode(Parser parser) {
         Token token = parser.peekNext().orElse(new NullToken());
         if(token.tokenType() == TokenType.NUMBER) {
-            Node lhsNode = new FactorNode().checkNode(parser).orElseThrow();
+            Node lhsNode = FactorNode.checkNode(parser).orElseThrow();
             while(parser.checkLexicalType(LexicalType.MUL) || parser.checkLexicalType(LexicalType.DIV)) {
-                return Optional.of(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, new FactorNode().checkNode(parser).orElseThrow()));
+                return Optional.of(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, FactorNode.checkNode(parser).orElseThrow()));
             }
             return Optional.of(lhsNode);
         } else {

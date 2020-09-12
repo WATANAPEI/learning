@@ -1,10 +1,5 @@
 package parser;
 
-import lexer.LexicalType;
-import lexer.NullToken;
-import lexer.Token;
-import lexer.TokenType;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +8,7 @@ import java.util.Optional;
 class RootNode extends Node {
     private List<Node> nodes;
 
-    public RootNode() {
+    private RootNode() {
         nodes = new ArrayList();
     }
 
@@ -21,14 +16,15 @@ class RootNode extends Node {
         this.nodes.add(node);
     }
 
-    public Optional<Node> checkNode(Parser parser) {
-        Optional<Node> node = new StmtNode().checkNode(parser);
-        addChildNode(node.orElseThrow());
+    public static Optional<Node> checkNode(Parser parser) {
+        RootNode rootNode = new RootNode();
+        Optional<Node> node = StmtNode.checkNode(parser);
+        rootNode.addChildNode(node.orElseThrow());
         while(parser.peekNext().isPresent()) {
-            node = new StmtNode().checkNode(parser);
-            addChildNode(node.orElseThrow());
+            node = StmtNode.checkNode(parser);
+            rootNode.addChildNode(node.orElseThrow());
         }
-        return Optional.ofNullable(this);
+        return Optional.ofNullable(rootNode);
     }
 
 

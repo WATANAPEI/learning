@@ -17,10 +17,10 @@ import java.util.Optional;
  */
 class FactorNode extends Node {
 
-    public FactorNode() {
+    private FactorNode() {
     }
 
-    public Optional<Node> checkNode(Parser parser) {
+    public static Optional<Node> checkNode(Parser parser) {
         Token token = parser.peekNext().orElse(new NullToken());
         if(token.tokenType() == TokenType.NUMBER) {
             token = parser.getNext().orElseThrow();
