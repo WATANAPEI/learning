@@ -32,16 +32,16 @@ class StmtNode extends Node {
         StmtNode stmtNode = new StmtNode();
         Token token = parser.peekNext().orElse(new NullToken());
         if(token.tokenType() == TokenType.NUMBER) {
-            Node lhsNode = TermNode.checkNode(parser).orElseThrow();
-            while(parser.checkLexicalType(LexicalType.ADD) || parser.checkLexicalType(LexicalType.SUB)) {
-                stmtNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
-                return Optional.of(stmtNode);
-            }
-            stmtNode.addChildNode(lhsNode);
+            Node exprNode = ExprNode.checkNode(parser).orElseThrow();
+            stmtNode.addChildNode(exprNode);
             return Optional.of(stmtNode);
         } else if(token.tokenType() == TokenType.STRING) {
             token = parser.getNext().orElseThrow();
             stmtNode.addChildNode(new StringLiteralNode(token));
+            return Optional.of(stmtNode);
+        } else if(token.tokenType() == TokenType.WORD) {
+            Node assignNode = AssignNode.checkNode(parser).orElseThrow();
+            stmtNode.addChildNode(assignNode);
             return Optional.of(stmtNode);
         } else {
             return Optional.empty();
@@ -54,7 +54,7 @@ class StmtNode extends Node {
     }
 
     @Override
-    public void eval(Map symbolTable) {
+    public void eval(Map<String, Value> symbolTable) {
         node.eval(symbolTable);
     }
 }

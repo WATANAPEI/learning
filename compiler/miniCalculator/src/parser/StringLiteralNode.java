@@ -22,7 +22,7 @@ class StringLiteralNode extends Node {
     }
 
     @Override
-    public void eval(Map symbolTable) {
+    public void eval(Map<String, Value> symbolTable) {
         System.out.println(this.val.getSValue()
                 .orElse("This node has no value: " + this));
     }

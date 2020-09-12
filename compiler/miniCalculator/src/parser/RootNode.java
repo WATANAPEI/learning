@@ -38,7 +38,7 @@ class RootNode extends Node {
     }
 
     @Override
-    public void eval(Map symbolTable) {
+    public void eval(Map<String, Value> symbolTable) {
         // call eval() in each node
         nodes.stream()
                 .forEach(e -> e.eval(symbolTable));

@@ -49,7 +49,7 @@ class TermNode extends Node {
     }
 
     @Override
-    public void eval(Map symbolTable) {
+    public void eval(Map<String, Value> symbolTable) {
         node.eval(symbolTable);
     }
 }

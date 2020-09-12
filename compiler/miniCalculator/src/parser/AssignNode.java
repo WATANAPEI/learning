@@ -1,17 +1,58 @@
 package parser;
 
+import lexer.LexicalType;
+import lexer.NullToken;
 import lexer.Token;
+import lexer.TokenType;
 
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * <Root> := {<Stmt>}
+ * <Stmt> := <Expr> | <String> | <Assign>
+ * <Assign> := <Word> <=> <Expr>
+ * <Expr> := <Term> { <+|-> <Term>}
+ * <Term> := <Factor> { <*|/> <Factor>}
+ * <Factor> := <Number>
+ * @return
+ */
 class AssignNode extends Node {
     Node lhs;
     Node rhs;
 
-    public AssignNode(Node lhs, Node rhs) {
+    private AssignNode() {
+    }
+
+    private AssignNode(Node lhs, Node rhs) {
         this.lhs = lhs;
         this.rhs = rhs;
+    }
+
+    public void assignVarNode(Node node) {
+        this.lhs = node;
+    }
+
+    public void assignValueNode(Node node) {
+        this.rhs = node;
+    }
+
+    public static Optional<Node> checkNode(Parser parser) {
+        AssignNode assignNode = new AssignNode();
+        Token token = parser.peekNext().orElse(new NullToken());
+        if(token.tokenType() == TokenType.WORD) {
+            Node varNode = WordNode.checkNode(parser).orElseThrow();
+            assignNode.assignVarNode(varNode);
+            if(parser.checkLexicalType(LexicalType.ASSIGN)) {
+                parser.getNext();
+                assignNode.assignValueNode(ExprNode.checkNode(parser).orElseThrow());
+                return Optional.ofNullable(assignNode);
+            } else {
+                return Optional.empty();
+            }
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -20,8 +61,8 @@ class AssignNode extends Node {
     }
 
     @Override
-    public void eval(Map symbolTable) {
-
-
+    public void eval(Map<String, Value> symbolTable) {
+        symbolTable.put(lhs.value().orElseThrow().getSValue().orElseThrow(),
+                rhs.value().orElse(null));
     }
 }

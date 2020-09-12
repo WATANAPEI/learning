@@ -37,7 +37,7 @@ public class BinOpNode extends Node{
     }
 
     @Override
-    public void eval(Map symbolTable) {
+    public void eval(Map<String, Value> symbolTable) {
         value().ifPresent(e -> System.out.println(e.getIValue().orElseThrow()));
 
     }

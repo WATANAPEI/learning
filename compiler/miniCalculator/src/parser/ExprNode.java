@@ -10,7 +10,8 @@ import java.util.Optional;
 
 /**
  * <Root> := {<Stmt>}
- * <Stmt> := <Expr> | <String> | <Word> <=> <Expr>
+ * <Stmt> := <Expr> | <String> | <Assign>
+ * <Assign> := <Word> <=> <Expr>
  * <Expr> := <Term> { <+|-> <Term>}
  * <Term> := <Factor> { <*|/> <Factor>}
  * <Factor> := <Number>
@@ -18,18 +19,31 @@ import java.util.Optional;
  */
 
 class ExprNode extends Node {
+    Node node;
 
     private ExprNode() {
     }
 
+    public void addChildNode(Node node) {
+        this.node = node;
+    }
+
     public static Optional<Node> checkNode(Parser parser) {
+        ExprNode stmtNode = new ExprNode();
         Token token = parser.peekNext().orElse(new NullToken());
+        //TODO: delegate BinOpNode.checkNode
         if(token.tokenType() == TokenType.NUMBER) {
             Node lhsNode = TermNode.checkNode(parser).orElseThrow();
             while(parser.checkLexicalType(LexicalType.ADD) || parser.checkLexicalType(LexicalType.SUB)) {
-                return Optional.of(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
+                stmtNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
+                return Optional.of(stmtNode);
             }
-            return Optional.of(lhsNode);
+            stmtNode.addChildNode(lhsNode);
+            return Optional.of(stmtNode);
+        } else if(token.tokenType() == TokenType.STRING) {
+            token = parser.getNext().orElseThrow();
+            stmtNode.addChildNode(new StringLiteralNode(token));
+            return Optional.of(stmtNode);
         } else {
             return Optional.empty();
         }
@@ -37,11 +51,11 @@ class ExprNode extends Node {
 
     @Override
     public Optional<Value> value() {
-        return Optional.empty();
+        return Optional.ofNullable(node.value().orElse(null));
     }
 
     @Override
-    public void eval(Map symbolTable) {
-
+    public void eval(Map<String, Value> symbolTable) {
+        node.eval(symbolTable);
     }
 }

@@ -118,8 +118,9 @@ class LexerTest {
 
     }
 
+    @Test
     public void testAssign() {
-        String assign = "x = 2 + 2";
+        String assign = "x = 2 + 2; x";
         List<Token> tokens = new Lexer(assign).analyze();
         tokens.stream().forEach(e -> System.out.println(e.toString()));
         Node node = new Parser(tokens).parse()
