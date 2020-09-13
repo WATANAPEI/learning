@@ -42,13 +42,14 @@ class AssignNode extends Node {
         Token token = parser.peekNext().orElse(new NullToken());
         if(token.tokenType() == TokenType.WORD) {
             Node varNode = WordNode.checkNode(parser).orElseThrow();
-            assignNode.assignVarNode(varNode);
             if(parser.checkLexicalType(LexicalType.ASSIGN)) {
+                assignNode.assignVarNode(varNode);
                 parser.getNext();
                 assignNode.assignValueNode(ExprNode.checkNode(parser).orElseThrow());
                 return Optional.ofNullable(assignNode);
             } else {
-                return Optional.empty();
+                WordNode wordNode = new WordNode(token);
+                return Optional.ofNullable(wordNode);
             }
         } else {
             return Optional.empty();

@@ -119,7 +119,7 @@ class LexerTest {
     }
 
     @Test
-    public void testAssign() {
+    public void testAssignAdd() {
         String assign = "x = 2 + 2; x";
         List<Token> tokens = new Lexer(assign).analyze();
         tokens.stream().forEach(e -> System.out.println(e.toString()));

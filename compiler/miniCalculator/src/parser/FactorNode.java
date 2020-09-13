@@ -10,9 +10,11 @@ import java.util.Optional;
 
 /**
  * <Root> := {<Stmt>}
- * <Stmt> := <Term> { <+|-> <Term>} | <String>
+ * <Stmt> := <Expr> | <String> | <Assign>
+ * <Assign> := <Word> <=> <Expr>
+ * <Expr> := <Term> { <+|-> <Term>}
  * <Term> := <Factor> { <*|/> <Factor>}
- * <Factor> := <Number>
+ * <Factor> := <Number> | <Word>
  * @return
  */
 class FactorNode extends Node {
@@ -31,6 +33,9 @@ class FactorNode extends Node {
         if(token.tokenType() == TokenType.NUMBER) {
             token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new NumberLiteralNode(token));
+            return Optional.of(factorNode);
+        }else if(token.tokenType() == TokenType.WORD){
+            factorNode.addChildNode(new WordNode(token));
             return Optional.of(factorNode);
         }else {
             return Optional.empty();
