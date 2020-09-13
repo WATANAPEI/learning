@@ -9,6 +9,7 @@ import semanticAnalyzer.SemanticAnalyzer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.image.TileObserver;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,6 +122,18 @@ class LexerTest {
     @Test
     public void testAssignAdd() {
         String assign = "x = 2 + 2; x";
+        List<Token> tokens = new Lexer(assign).analyze();
+        tokens.stream().forEach(e -> System.out.println(e.toString()));
+        Node node = new Parser(tokens).parse()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        evaluator.eval();
+
+    }
+    @Test
+    public void testAssignMul() {
+        String assign = "y = 4 * 3; y";
         List<Token> tokens = new Lexer(assign).analyze();
         tokens.stream().forEach(e -> System.out.println(e.toString()));
         Node node = new Parser(tokens).parse()
