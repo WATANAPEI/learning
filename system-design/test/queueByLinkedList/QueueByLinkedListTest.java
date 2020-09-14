@@ -65,5 +65,16 @@ class QueueByLinkedListTest {
         assertEquals(4, l.last());
     }
 
+    @Test
+    public void testGetLastKth() {
+        MyLinkedList<Integer> l = new MyLinkedList<>();
+        l.append(2);
+        l.append(3);
+        l.append(6);
+        l.append(5);
+        assertEquals(6, l.lastKth(2));
+
+    }
+
 
 }

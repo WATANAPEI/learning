@@ -13,6 +13,10 @@ public class MyLinkedList<T> {
         return this.size;
     }
 
+    public T lastKth(int index) {
+        return get(size - index);
+    }
+
     public void append(T e) {
         ListElement l = last;
         ListElement newElement = new ListElement(e, last, null);
