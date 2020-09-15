@@ -38,9 +38,16 @@ class RootNode extends Node {
     }
 
     @Override
-    public void eval(Map<String, Value> symbolTable) {
+    public Optional<String> eval(Map<String, Value> symbolTable) {
         // call eval() in each node
-        nodes.stream()
-                .forEach(e -> e.eval(symbolTable));
+        StringBuilder sb = new StringBuilder();
+        for(Node node: nodes) {
+            if(sb.length() != 0) {
+                sb.append("\n");
+            }
+            sb.append(node.eval(symbolTable)
+                    .orElse(""));
+        }
+        return Optional.ofNullable(sb.toString());
     }
 }

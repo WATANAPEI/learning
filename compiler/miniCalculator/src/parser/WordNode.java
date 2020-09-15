@@ -43,10 +43,8 @@ class WordNode extends Node {
     }
 
     @Override
-    public void eval(Map<String, Value> symbolTable) {
+    public Optional<String> eval(Map<String, Value> symbolTable) {
         Value value = symbolTable.get(value().orElseThrow().getSValue().orElse(null));
-        System.out.println(value.getSValue()
-                .orElse("This variable doesn't have value."));
-
+        return value.getSValue();
     }
 }

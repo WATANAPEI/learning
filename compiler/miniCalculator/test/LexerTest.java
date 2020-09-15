@@ -9,7 +9,6 @@ import semanticAnalyzer.SemanticAnalyzer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.awt.image.TileObserver;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,20 +22,19 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        evaluator.eval();
+        assertTrue(evaluator.eval().equals("42"));
 
     }
 
     @Test
     public void testStrToken() {
         String strStr = "\"ufo\"";
-        String symbolStr = "*";
         List<Token> tokens = new Lexer(strStr).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        evaluator.eval();
+        assertTrue(evaluator.eval().equals("ufo"));
 
     }
 
@@ -48,7 +46,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        evaluator.eval();
+        assertTrue(evaluator.eval().equals("ufo\n42"));
 
     }
 
@@ -78,7 +76,7 @@ class LexerTest {
         assertEquals(Optional.empty(), node.value()); //root node doesn't return value
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        evaluator.eval();
+        assertTrue(evaluator.eval().equals("5"));
 
     }
 
@@ -91,7 +89,7 @@ class LexerTest {
         assertEquals(Optional.empty(), node.value()); //root node doesn't return value
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        evaluator.eval();
+        assertTrue(evaluator.eval().equals("42"));
     }
 
     @Test
@@ -115,7 +113,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        evaluator.eval();
+        assertTrue(evaluator.eval().equals("word\n21"));
 
     }
 
@@ -123,25 +121,34 @@ class LexerTest {
     public void testAssignAdd() {
         String assign = "x = 2 + 2; x";
         List<Token> tokens = new Lexer(assign).analyze();
-        tokens.stream().forEach(e -> System.out.println(e.toString()));
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        evaluator.eval();
+        assertTrue(evaluator.eval().equals("4"));
 
     }
     @Test
     public void testAssignMul() {
         String assign = "y = 4 * 3; y";
         List<Token> tokens = new Lexer(assign).analyze();
-        tokens.stream().forEach(e -> System.out.println(e.toString()));
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        evaluator.eval();
+        assertTrue(evaluator.eval().equals("12"));
 
+    }
+
+    @Test
+    public void testCalcOrder() {
+        String assign = "y = 6 + 4 * 3; y";
+        List<Token> tokens = new Lexer(assign).analyze();
+        Node node = new Parser(tokens).parse()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        assertTrue(evaluator.eval().equals("18"));
     }
 
     @Test

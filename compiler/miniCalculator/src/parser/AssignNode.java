@@ -62,8 +62,9 @@ class AssignNode extends Node {
     }
 
     @Override
-    public void eval(Map<String, Value> symbolTable) {
+    public Optional<String> eval(Map<String, Value> symbolTable) {
         symbolTable.put(lhs.value().orElseThrow().getSValue().orElseThrow(),
                 rhs.value().orElse(null));
+        return Optional.empty();
     }
 }

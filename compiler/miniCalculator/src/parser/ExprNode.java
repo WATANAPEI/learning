@@ -55,7 +55,7 @@ class ExprNode extends Node {
     }
 
     @Override
-    public void eval(Map<String, Value> symbolTable) {
-        node.eval(symbolTable);
+    public Optional<String> eval(Map<String, Value> symbolTable) {
+        return node.eval(symbolTable);
     }
 }

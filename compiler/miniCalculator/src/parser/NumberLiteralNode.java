@@ -21,8 +21,7 @@ class NumberLiteralNode extends Node {
     }
 
     @Override
-    public void eval(Map<String, Value> symbolTable) {
-        System.out.println(this.val.getIValue().orElse(null));
-
+    public Optional<String> eval(Map<String, Value> symbolTable) {
+        return val.getSValue();
     }
 }

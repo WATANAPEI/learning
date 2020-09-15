@@ -15,8 +15,9 @@ public class Evaluator {
         this.symbolTable = new HashMap<>();
     }
 
-    public void eval() {
+    public String eval() {
         // evaluate each node here
-        ast.eval(symbolTable);
+        return ast.eval(symbolTable)
+                .orElse("This node has no value.");
     }
 }
