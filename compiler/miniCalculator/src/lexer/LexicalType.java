@@ -7,7 +7,9 @@ public enum LexicalType {
     DIV("/"),
     COMMA(","),
     SEMI_COLON(";"),
-    ASSIGN("=");
+    ASSIGN("="),
+    OPEN_BRA("("),
+    CLOSE_BRA(")");
 
     String image;
 

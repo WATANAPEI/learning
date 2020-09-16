@@ -1,22 +1,7 @@
 package parser;
 
-import lexer.LexicalType;
-import lexer.NullToken;
-import lexer.Token;
-import lexer.TokenType;
-
 import java.util.Map;
 import java.util.Optional;
-
-/**
- * <Root> := {<Stmt>}
- * <Stmt> := <Expr> | <String> | <Assign>
- * <Assign> := <Word> <=> <Expr>
- * <Expr> := <Term> { <+|-> <Term>}
- * <Term> := <Factor> { <*|/> <Factor>}
- * <Factor> := <Number> | <Word>
- * @return
- */
 
 class StmtNode extends Node {
     Node node;
@@ -30,21 +15,24 @@ class StmtNode extends Node {
 
     public static Optional<Node> checkNode(Parser parser) {
         StmtNode stmtNode = new StmtNode();
-        Token token = parser.peekNext().orElse(new NullToken());
-        if(token.tokenType() == TokenType.NUMBER) {
-            Node exprNode = ExprNode.checkNode(parser).orElseThrow();
+        Node exprNode = ExprNode.checkNode(parser).orElse(null);
+        if(exprNode != null) {
             stmtNode.addChildNode(exprNode);
             return Optional.of(stmtNode);
-        } else if(token.tokenType() == TokenType.STRING) {
-            token = parser.getNext().orElseThrow();
-            stmtNode.addChildNode(new StringLiteralNode(token));
-            return Optional.of(stmtNode);
-        } else if(token.tokenType() == TokenType.WORD) {
-            Node assignNode = AssignNode.checkNode(parser).orElseThrow();
-            stmtNode.addChildNode(assignNode);
-            return Optional.of(stmtNode);
         } else {
-            return Optional.empty();
+            Node assignNode = AssignNode.checkNode(parser).orElse(null);
+            if(assignNode != null) {
+                stmtNode.addChildNode(assignNode);
+                return Optional.of(stmtNode);
+            } else {
+                Node strNode = StringLiteralNode.checkNode(parser).orElse(null);
+                if(strNode != null) {
+                    stmtNode.addChildNode(strNode);
+                    return Optional.of(stmtNode);
+                } else {
+                    return Optional.empty();
+                }
+            }
         }
     }
 

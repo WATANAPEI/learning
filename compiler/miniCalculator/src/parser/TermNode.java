@@ -8,15 +8,6 @@ import lexer.TokenType;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * <Root> := {<Stmt>}
- * <Stmt> := <Expr> | <String> | <Word> <=> <Expr>
- * <Expr> := <Term> { <+|-> <Term>}
- * <Term> := <Factor> { <*|/> <Factor>}
- * <Factor> := <Number>
- * @return
- */
-
 class TermNode extends Node {
     Node node;
 

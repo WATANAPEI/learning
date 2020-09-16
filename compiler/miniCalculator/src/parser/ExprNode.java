@@ -1,22 +1,9 @@
 package parser;
 
 import lexer.LexicalType;
-import lexer.NullToken;
-import lexer.Token;
-import lexer.TokenType;
 
 import java.util.Map;
 import java.util.Optional;
-
-/**
- * <Root> := {<Stmt>}
- * <Stmt> := <Expr> | <String> | <Assign>
- * <Assign> := <Word> <=> <Expr>
- * <Expr> := <Term> { <+|-> <Term>}
- * <Term> := <Factor> { <*|/> <Factor>}
- * <Factor> := <Number>
- * @return
- */
 
 class ExprNode extends Node {
     Node node;
@@ -29,24 +16,18 @@ class ExprNode extends Node {
     }
 
     public static Optional<Node> checkNode(Parser parser) {
-        ExprNode stmtNode = new ExprNode();
-        Token token = parser.peekNext().orElse(new NullToken());
+        ExprNode exprNode = new ExprNode();
         //TODO: delegate BinOpNode.checkNode
-        if(token.tokenType() == TokenType.NUMBER) {
-            Node lhsNode = TermNode.checkNode(parser).orElseThrow();
+        Node lhsNode = TermNode.checkNode(parser).orElse(null);
+        if(lhsNode != null) {
             while(parser.checkLexicalType(LexicalType.ADD) || parser.checkLexicalType(LexicalType.SUB)) {
-                stmtNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
-                return Optional.of(stmtNode);
+                exprNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
+                return Optional.of(exprNode);
             }
-            stmtNode.addChildNode(lhsNode);
-            return Optional.of(stmtNode);
-        } else if(token.tokenType() == TokenType.STRING) {
-            token = parser.getNext().orElseThrow();
-            stmtNode.addChildNode(new StringLiteralNode(token));
-            return Optional.of(stmtNode);
-        } else {
-            return Optional.empty();
+            exprNode.addChildNode(lhsNode);
+            return Optional.of(exprNode);
         }
+        return Optional.empty();
     }
 
     @Override

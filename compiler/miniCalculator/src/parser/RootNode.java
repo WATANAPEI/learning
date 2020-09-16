@@ -5,6 +5,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * <Root> := {<Stmt>}
+ * <Stmt> := <Expr> | <String> | <Assign>
+ * <Assign> := <Word> <=> <Expr>
+ * <Expr> := <Term> { <+|-> <Term>}
+ * <Term> := <Factor> { <*|/> <Factor>}
+ * <Factor> := <(> <Number> | <Word> | <Expr> <)>
+ * @return
+ */
+
 class RootNode extends Node {
     private List<Node> nodes;
 

@@ -1,8 +1,6 @@
 package parser;
 
-import lexer.NullToken;
 import lexer.Token;
-import lexer.TokenType;
 
 import java.util.Map;
 import java.util.Optional;
