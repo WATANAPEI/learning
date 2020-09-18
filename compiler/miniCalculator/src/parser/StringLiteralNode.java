@@ -1,6 +1,7 @@
 package parser;
 
 import lexer.Token;
+import lexer.TokenType;
 
 import java.util.Map;
 import java.util.Optional;
@@ -12,8 +13,16 @@ class StringLiteralNode extends Node {
         val = new StringValue(token.getImage());
     }
 
-    /**
-     * Node: Value wraps optional values(String, Integer, Boolean)
+    public static Optional<Node> checkNode(Parser parser) {
+        Token token = parser.getNext().orElseThrow();
+        if (token.tokenType() == TokenType.STRING) {
+            return Optional.of(new StringLiteralNode(token));
+        }
+        return Optional.empty();
+    }
+
+        /**
+         * Node: Value wraps optional values(String, Integer, Boolean)
      * @return
      */
     @Override

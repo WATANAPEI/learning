@@ -152,6 +152,17 @@ class LexerTest {
     }
 
     @Test
+    public void testBracket() {
+        String assign = "y = ( 6 + 4 ) * 3; y";
+        List<Token> tokens = new Lexer(assign).analyze();
+        Node node = new Parser(tokens).parse()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        assertTrue(evaluator.eval().equals("30"));
+    }
+
+    @Test
     public void checkRegex() {
         String str = "2";
         String pattern = "\\d+";
