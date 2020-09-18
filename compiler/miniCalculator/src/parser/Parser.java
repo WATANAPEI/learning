@@ -39,6 +39,16 @@ public class Parser {
         return false;
     }
 
+    public boolean consume(LexicalType type) {
+        if(checkLexicalType(type)) {
+            Token token = getNext().orElseThrow(); // just eat token
+            if(token.lexicalType() == type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Optional<Token> getNext() {
         if(next != null) {
             Token result = next;

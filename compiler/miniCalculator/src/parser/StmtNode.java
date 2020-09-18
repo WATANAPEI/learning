@@ -14,7 +14,7 @@ import java.util.Optional;
  * <Assign> := <Word> <=> <Expr>
  * <Expr> := <Term> { <+|-> <Term>}
  * <Term> := <Factor> { <*|/> <Factor>}
- * <Factor> := <Number> | <Word>
+ * <Factor> := <(> <Expression> <)>
  * @return
  */
 

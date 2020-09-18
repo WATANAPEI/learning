@@ -44,6 +44,19 @@ class ExprNode extends Node {
             token = parser.getNext().orElseThrow();
             stmtNode.addChildNode(new StringLiteralNode(token));
             return Optional.of(stmtNode);
+        } else if(token.tokenType() == TokenType.SINGLE_SYMBOL){
+            if(parser.checkLexicalType(LexicalType.OPEN_BRA)) {
+                Node lhsNode = TermNode.checkNode(parser).orElseThrow();
+                while(parser.checkLexicalType(LexicalType.ADD) || parser.checkLexicalType(LexicalType.SUB)) {
+                    stmtNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
+                    return Optional.of(stmtNode);
+                }
+                stmtNode.addChildNode(lhsNode);
+                return Optional.of(stmtNode);
+            }
+            else {
+                throw new IllegalStateException("No Open Bracket.");
+            }
         } else {
             return Optional.empty();
         }

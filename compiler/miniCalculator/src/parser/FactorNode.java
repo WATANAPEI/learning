@@ -14,7 +14,7 @@ import java.util.Optional;
  * <Assign> := <Word> <=> <Expr>
  * <Expr> := <Term> { <+|-> <Term>}
  * <Term> := <Factor> { <*|/> <Factor>}
- * <Factor> := <Number> | <Word>
+ * <Factor> := <(> <Number> | <Word> | <Expression> <)>
  * @return
  */
 class FactorNode extends Node {
@@ -30,6 +30,9 @@ class FactorNode extends Node {
     public static Optional<Node> checkNode(Parser parser) {
         FactorNode factorNode = new FactorNode();
         Token token = parser.peekNext().orElse(new NullToken());
+        if(token.tokenType() == TokenType.SINGLE_SYMBOL) {
+
+        }
         if(token.tokenType() == TokenType.NUMBER) {
             token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new NumberLiteralNode(token));
