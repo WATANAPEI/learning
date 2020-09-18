@@ -30,8 +30,19 @@ class FactorNode extends Node {
     public static Optional<Node> checkNode(Parser parser) {
         FactorNode factorNode = new FactorNode();
         Token token = parser.peekNext().orElse(new NullToken());
-        if(token.tokenType() == TokenType.SINGLE_SYMBOL) {
-
+        if(token.tokenType() == TokenType.SINGLE_SYMBOL
+                && parser.checkLexicalType(LexicalType.OPEN_BRA)) {
+            parser.consume(LexicalType.OPEN_BRA);
+            token = parser.peekNext().orElse(new NullToken());
+            if(token.tokenType() == TokenType.NUMBER) {
+            }else {
+                throw new IllegalStateException("Invalid syntax.");
+            }
+            if(token.tokenType() == TokenType.SINGLE_SYMBOL
+                    && parser.checkLexicalType(LexicalType.CLOSE_BRA)) {
+                parser.consume(LexicalType.CLOSE_BRA);
+                return Optional.ofNullable(factorNode);
+            }
         }
         if(token.tokenType() == TokenType.NUMBER) {
             token = parser.getNext().orElseThrow();
@@ -41,7 +52,7 @@ class FactorNode extends Node {
             factorNode.addChildNode(new WordNode(token));
             return Optional.of(factorNode);
         }else {
-            return Optional.empty();
+            throw new IllegalStateException("Invalid syntax.");
         }
     }
 

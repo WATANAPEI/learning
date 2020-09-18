@@ -29,9 +29,18 @@ class TermNode extends Node {
             }
             termNode.addChildNode(lhsNode);
             return Optional.of(termNode);
-        } else {
-            return Optional.empty();
+        } else if (token.tokenType() == TokenType.SINGLE_SYMBOL) {
+            if (parser.checkLexicalType(LexicalType.OPEN_BRA)) {
+                Node lhsNode = FactorNode.checkNode(parser).orElseThrow();
+                while (parser.checkLexicalType(LexicalType.MUL) || parser.checkLexicalType(LexicalType.DIV)) {
+                    termNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, FactorNode.checkNode(parser).orElseThrow()));
+                    return Optional.of(termNode);
+                }
+                termNode.addChildNode(lhsNode);
+                return Optional.of(termNode);
+            }
         }
+        throw new IllegalStateException("Invalid syntax.");
     }
 
     @Override

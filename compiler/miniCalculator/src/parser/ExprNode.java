@@ -40,10 +40,6 @@ class ExprNode extends Node {
             }
             stmtNode.addChildNode(lhsNode);
             return Optional.of(stmtNode);
-        } else if(token.tokenType() == TokenType.STRING) {
-            token = parser.getNext().orElseThrow();
-            stmtNode.addChildNode(new StringLiteralNode(token));
-            return Optional.of(stmtNode);
         } else if(token.tokenType() == TokenType.SINGLE_SYMBOL){
             if(parser.checkLexicalType(LexicalType.OPEN_BRA)) {
                 Node lhsNode = TermNode.checkNode(parser).orElseThrow();
@@ -54,12 +50,8 @@ class ExprNode extends Node {
                 stmtNode.addChildNode(lhsNode);
                 return Optional.of(stmtNode);
             }
-            else {
-                throw new IllegalStateException("No Open Bracket.");
-            }
-        } else {
-            return Optional.empty();
         }
+        throw new IllegalStateException("Invalid syntax.");
     }
 
     @Override
