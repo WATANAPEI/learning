@@ -33,15 +33,13 @@ class FactorNode extends Node {
         if(token.tokenType() == TokenType.SINGLE_SYMBOL
                 && parser.checkLexicalType(LexicalType.OPEN_BRA)) {
             parser.consume(LexicalType.OPEN_BRA);
-            token = parser.peekNext().orElse(new NullToken());
-            if(token.tokenType() == TokenType.NUMBER) {
-            }else {
-                throw new IllegalStateException("Invalid syntax.");
-            }
+            Node exprNode = ExprNode.checkNode(parser).orElse(null);
             if(token.tokenType() == TokenType.SINGLE_SYMBOL
                     && parser.checkLexicalType(LexicalType.CLOSE_BRA)) {
                 parser.consume(LexicalType.CLOSE_BRA);
-                return Optional.ofNullable(factorNode);
+                return Optional.ofNullable(exprNode);
+            } else {
+                throw new IllegalStateException("No closing bracket.");
             }
         }
         if(token.tokenType() == TokenType.NUMBER) {

@@ -33,9 +33,11 @@ class BracketNode extends Node {
 
     public static Optional<Node> checkNode(Parser parser) {
         BracketNode bracketNode = new BracketNode();
-        if(parser.checkLexicalType(LexicalType.OPEN_BRA)) {
+        Token token = parser.peekNext().orElse(new NullToken());
+        if(token.tokenType() == TokenType.SINGLE_SYMBOL
+                && parser.checkLexicalType(LexicalType.OPEN_BRA)) {
             parser.consume(LexicalType.OPEN_BRA);
-            Node node = ExprNode.checkNode(parser).orElse(null);
+            Node node = FactorNode.checkNode(parser).orElse(null);
             bracketNode.addChild(node);
             if(parser.checkLexicalType(LexicalType.CLOSE_BRA)) {
                 parser.consume(LexicalType.CLOSE_BRA);
@@ -44,9 +46,7 @@ class BracketNode extends Node {
                 throw new IllegalStateException("No closing bracket.");
             }
         }
-        Node node = ExprNode.checkNode(parser).orElse(null);
-        bracketNode.addChild(node);
-        return Optional.ofNullable(bracketNode);
+        return Optional.empty();
     }
 
     @Override

@@ -30,28 +30,13 @@ class ExprNode extends Node {
 
     public static Optional<Node> checkNode(Parser parser) {
         ExprNode stmtNode = new ExprNode();
-        Token token = parser.peekNext().orElse(new NullToken());
-        //TODO: delegate BinOpNode.checkNode
-        if(token.tokenType() == TokenType.NUMBER) {
-            Node lhsNode = TermNode.checkNode(parser).orElseThrow();
-            while(parser.checkLexicalType(LexicalType.ADD) || parser.checkLexicalType(LexicalType.SUB)) {
-                stmtNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
-                return Optional.of(stmtNode);
-            }
-            stmtNode.addChildNode(lhsNode);
+        Node lhsNode = TermNode.checkNode(parser).orElseThrow();
+        while(parser.checkLexicalType(LexicalType.ADD) || parser.checkLexicalType(LexicalType.SUB)) {
+            stmtNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
             return Optional.of(stmtNode);
-        } else if(token.tokenType() == TokenType.SINGLE_SYMBOL){
-            if(parser.checkLexicalType(LexicalType.OPEN_BRA)) {
-                Node lhsNode = TermNode.checkNode(parser).orElseThrow();
-                while(parser.checkLexicalType(LexicalType.ADD) || parser.checkLexicalType(LexicalType.SUB)) {
-                    stmtNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
-                    return Optional.of(stmtNode);
-                }
-                stmtNode.addChildNode(lhsNode);
-                return Optional.of(stmtNode);
-            }
         }
-        throw new IllegalStateException("Invalid syntax.");
+        stmtNode.addChildNode(lhsNode);
+        return Optional.of(stmtNode);
     }
 
     @Override

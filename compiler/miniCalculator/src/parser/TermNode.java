@@ -20,27 +20,13 @@ class TermNode extends Node {
 
     public static Optional<Node> checkNode(Parser parser) {
         TermNode termNode = new TermNode();
-        Token token = parser.peekNext().orElse(new NullToken());
-        if(token.tokenType() == TokenType.NUMBER) {
-            Node lhsNode = FactorNode.checkNode(parser).orElseThrow();
-            while(parser.checkLexicalType(LexicalType.MUL) || parser.checkLexicalType(LexicalType.DIV)) {
-                termNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, FactorNode.checkNode(parser).orElseThrow()));
-                return Optional.of(termNode);
-            }
-            termNode.addChildNode(lhsNode);
+        Node lhsNode = FactorNode.checkNode(parser).orElseThrow();
+        while(parser.checkLexicalType(LexicalType.MUL) || parser.checkLexicalType(LexicalType.DIV)) {
+            termNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, FactorNode.checkNode(parser).orElseThrow()));
             return Optional.of(termNode);
-        } else if (token.tokenType() == TokenType.SINGLE_SYMBOL) {
-            if (parser.checkLexicalType(LexicalType.OPEN_BRA)) {
-                Node lhsNode = FactorNode.checkNode(parser).orElseThrow();
-                while (parser.checkLexicalType(LexicalType.MUL) || parser.checkLexicalType(LexicalType.DIV)) {
-                    termNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, FactorNode.checkNode(parser).orElseThrow()));
-                    return Optional.of(termNode);
-                }
-                termNode.addChildNode(lhsNode);
-                return Optional.of(termNode);
-            }
         }
-        throw new IllegalStateException("Invalid syntax.");
+        termNode.addChildNode(lhsNode);
+        return Optional.of(termNode);
     }
 
     @Override
