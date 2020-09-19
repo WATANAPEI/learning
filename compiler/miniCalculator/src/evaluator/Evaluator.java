@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Evaluator {
     Node ast;
-    Map<String, Value> symbolTable;
+    Map<String, String> symbolTable;
 
     public Evaluator(Node ast) {
         this.ast = ast;

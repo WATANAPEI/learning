@@ -29,14 +29,14 @@ class ExprNode extends Node {
     }
 
     public static Optional<Node> checkNode(Parser parser) {
-        ExprNode stmtNode = new ExprNode();
+        ExprNode exprNode = new ExprNode();
         Node lhsNode = TermNode.checkNode(parser).orElseThrow();
         while(parser.checkLexicalType(LexicalType.ADD) || parser.checkLexicalType(LexicalType.SUB)) {
-            stmtNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
-            return Optional.of(stmtNode);
+            exprNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
+            return Optional.of(exprNode);
         }
-        stmtNode.addChildNode(lhsNode);
-        return Optional.of(stmtNode);
+        exprNode.addChildNode(lhsNode);
+        return Optional.of(exprNode);
     }
 
     @Override
@@ -45,7 +45,7 @@ class ExprNode extends Node {
     }
 
     @Override
-    public Optional<String> eval(Map<String, Value> symbolTable) {
+    public Optional<String> eval(Map<String, String> symbolTable) {
         return node.eval(symbolTable);
     }
 }

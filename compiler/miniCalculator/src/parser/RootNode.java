@@ -48,7 +48,7 @@ class RootNode extends Node {
     }
 
     @Override
-    public Optional<String> eval(Map<String, Value> symbolTable) {
+    public Optional<String> eval(Map<String, String> symbolTable) {
         // call eval() in each node
         StringBuilder sb = new StringBuilder();
         for(Node node: nodes) {

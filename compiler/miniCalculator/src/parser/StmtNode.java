@@ -54,7 +54,7 @@ class StmtNode extends Node {
     }
 
     @Override
-    public Optional<String> eval(Map<String, Value> symbolTable) {
+    public Optional<String> eval(Map<String, String> symbolTable) {
         return node.eval(symbolTable);
     }
 }

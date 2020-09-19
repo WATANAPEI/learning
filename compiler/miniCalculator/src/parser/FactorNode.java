@@ -47,6 +47,7 @@ class FactorNode extends Node {
             factorNode.addChildNode(new NumberLiteralNode(token));
             return Optional.of(factorNode);
         }else if(token.tokenType() == TokenType.WORD){
+            token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new WordNode(token));
             return Optional.of(factorNode);
         }else {
@@ -60,7 +61,7 @@ class FactorNode extends Node {
     }
 
     @Override
-    public Optional<String> eval(Map<String, Value> symbolTable) {
+    public Optional<String> eval(Map<String, String> symbolTable) {
         return node.eval(symbolTable);
     }
 }
