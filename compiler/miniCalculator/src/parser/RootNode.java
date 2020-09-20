@@ -30,7 +30,7 @@ class RootNode extends Node {
         RootNode rootNode = new RootNode();
         Optional<Node> node = StmtNode.checkNode(parser);
         rootNode.addChildNode(node.orElseThrow());
-        while(parser.peekNext().isPresent()) {
+        while(parser.getCurrent().isPresent()) {
             node = StmtNode.checkNode(parser);
             rootNode.addChildNode(node.orElseThrow());
         }

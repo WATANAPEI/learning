@@ -173,9 +173,8 @@ class LexerTest {
         assertTrue(evaluator.eval().equals("21"));
     }
 
-    @Test
     public void testEqual() {
-        String str = "x = 2; x == 2";
+        String str = "x = 2; x > 1";
         List<Token> tokens = new Lexer(str).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();

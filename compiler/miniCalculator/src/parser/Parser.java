@@ -13,11 +13,13 @@ public class Parser {
     List<Token> tokens;
     Iterator<Token> itr;
     Token next;
+    Token current;
 
     public Parser(List<Token> tokens) {
         this.tokens = tokens;
         this.itr = tokens.iterator();
         this.next = null;
+        this.current = itr.next();
     }
 
     public Optional<Token> peekNext() {
@@ -31,7 +33,15 @@ public class Parser {
         return Optional.empty();
     }
 
-    public boolean checkLexicalType(LexicalType type) {
+    public boolean checkCurrentLexicalType(LexicalType type) {
+        Token token = getCurrent().orElse(new NullToken());
+        if(token.tokenType() != TokenType.NULL_TOKEN && token.lexicalType() == type) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkNextLexicalType(LexicalType type) {
         Token token = peekNext().orElse(new NullToken());
         if(token.tokenType() != TokenType.NULL_TOKEN && token.lexicalType() == type) {
             return true;
@@ -39,25 +49,38 @@ public class Parser {
         return false;
     }
 
-    public boolean consume(LexicalType type) {
-        if(checkLexicalType(type)) {
-            Token token = getNext().orElseThrow(); // just eat token
+    public void consume(LexicalType type) {
+        if(checkCurrentLexicalType(type)) {
+            Token token = getCurrent().orElseThrow(); // just eat token
+            current = token;
             if(token.lexicalType() == type) {
-                return true;
+                getNext(); // proceed a token
+                return;
             }
         }
-        return false;
+        throw new IllegalStateException("Token Consuming error. Expected: " + type.toString());
+    }
+
+    public Optional<Token> getCurrent() {
+        if(current == null) {
+            return Optional.empty();
+        }
+        return Optional.of(this.current);
     }
 
     public Optional<Token> getNext() {
         if(next != null) {
             Token result = next;
+            current = result;
             next = null;
             return Optional.of(result);
         } else {
             if(itr.hasNext()) {
-                return Optional.of(itr.next());
+                Token result = itr.next();
+                current = result;
+                return Optional.of(result);
             }
+            current = null;
             return Optional.empty();
         }
     }

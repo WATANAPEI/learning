@@ -14,7 +14,7 @@ class WordNode extends Node {
     }
 
     public static Optional<Node> checkNode(Parser parser) {
-        Token token = parser.getNext().orElseThrow();
+        Token token = parser.getCurrent().orElseThrow();
         if(token.tokenType() == TokenType.WORD) {
             return Optional.of(new WordNode(token));
         } else {

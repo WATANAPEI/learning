@@ -30,12 +30,13 @@ class AssignNode extends Node {
 
     public static Optional<Node> checkNode(Parser parser) {
         AssignNode assignNode = new AssignNode();
-        Token token = parser.peekNext().orElse(new NullToken());
+        Token token = parser.getCurrent().orElse(new NullToken());
         if(token.tokenType() == TokenType.WORD) {
             Node varNode = WordNode.checkNode(parser).orElseThrow();
-            if(parser.checkLexicalType(LexicalType.ASSIGN)) {
+            if(parser.checkNextLexicalType(LexicalType.ASSIGN)) {
                 assignNode.assignVarNode(varNode);
-                parser.getNext();
+                parser.getNext(); // proceed a token
+                parser.consume(LexicalType.ASSIGN);
                 assignNode.assignValueNode(ExprNode.checkNode(parser).orElseThrow());
                 return Optional.ofNullable(assignNode);
             } else {
@@ -43,7 +44,7 @@ class AssignNode extends Node {
                 return Optional.ofNullable(wordNode);
             }
         } else {
-            return Optional.empty();
+            throw new IllegalStateException("Parsing error: AssignNode");
         }
     }
 

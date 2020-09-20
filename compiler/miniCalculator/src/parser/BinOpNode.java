@@ -52,6 +52,10 @@ public class BinOpNode extends Node{
                     throw new ArithmeticException("0 division occur.");
                 }
                 return Optional.of(new NumValue(rvalue / lvalue));
+            case GT:
+                return Optional.of(new BooleanValue(rvalue > lvalue));
+            case LT:
+                return Optional.of(new BooleanValue(rvalue < lvalue));
             default:
                 return Optional.empty();
         }

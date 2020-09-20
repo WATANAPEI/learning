@@ -33,20 +33,20 @@ class BracketNode extends Node {
 
     public static Optional<Node> checkNode(Parser parser) {
         BracketNode bracketNode = new BracketNode();
-        Token token = parser.peekNext().orElse(new NullToken());
+        Token token = parser.getCurrent().orElse(new NullToken());
         if(token.tokenType() == TokenType.SINGLE_SYMBOL
-                && parser.checkLexicalType(LexicalType.OPEN_BRA)) {
+                && parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
             parser.consume(LexicalType.OPEN_BRA);
             Node node = FactorNode.checkNode(parser).orElse(null);
             bracketNode.addChild(node);
-            if(parser.checkLexicalType(LexicalType.CLOSE_BRA)) {
+            if(parser.checkCurrentLexicalType(LexicalType.CLOSE_BRA)) {
                 parser.consume(LexicalType.CLOSE_BRA);
                 return Optional.ofNullable(bracketNode);
             } else {
                 throw new IllegalStateException("No closing bracket.");
             }
         }
-        return Optional.empty();
+        throw new IllegalStateException("Parsing error: BracketNode");
     }
 
     @Override

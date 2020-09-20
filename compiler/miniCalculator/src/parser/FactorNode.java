@@ -29,13 +29,13 @@ class FactorNode extends Node {
 
     public static Optional<Node> checkNode(Parser parser) {
         FactorNode factorNode = new FactorNode();
-        Token token = parser.peekNext().orElse(new NullToken());
+        Token token = parser.getCurrent().orElse(new NullToken());
         if(token.tokenType() == TokenType.SINGLE_SYMBOL
-                && parser.checkLexicalType(LexicalType.OPEN_BRA)) {
+                && parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
             parser.consume(LexicalType.OPEN_BRA);
             Node exprNode = ExprNode.checkNode(parser).orElse(null);
             if(token.tokenType() == TokenType.SINGLE_SYMBOL
-                    && parser.checkLexicalType(LexicalType.CLOSE_BRA)) {
+                    && parser.checkCurrentLexicalType(LexicalType.CLOSE_BRA)) {
                 parser.consume(LexicalType.CLOSE_BRA);
                 return Optional.ofNullable(exprNode);
             } else {
@@ -43,15 +43,17 @@ class FactorNode extends Node {
             }
         }
         if(token.tokenType() == TokenType.NUMBER) {
-            token = parser.getNext().orElseThrow();
+            //token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new NumberLiteralNode(token));
+            parser.getNext(); // proceed a token
             return Optional.of(factorNode);
         }else if(token.tokenType() == TokenType.WORD){
-            token = parser.getNext().orElseThrow();
+            //token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new WordNode(token));
+            parser.getNext(); // proceed a token
             return Optional.of(factorNode);
         }else {
-            throw new IllegalStateException("Invalid syntax.");
+            throw new IllegalStateException("Parsing error: FactorNode");
         }
     }
 

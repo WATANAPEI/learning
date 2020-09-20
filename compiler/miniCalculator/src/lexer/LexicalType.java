@@ -9,7 +9,10 @@ public enum LexicalType {
     SEMI_COLON(";"),
     ASSIGN("="),
     OPEN_BRA("("),
-    CLOSE_BRA(")");
+    CLOSE_BRA(")"),
+    GT(">"),
+    LT("<"),
+    EQ("==");
 
     String image;
 

@@ -5,19 +5,16 @@ import java.util.Optional;
 /**
  * for now value limits integer
  */
-public class NumValue implements Value{
-    Integer val;
+public class BooleanValue implements Value{
+    Boolean val;
 
-    public NumValue(String str) {
-        this.val = Integer.parseInt(str);
-    }
-    public NumValue(Integer value) {
+    public BooleanValue(Boolean value) {
         this.val = value;
     }
 
     @Override
     public Optional<Integer> getIValue() {
-        return Optional.of(val);
+        return Optional.empty();
     }
 
     @Override
@@ -32,12 +29,8 @@ public class NumValue implements Value{
     }
      */
 
-    /**
-     * return false in any cases
-     * @return
-     */
     @Override
     public Optional<Boolean> getBValue() {
-        return Optional.empty();
+        return Optional.of(this.val);
     }
 }

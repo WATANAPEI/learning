@@ -1,9 +1,7 @@
 package parser;
 
 import lexer.LexicalType;
-import lexer.NullToken;
 import lexer.Token;
-import lexer.TokenType;
 
 import java.util.Map;
 import java.util.Optional;
@@ -31,11 +29,23 @@ class ExprNode extends Node {
     public static Optional<Node> checkNode(Parser parser) {
         ExprNode exprNode = new ExprNode();
         Node lhsNode = TermNode.checkNode(parser).orElseThrow();
-        while(parser.checkLexicalType(LexicalType.ADD) || parser.checkLexicalType(LexicalType.SUB)) {
-            exprNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, TermNode.checkNode(parser).orElseThrow()));
+        while(parser.checkCurrentLexicalType(LexicalType.ADD)
+                || parser.checkCurrentLexicalType(LexicalType.SUB)) {
+            Token opToken = parser.getCurrent().orElseThrow();
+            parser.getNext(); // proceed a token
+            exprNode.addChildNode(new BinOpNode(opToken, lhsNode, TermNode.checkNode(parser).orElseThrow()));
+            return Optional.of(exprNode);
+        }
+        if(parser.checkCurrentLexicalType(LexicalType.GT)
+                || parser.checkCurrentLexicalType(LexicalType.LT)
+                || parser.checkCurrentLexicalType(LexicalType.EQ)) {
+            Token opToken = parser.getCurrent().orElseThrow();
+            parser.getNext(); // proceed a token
+            exprNode.addChildNode(new BinOpNode(opToken,lhsNode, TermNode.checkNode(parser).orElseThrow()));
             return Optional.of(exprNode);
         }
         exprNode.addChildNode(lhsNode);
+        //parser.getNext(); // proceed a token
         return Optional.of(exprNode);
     }
 

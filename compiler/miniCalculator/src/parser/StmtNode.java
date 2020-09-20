@@ -13,9 +13,10 @@ import java.util.Optional;
  * <Stmt> := <Expr> | <String> | <Assign> | <If>
  * <If> := <If> <(> <Condition> <)> <Stmt> { <Else> <Stmt> }
  * <Assign> := <Word> <=> <Expr>
- * <Expr> := <Term> { <+|-> <Term>}
+ * <Expr> := <Term> { <+|-> <Term>} | <Term> <Compare> <Term>
  * <Term> := <Factor> { <*|/> <Factor>}
  * <Factor> := <(> <Expr> <)> | <Word> | <Number>
+ * <Compare> := <<>==>
  * @return
  */
 
@@ -31,21 +32,28 @@ class StmtNode extends Node {
 
     public static Optional<Node> checkNode(Parser parser) {
         StmtNode stmtNode = new StmtNode();
-        Token token = parser.peekNext().orElse(new NullToken());
-        if(token.tokenType() == TokenType.NUMBER) {
-            Node exprNode = ExprNode.checkNode(parser).orElseThrow();
-            stmtNode.addChildNode(exprNode);
-            return Optional.of(stmtNode);
-        } else if(token.tokenType() == TokenType.STRING) {
-            token = parser.getNext().orElseThrow();
+        Token token = parser.getCurrent().orElse(new NullToken());
+        if(token.tokenType() == TokenType.STRING) {
+            //token = parser.getNext().orElseThrow();
             stmtNode.addChildNode(new StringLiteralNode(token));
+            parser.getNext(); //proceed a token
             return Optional.of(stmtNode);
-        } else if(token.tokenType() == TokenType.WORD) {
-            Node assignNode = AssignNode.checkNode(parser).orElseThrow();
-            stmtNode.addChildNode(assignNode);
-            return Optional.of(stmtNode);
+        }
+        if(token.tokenType() == TokenType.NUMBER || token.tokenType() == TokenType.WORD) {
+            //token = parser.getNext().orElseThrow();
+            Token nextToken = parser.peekNext().orElse(new NullToken());
+            if(nextToken.lexicalType() == LexicalType.ASSIGN) {
+                Node assignNode = AssignNode.checkNode(parser).orElseThrow();
+                stmtNode.addChildNode(assignNode);
+                return Optional.of(stmtNode);
+
+            } else {
+                Node exprNode = ExprNode.checkNode(parser).orElseThrow();
+                stmtNode.addChildNode(exprNode);
+                return Optional.of(stmtNode);
+            }
         } else {
-            return Optional.empty();
+            throw new IllegalStateException("Parsing error: StmtNode");
         }
     }
 

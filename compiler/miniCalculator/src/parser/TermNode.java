@@ -1,9 +1,7 @@
 package parser;
 
 import lexer.LexicalType;
-import lexer.NullToken;
 import lexer.Token;
-import lexer.TokenType;
 
 import java.util.Map;
 import java.util.Optional;
@@ -21,8 +19,10 @@ class TermNode extends Node {
     public static Optional<Node> checkNode(Parser parser) {
         TermNode termNode = new TermNode();
         Node lhsNode = FactorNode.checkNode(parser).orElseThrow();
-        while(parser.checkLexicalType(LexicalType.MUL) || parser.checkLexicalType(LexicalType.DIV)) {
-            termNode.addChildNode(new BinOpNode(parser.getNext().orElseThrow(), lhsNode, FactorNode.checkNode(parser).orElseThrow()));
+        while(parser.checkCurrentLexicalType(LexicalType.MUL) || parser.checkCurrentLexicalType(LexicalType.DIV)) {
+            Token opToken = parser.getCurrent().orElseThrow();
+            parser.getNext();
+            termNode.addChildNode(new BinOpNode(opToken, lhsNode, FactorNode.checkNode(parser).orElseThrow()));
             return Optional.of(termNode);
         }
         termNode.addChildNode(lhsNode);
