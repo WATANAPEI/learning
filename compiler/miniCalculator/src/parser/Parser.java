@@ -64,10 +64,11 @@ public class Parser {
 
     /**
      * <Root> := {<Stmt>}
-     * <Stmt> := <Expr> | <String> | <Word> <=> <Expr>
+     * <Stmt> := <Expr> | <String> | <Assign>
+     * <Assign> := <Word> <=> <Expr>
      * <Expr> := <Term> { <+|-> <Term>}
      * <Term> := <Factor> { <*|/> <Factor>}
-     * <Factor> := <Number>
+     * <Factor> := <(> <Expr> <)> | <Word> | <Number>
      * @return
      */
     public Optional<Node> parse() {

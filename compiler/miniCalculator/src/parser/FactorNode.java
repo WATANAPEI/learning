@@ -61,7 +61,7 @@ class FactorNode extends Node {
     }
 
     @Override
-    public Optional<String> eval(Map<String, String> symbolTable) {
+    public Optional<Value> eval(Map<String, Value> symbolTable) {
         return node.eval(symbolTable);
     }
 }

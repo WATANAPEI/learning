@@ -33,8 +33,8 @@ class WordNode extends Node {
     }
 
     @Override
-    public Optional<String> eval(Map<String, String> symbolTable) {
-        String value = symbolTable.get(this.val.getSValue().orElseThrow());
+    public Optional<Value> eval(Map<String, Value> symbolTable) {
+        Value value = symbolTable.get(this.val.getSValue().orElseThrow());
         return Optional.ofNullable(value);
     }
 }

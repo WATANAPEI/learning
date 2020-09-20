@@ -37,21 +37,21 @@ public class BinOpNode extends Node{
     }
 
     @Override
-    public Optional<String> eval(Map<String, String> symbolTable) {
-        Integer lvalue = Integer.parseInt(lhs.eval(symbolTable).orElseThrow());
-        Integer rvalue = Integer.parseInt(rhs.eval(symbolTable).orElseThrow());
+    public Optional<Value> eval(Map<String, Value> symbolTable) {
+        Integer lvalue = lhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
+        Integer rvalue = rhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
         switch(op.lexicalType()) {
             case ADD:
-                return Optional.of(String.valueOf(rvalue + lvalue));
+                return Optional.of(new NumValue(rvalue + lvalue));
             case SUB:
-                return Optional.of(String.valueOf(rvalue - lvalue));
+                return Optional.of(new NumValue(rvalue - lvalue));
             case MUL:
-                return Optional.of(String.valueOf(rvalue * lvalue));
+                return Optional.of(new NumValue(rvalue * lvalue));
             case DIV:
                 if (rvalue == 0) {
                     throw new ArithmeticException("0 division occur.");
                 }
-                return Optional.of(String.valueOf(rvalue - lvalue));
+                return Optional.of(new NumValue(rvalue / lvalue));
             default:
                 return Optional.empty();
         }

@@ -19,7 +19,7 @@ class NumberLiteralNode extends Node {
     }
 
     @Override
-    public Optional<String> eval(Map<String, String> symbolTable) {
-        return val.getSValue();
+    public Optional<Value> eval(Map<String, Value> symbolTable) {
+        return Optional.of(this.val);
     }
 }

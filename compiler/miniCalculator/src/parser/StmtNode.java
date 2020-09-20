@@ -10,7 +10,8 @@ import java.util.Optional;
 
 /**
  * <Root> := {<Stmt>}
- * <Stmt> := <Expr> | <String> | <Assign>
+ * <Stmt> := <Expr> | <String> | <Assign> | <If>
+ * <If> := <If> <(> <Condition> <)> <Stmt> { <Else> <Stmt> }
  * <Assign> := <Word> <=> <Expr>
  * <Expr> := <Term> { <+|-> <Term>}
  * <Term> := <Factor> { <*|/> <Factor>}
@@ -54,7 +55,7 @@ class StmtNode extends Node {
     }
 
     @Override
-    public Optional<String> eval(Map<String, String> symbolTable) {
+    public Optional<Value> eval(Map<String, Value> symbolTable) {
         return node.eval(symbolTable);
     }
 }

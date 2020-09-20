@@ -48,16 +48,17 @@ class RootNode extends Node {
     }
 
     @Override
-    public Optional<String> eval(Map<String, String> symbolTable) {
+    public Optional<Value> eval(Map<String, Value> symbolTable) {
         // call eval() in each node
         StringBuilder sb = new StringBuilder();
         for(Node node: nodes) {
             if(sb.length() != 0) {
                 sb.append("\n");
             }
-            sb.append(node.eval(symbolTable)
-                    .orElse(""));
+            node.eval(symbolTable).ifPresent(e -> {
+                sb.append(e.getSValue().orElse(""));
+            });
         }
-        return Optional.ofNullable(sb.toString());
+        return Optional.ofNullable(new StringValue(sb.toString()));
     }
 }
