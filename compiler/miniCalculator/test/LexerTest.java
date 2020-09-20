@@ -173,16 +173,27 @@ class LexerTest {
         assertTrue(evaluator.eval().equals("21"));
     }
 
-    public void testEqual() {
+    @Test
+    public void testGreater() {
         String str = "x = 2; x > 1";
         List<Token> tokens = new Lexer(str).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("21"));
-
+        assertTrue(evaluator.eval().equals("true"));
     }
+
+    public void testEqual() {
+        String str = "x = 3; x == 1";
+        List<Token> tokens = new Lexer(str).analyze();
+        Node node = new Parser(tokens).parse()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        assertTrue(evaluator.eval().equals("false"));
+    }
+
 
     @Test
     public void checkRegex() {

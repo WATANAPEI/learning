@@ -42,20 +42,20 @@ public class BinOpNode extends Node{
         Integer rvalue = rhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
         switch(op.lexicalType()) {
             case ADD:
-                return Optional.of(new NumValue(rvalue + lvalue));
+                return Optional.of(new NumValue(lvalue + rvalue));
             case SUB:
-                return Optional.of(new NumValue(rvalue - lvalue));
+                return Optional.of(new NumValue(lvalue - rvalue));
             case MUL:
-                return Optional.of(new NumValue(rvalue * lvalue));
+                return Optional.of(new NumValue(lvalue * rvalue));
             case DIV:
                 if (rvalue == 0) {
                     throw new ArithmeticException("0 division occur.");
                 }
-                return Optional.of(new NumValue(rvalue / lvalue));
+                return Optional.of(new NumValue(lvalue / rvalue));
             case GT:
-                return Optional.of(new BooleanValue(rvalue > lvalue));
+                return Optional.of(new BooleanValue(lvalue > rvalue));
             case LT:
-                return Optional.of(new BooleanValue(rvalue < lvalue));
+                return Optional.of(new BooleanValue(lvalue < rvalue));
             default:
                 return Optional.empty();
         }
