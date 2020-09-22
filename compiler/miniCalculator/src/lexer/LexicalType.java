@@ -12,7 +12,10 @@ public enum LexicalType {
     CLOSE_BRA(")"),
     GT(">"),
     LT("<"),
-    EQ("==");
+    EQ("=="),
+    GE(">="),
+    LE("<="),
+    NE("!=");
 
     String image;
 

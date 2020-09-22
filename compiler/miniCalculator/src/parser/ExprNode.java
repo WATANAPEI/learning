@@ -38,6 +38,9 @@ class ExprNode extends Node {
         }
         if(parser.checkCurrentLexicalType(LexicalType.GT)
                 || parser.checkCurrentLexicalType(LexicalType.LT)
+                || parser.checkCurrentLexicalType(LexicalType.GE)
+                || parser.checkCurrentLexicalType(LexicalType.LE)
+                || parser.checkCurrentLexicalType(LexicalType.NE)
                 || parser.checkCurrentLexicalType(LexicalType.EQ)) {
             Token opToken = parser.getCurrent().orElseThrow();
             parser.getNext(); // proceed a token

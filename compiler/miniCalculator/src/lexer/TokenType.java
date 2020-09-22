@@ -5,7 +5,7 @@ public enum TokenType {
     STRING("^\"[^\"]*\"?"),
     WORD("^[a-zA-Z]\\w*"),
     SINGLE_SYMBOL("[\\.\\+\\-\\*\\/\\)\\(,=<>]"),
-    MULTI_SYMBOL("[><=]|[<>]=|=[<>]|<>|=="),
+    MULTI_SYMBOL("[<>]=|!=|=="),
     NULL_TOKEN("");
 
     private String pattern;

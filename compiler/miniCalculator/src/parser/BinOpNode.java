@@ -58,6 +58,12 @@ public class BinOpNode extends Node{
                 return Optional.of(new BooleanValue(lvalue < rvalue));
             case EQ:
                 return Optional.of(new BooleanValue(lvalue == rvalue));
+            case NE:
+                return Optional.of(new BooleanValue(lvalue != rvalue));
+            case GE:
+                return Optional.of(new BooleanValue(lvalue >= rvalue));
+            case LE:
+                return Optional.of(new BooleanValue(lvalue <= rvalue));
             default:
                 return Optional.empty();
         }
