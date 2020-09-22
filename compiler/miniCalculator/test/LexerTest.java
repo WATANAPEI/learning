@@ -184,6 +184,7 @@ class LexerTest {
         assertTrue(evaluator.eval().equals("true"));
     }
 
+    @Test
     public void testEqual() {
         String str = "x = 3; x == 1";
         List<Token> tokens = new Lexer(str).analyze();

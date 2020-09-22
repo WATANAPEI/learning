@@ -33,6 +33,8 @@ public class Lexer {
                 tokenList.add(new WordToken(next));
             } else if(next.matches(TokenType.SINGLE_SYMBOL.getPattern())){
                 tokenList.add(new SingleSymbolToken(next));
+            } else if(next.matches(TokenType.MULTI_SYMBOL.getPattern())){
+                tokenList.add(new MultiSymbolToken(next));
             } else {
                 return null;
             }
