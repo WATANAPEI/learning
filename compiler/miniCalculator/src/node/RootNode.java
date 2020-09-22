@@ -1,4 +1,8 @@
-package parser;
+package node;
+
+import parser.Parser;
+import parser.StringValue;
+import parser.Value;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +19,7 @@ import java.util.Optional;
  * @return
  */
 
-class RootNode extends Node {
+public class RootNode extends Node {
     private List<Node> nodes;
 
     private RootNode() {

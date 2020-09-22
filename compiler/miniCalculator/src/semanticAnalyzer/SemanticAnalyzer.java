@@ -1,6 +1,6 @@
 package semanticAnalyzer;
 
-import parser.Node;
+import node.Node;
 
 public class SemanticAnalyzer {
     Node node;

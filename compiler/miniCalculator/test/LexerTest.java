@@ -4,7 +4,7 @@ import lexer.Token;
 import lexer.TokenType;
 import org.junit.jupiter.api.Test;
 import parser.Parser;
-import parser.Node;
+import node.Node;
 import semanticAnalyzer.SemanticAnalyzer;
 
 import static org.junit.jupiter.api.Assertions.*;

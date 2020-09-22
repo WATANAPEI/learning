@@ -1,4 +1,4 @@
-package parser;
+package node;
 
 public enum NodeType {
     NUMBER_LITERAL("[0-9]+"),

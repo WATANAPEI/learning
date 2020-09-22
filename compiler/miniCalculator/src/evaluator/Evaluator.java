@@ -1,6 +1,6 @@
 package evaluator;
 
-import parser.Node;
+import node.Node;
 import parser.StringValue;
 import parser.Value;
 

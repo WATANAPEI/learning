@@ -1,9 +1,11 @@
 package parser;
 
+import node.Node;
 import lexer.LexicalType;
 import lexer.NullToken;
 import lexer.Token;
 import lexer.TokenType;
+import node.RootNode;
 
 import java.util.Iterator;
 import java.util.List;
