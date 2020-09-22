@@ -17,7 +17,8 @@ public enum LexicalType {
     LE("<="),
     NE("!="),
     IF("IF"),
-    ELSE("ELSE");
+    ELSE("ELSE"),
+    ID("ID");
 
     String image;
 

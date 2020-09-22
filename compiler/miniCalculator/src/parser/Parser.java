@@ -56,6 +56,10 @@ public class Parser {
         return false;
     }
 
+    public boolean checkNextLexicalType(LexicalType... type) {
+        return Arrays.stream(type).anyMatch(this::checkNextLexicalType);
+    }
+
     public void consume(LexicalType type) {
         if(checkCurrentLexicalType(type)) {
             Token token = getCurrent()

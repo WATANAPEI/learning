@@ -1,7 +1,6 @@
 package node;
 
 import lexer.LexicalType;
-import lexer.NullToken;
 import lexer.Token;
 import lexer.TokenType;
 import parser.Parser;
@@ -12,10 +11,11 @@ import java.util.Optional;
 
 /**
  * <Root> := {<Stmt>}
- * <Stmt> := <Expr> | <String> | <Assign> | <If>
+ * <Stmt> := <Expr> | <String> | <Assign> | <If> | <Condition>
  * <If> := <If> <(> <Condition> <)> <Stmt> { <Else> <Stmt> }
  * <Assign> := <Word> <=> <Expr>
- * <Expr> := <Term> { <+|-> <Term>} | <Term> <Compare> <Term>
+ * <Condition> := <Expr> <Compare> <Expr>
+ * <Expr> := <Term> { <+|-> <Term>}
  * <Term> := <Factor> { <*|/> <Factor>}
  * <Factor> := <(> <Expr> <)> | <Word> | <Number>
  * <Compare> := <<>==>
@@ -40,22 +40,30 @@ class StmtNode extends Node {
             stmtNode.addChildNode(new StringLiteralNode(token));
             parser.getNext(); //proceed a token
             return stmtNode;
-        } else if(token.checkTokenType(
-                TokenType.NUMBER,
-                TokenType.WORD
-        )) {
-            Token nextToken = parser.peekNext().orElse(new NullToken());
-            if(nextToken.lexicalType() == LexicalType.ASSIGN) {
+        } else {
+            if(parser.checkCurrentLexicalType(LexicalType.ID)
+                    && parser.checkNextLexicalType(LexicalType.ASSIGN)) {
                 Node assignNode = AssignNode.checkNode(parser);
                 stmtNode.addChildNode(assignNode);
                 return stmtNode;
             } else {
-                Node exprNode = ExprNode.checkNode(parser);
-                stmtNode.addChildNode(exprNode);
+                Node lhs = ExprNode.checkNode(parser);
+                if(parser.checkCurrentLexicalType(
+                        LexicalType.GT,
+                        LexicalType.LT,
+                        LexicalType.GE,
+                        LexicalType.LE,
+                        LexicalType.NE,
+                        LexicalType.EQ)) {
+                    Token opToken = parser.getCurrent()
+                            .orElseThrow(() -> new IllegalStateException("No Token."));
+                    parser.getNext(); // consume operator token
+                    stmtNode.addChildNode(new ConditionNode(opToken, lhs, ExprNode.checkNode(parser)));
+                    return stmtNode;
+                }
+                stmtNode.addChildNode(lhs);
                 return stmtNode;
             }
-        } else {
-            throw new IllegalStateException("Parsing error: StmtNode");
         }
     }
 

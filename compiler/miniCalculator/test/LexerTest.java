@@ -185,6 +185,17 @@ class LexerTest {
     }
 
     @Test
+    public void testAddGreater() {
+        String str = "x = 2; x + 3 > 6";
+        List<Token> tokens = new Lexer(str).analyze();
+        Node node = new Parser(tokens).parse()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        assertTrue(evaluator.eval().equals("false"));
+    }
+
+    @Test
     public void testGreaterThanEqual() {
         String str = "x = 2; x >= 1";
         List<Token> tokens = new Lexer(str).analyze();

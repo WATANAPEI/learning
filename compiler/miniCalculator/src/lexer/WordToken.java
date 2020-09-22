@@ -10,6 +10,6 @@ class WordToken extends Token {
         Optional<LexicalType> reserved = EnumSet.allOf(LexicalType.class).stream()
                 .filter(e -> e.getImage().equals(image))
                 .findAny();
-        this.lexicalType = reserved.orElse(null);
+        this.lexicalType = reserved.orElse(LexicalType.ID);
     }
 }
