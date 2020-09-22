@@ -31,7 +31,8 @@ class FactorNode extends Node {
 
     public static Node checkNode(Parser parser) {
         FactorNode factorNode = new FactorNode();
-        Token token = parser.getCurrent().orElse(new NullToken());
+        Token token = parser.getCurrent()
+                .orElseThrow(() -> new IllegalStateException("No Token."));
         if(token.tokenType() == TokenType.SINGLE_SYMBOL
                 && parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
             Node bracketNode = BracketNode.checkNode(parser);

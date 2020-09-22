@@ -23,7 +23,8 @@ class TermNode extends Node {
         TermNode termNode = new TermNode();
         Node lhsNode = FactorNode.checkNode(parser);
         while(parser.checkCurrentLexicalType(LexicalType.MUL) || parser.checkCurrentLexicalType(LexicalType.DIV)) {
-            Token opToken = parser.getCurrent().orElse(new NullToken());
+            Token opToken = parser.getCurrent()
+                    .orElseThrow(()-> new IllegalStateException("No Token.")); // just eat token
             parser.getNext();
             termNode.addChildNode(new BinOpNode(opToken, lhsNode, FactorNode.checkNode(parser)));
             return termNode;

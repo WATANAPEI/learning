@@ -32,20 +32,26 @@ class ExprNode extends Node {
     public static Node checkNode(Parser parser) {
         ExprNode exprNode = new ExprNode();
         Node lhsNode = TermNode.checkNode(parser);
-        while(parser.checkCurrentLexicalType(LexicalType.ADD)
-                || parser.checkCurrentLexicalType(LexicalType.SUB)) {
-            Token opToken = parser.getCurrent().orElse(new NullToken());
+        while(parser.checkCurrentLexicalType(
+                LexicalType.ADD,
+                LexicalType.SUB
+        )) {
+            Token opToken = parser.getCurrent()
+                    .orElseThrow(() -> new IllegalStateException("No Token."));
             parser.getNext(); // proceed a token
             exprNode.addChildNode(new BinOpNode(opToken, lhsNode, TermNode.checkNode(parser)));
             return exprNode;
         }
-        if(parser.checkCurrentLexicalType(LexicalType.GT)
-                || parser.checkCurrentLexicalType(LexicalType.LT)
-                || parser.checkCurrentLexicalType(LexicalType.GE)
-                || parser.checkCurrentLexicalType(LexicalType.LE)
-                || parser.checkCurrentLexicalType(LexicalType.NE)
-                || parser.checkCurrentLexicalType(LexicalType.EQ)) {
-            Token opToken = parser.getCurrent().orElseThrow();
+        if(parser.checkCurrentLexicalType(
+                LexicalType.GT,
+                LexicalType.LT,
+                LexicalType.GE,
+                LexicalType.LE,
+                LexicalType.NE,
+                LexicalType.EQ
+        )) {
+            Token opToken = parser.getCurrent()
+                    .orElseThrow(() -> new IllegalStateException("No Token."));
             parser.getNext(); // proceed a token
             exprNode.addChildNode(new BinOpNode(opToken,lhsNode, TermNode.checkNode(parser)));
             return exprNode;

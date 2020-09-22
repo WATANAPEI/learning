@@ -34,7 +34,8 @@ class StmtNode extends Node {
 
     public static Node checkNode(Parser parser) {
         StmtNode stmtNode = new StmtNode();
-        Token token = parser.getCurrent().orElse(new NullToken());
+        Token token = parser.getCurrent()
+                .orElseThrow(() -> new IllegalStateException("No Token."));
         if(token.tokenType() == TokenType.STRING) {
             //token = parser.getNext().orElseThrow();
             stmtNode.addChildNode(new StringLiteralNode(token));

@@ -17,7 +17,8 @@ class WordNode extends Node {
     }
 
     public static Node checkNode(Parser parser) {
-        Token token = parser.getCurrent().orElseThrow();
+        Token token = parser.getCurrent()
+                .orElseThrow(()-> new IllegalStateException("No Token.")); // just eat token
         if(token.tokenType() == TokenType.WORD) {
             return new WordNode(token);
         } else {

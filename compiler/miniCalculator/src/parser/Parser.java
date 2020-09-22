@@ -7,6 +7,7 @@ import lexer.Token;
 import lexer.TokenType;
 import node.RootNode;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,10 @@ public class Parser {
             return true;
         }
         return false;
+    }
+
+    public boolean checkCurrentLexicalType(LexicalType... types) {
+        return Arrays.stream(types).anyMatch(this::checkCurrentLexicalType);
     }
 
     public boolean checkNextLexicalType(LexicalType type) {
