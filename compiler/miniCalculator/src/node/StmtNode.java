@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * <Root> := {<Stmt>}
  * <Stmt> := <Expr> | <String> | <Assign> | <If> | <Condition>
- * <If> := <If> <(> <Condition> <)> <Stmt> { <Else> <Stmt> }
+ * <If> := <IF> <(> <Condition> <)> <Stmt> { <ELSE> <Stmt> }
  * <Assign> := <Word> <=> <Expr>
  * <Condition> := <Expr> <Compare> <Expr>
  * <Expr> := <Term> { <+|-> <Term>}
@@ -40,6 +40,8 @@ class StmtNode extends Node {
             stmtNode.addChildNode(new StringLiteralNode(token));
             parser.getNext(); //proceed a token
             return stmtNode;
+        } else if (parser.checkCurrentLexicalType(LexicalType.IF)) {
+            return IfNode.checkNode(parser);
         } else {
             if(parser.checkCurrentLexicalType(LexicalType.ID)
                     && parser.checkNextLexicalType(LexicalType.ASSIGN)) {

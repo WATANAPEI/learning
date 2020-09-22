@@ -228,6 +228,17 @@ class LexerTest {
         assertTrue(evaluator.eval().equals("5"));
     }
 
+    @Test
+    public void testIfStmtWithoutELSE() {
+        String str = "y = 5; IF ( y < 3 ) y = 10 ; y";
+        List<Token> tokens = new Lexer(str).analyze();
+        Node node = new Parser(tokens).parse()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        assertTrue(evaluator.eval().equals("5"));
+    }
+
 
     @Test
     public void checkRegex() {

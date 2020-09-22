@@ -25,12 +25,23 @@ class IfNode extends Node {
         this.trueStmt = node;
     }
 
-//    public static Node checkNode(Parser parser) {
-//        IfNode ifNode = new IfNode();
-//        parser.consume(LexicalType.IF);
-//        parser.consume(LexicalType.OPEN_BRA);
-//        ifNode.assignCondition(ConditionNo);
-//    }
+    public void assignFalseStmt(Node node) {
+        this.falseStmt = node;
+    }
+
+    public static Node checkNode(Parser parser) {
+        IfNode ifNode = new IfNode();
+        parser.consume(LexicalType.IF);
+        parser.consume(LexicalType.OPEN_BRA);
+        ifNode.assignCondition(ConditionNode.checkNode(parser));
+        parser.consume(LexicalType.CLOSE_BRA);
+        ifNode.assignTrueStmt(StmtNode.checkNode(parser));
+        if(parser.checkCurrentLexicalType(LexicalType.ELSE)) {
+            parser.consume(LexicalType.ELSE);
+            ifNode.assignFalseStmt(StmtNode.checkNode(parser));
+        }
+        return ifNode;
+    }
 
     @Override
     public Optional<Value> value() {
@@ -39,8 +50,18 @@ class IfNode extends Node {
 
     @Override
     public Optional<Value> eval(Map<String, Value> symbolTable) {
-        symbolTable.put(condition.value().orElseThrow().getSValue().orElseThrow(),
-                trueStmt.eval(symbolTable).orElse(null));
-        return Optional.empty();
+        boolean condition = this.condition.eval(symbolTable)
+                .orElseThrow(() -> new IllegalStateException("No condition value"))
+                .getBValue()
+                .orElseThrow(() -> new IllegalStateException("No BValue is defined"));
+        if(condition) {
+            return trueStmt.eval(symbolTable);
+        } else {
+            if(falseStmt != null) {
+                return falseStmt.eval(symbolTable);
+            } else {
+                return Optional.empty();
+            }
+        }
     }
 }
