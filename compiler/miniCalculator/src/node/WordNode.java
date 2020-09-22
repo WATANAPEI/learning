@@ -16,12 +16,12 @@ class WordNode extends Node {
         val = new StringValue(token.getImage());
     }
 
-    public static Optional<Node> checkNode(Parser parser) {
+    public static Node checkNode(Parser parser) {
         Token token = parser.getCurrent().orElseThrow();
         if(token.tokenType() == TokenType.WORD) {
-            return Optional.of(new WordNode(token));
+            return new WordNode(token);
         } else {
-            return Optional.empty();
+            throw new IllegalStateException("WordToken is expected.");
         }
     }
 

@@ -33,16 +33,18 @@ class BracketNode extends Node {
         this.child = node;
     }
 
-    public static Optional<Node> checkNode(Parser parser) {
+    public static Node checkNode(Parser parser) {
         BracketNode bracketNode = new BracketNode();
-        Token token = parser.getCurrent().orElse(new NullToken());
+        Token token = parser.getCurrent()
+                .orElseThrow(() -> new IllegalStateException("No Token."));
         if(token.tokenType() == TokenType.SINGLE_SYMBOL
                 && parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
             parser.consume(LexicalType.OPEN_BRA);
-            ExprNode.checkNode(parser).ifPresent(bracketNode::addChildNode);
+            Node exprNode = ExprNode.checkNode(parser);
+            bracketNode.addChildNode(exprNode);
             if(parser.checkCurrentLexicalType(LexicalType.CLOSE_BRA)) {
                 parser.consume(LexicalType.CLOSE_BRA);
-                return Optional.ofNullable(bracketNode);
+                return bracketNode;
             } else {
                 throw new IllegalStateException("No closing bracket.");
             }

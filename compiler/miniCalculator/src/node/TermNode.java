@@ -1,6 +1,7 @@
 package node;
 
 import lexer.LexicalType;
+import lexer.NullToken;
 import lexer.Token;
 import parser.Parser;
 import parser.Value;
@@ -18,17 +19,17 @@ class TermNode extends Node {
         this.node = node;
     }
 
-    public static Optional<Node> checkNode(Parser parser) {
+    public static Node checkNode(Parser parser) {
         TermNode termNode = new TermNode();
-        Node lhsNode = FactorNode.checkNode(parser).orElseThrow();
+        Node lhsNode = FactorNode.checkNode(parser);
         while(parser.checkCurrentLexicalType(LexicalType.MUL) || parser.checkCurrentLexicalType(LexicalType.DIV)) {
-            Token opToken = parser.getCurrent().orElseThrow();
+            Token opToken = parser.getCurrent().orElse(new NullToken());
             parser.getNext();
-            termNode.addChildNode(new BinOpNode(opToken, lhsNode, FactorNode.checkNode(parser).orElseThrow()));
-            return Optional.of(termNode);
+            termNode.addChildNode(new BinOpNode(opToken, lhsNode, FactorNode.checkNode(parser)));
+            return termNode;
         }
         termNode.addChildNode(lhsNode);
-        return Optional.of(termNode);
+        return termNode;
     }
 
     @Override

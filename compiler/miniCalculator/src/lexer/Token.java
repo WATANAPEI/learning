@@ -1,7 +1,5 @@
 package lexer;
 
-import org.xml.sax.ext.LexicalHandler;
-
 public abstract class Token {
     String image;
     TokenType type;

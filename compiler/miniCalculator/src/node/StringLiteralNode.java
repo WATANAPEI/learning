@@ -7,6 +7,7 @@ import parser.StringValue;
 import parser.Value;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 class StringLiteralNode extends Node {
@@ -16,12 +17,13 @@ class StringLiteralNode extends Node {
         val = new StringValue(token.getImage());
     }
 
-    public static Optional<Node> checkNode(Parser parser) {
+    public static Node checkNode(Parser parser) {
         Token token = parser.getNext().orElseThrow();
         if (token.tokenType() == TokenType.STRING) {
-            return Optional.of(new StringLiteralNode(token));
+            return new StringLiteralNode(token);
+        } else {
+            throw new IllegalStateException("StringToken is expected.");
         }
-        return Optional.empty();
     }
 
         /**

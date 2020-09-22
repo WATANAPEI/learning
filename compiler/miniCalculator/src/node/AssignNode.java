@@ -29,20 +29,21 @@ class AssignNode extends Node {
         this.rhs = node;
     }
 
-    public static Optional<Node> checkNode(Parser parser) {
+    public static Node checkNode(Parser parser) {
         AssignNode assignNode = new AssignNode();
-        Token token = parser.getCurrent().orElse(new NullToken());
+        Token token = parser.getCurrent()
+                .orElseThrow(()-> new IllegalStateException("No Token"));
         if(token.tokenType() == TokenType.WORD) {
-            Node varNode = WordNode.checkNode(parser).orElseThrow();
+            Node varNode = WordNode.checkNode(parser);
             if(parser.checkNextLexicalType(LexicalType.ASSIGN)) {
                 assignNode.assignVarNode(varNode);
                 parser.getNext(); // proceed a token
                 parser.consume(LexicalType.ASSIGN);
-                assignNode.assignValueNode(ExprNode.checkNode(parser).orElseThrow());
-                return Optional.ofNullable(assignNode);
+                assignNode.assignValueNode(ExprNode.checkNode(parser));
+                return assignNode;
             } else {
                 WordNode wordNode = new WordNode(token);
-                return Optional.ofNullable(wordNode);
+                return wordNode;
             }
         } else {
             throw new IllegalStateException("Parsing error: AssignNode");

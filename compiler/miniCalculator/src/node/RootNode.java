@@ -30,15 +30,15 @@ public class RootNode extends Node {
         this.nodes.add(node);
     }
 
-    public static Optional<Node> checkNode(Parser parser) {
+    public static Node checkNode(Parser parser) {
         RootNode rootNode = new RootNode();
-        Optional<Node> node = StmtNode.checkNode(parser);
-        rootNode.addChildNode(node.orElseThrow());
+        Node node = StmtNode.checkNode(parser);
+        rootNode.addChildNode(node);
         while(parser.getCurrent().isPresent()) {
             node = StmtNode.checkNode(parser);
-            rootNode.addChildNode(node.orElseThrow());
+            rootNode.addChildNode(node);
         }
-        return Optional.ofNullable(rootNode);
+        return rootNode;
     }
 
 

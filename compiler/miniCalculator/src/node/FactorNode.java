@@ -29,24 +29,25 @@ class FactorNode extends Node {
         this.node = node;
     }
 
-    public static Optional<Node> checkNode(Parser parser) {
+    public static Node checkNode(Parser parser) {
         FactorNode factorNode = new FactorNode();
         Token token = parser.getCurrent().orElse(new NullToken());
         if(token.tokenType() == TokenType.SINGLE_SYMBOL
                 && parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
-            BracketNode.checkNode(parser).ifPresent(factorNode::addChildNode);
-            return Optional.ofNullable(factorNode);
+            Node bracketNode = BracketNode.checkNode(parser);
+            factorNode.addChildNode(bracketNode);
+            return factorNode;
         }
         if(token.tokenType() == TokenType.NUMBER) {
             //token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new NumberLiteralNode(token));
             parser.getNext(); // proceed a token
-            return Optional.of(factorNode);
+            return factorNode;
         }else if(token.tokenType() == TokenType.WORD){
             //token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new WordNode(token));
             parser.getNext(); // proceed a token
-            return Optional.of(factorNode);
+            return factorNode;
         }else {
             throw new IllegalStateException("Parsing error: FactorNode");
         }

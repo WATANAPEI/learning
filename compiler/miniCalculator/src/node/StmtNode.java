@@ -32,27 +32,25 @@ class StmtNode extends Node {
         this.node = node;
     }
 
-    public static Optional<Node> checkNode(Parser parser) {
+    public static Node checkNode(Parser parser) {
         StmtNode stmtNode = new StmtNode();
         Token token = parser.getCurrent().orElse(new NullToken());
         if(token.tokenType() == TokenType.STRING) {
             //token = parser.getNext().orElseThrow();
             stmtNode.addChildNode(new StringLiteralNode(token));
             parser.getNext(); //proceed a token
-            return Optional.of(stmtNode);
-        }
-        if(token.tokenType() == TokenType.NUMBER || token.tokenType() == TokenType.WORD) {
+            return stmtNode;
+        } else if(token.tokenType() == TokenType.NUMBER || token.tokenType() == TokenType.WORD) {
             //token = parser.getNext().orElseThrow();
             Token nextToken = parser.peekNext().orElse(new NullToken());
             if(nextToken.lexicalType() == LexicalType.ASSIGN) {
-                Node assignNode = AssignNode.checkNode(parser).orElseThrow();
+                Node assignNode = AssignNode.checkNode(parser);
                 stmtNode.addChildNode(assignNode);
-                return Optional.of(stmtNode);
-
+                return stmtNode;
             } else {
-                Node exprNode = ExprNode.checkNode(parser).orElseThrow();
+                Node exprNode = ExprNode.checkNode(parser);
                 stmtNode.addChildNode(exprNode);
-                return Optional.of(stmtNode);
+                return stmtNode;
             }
         } else {
             throw new IllegalStateException("Parsing error: StmtNode");

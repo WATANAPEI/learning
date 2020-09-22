@@ -53,7 +53,8 @@ public class Parser {
 
     public void consume(LexicalType type) {
         if(checkCurrentLexicalType(type)) {
-            Token token = getCurrent().orElseThrow(); // just eat token
+            Token token = getCurrent()
+                    .orElseThrow(()-> new IllegalStateException("No Token.")); // just eat token
             current = token;
             if(token.lexicalType() == type) {
                 getNext(); // proceed a token
@@ -97,7 +98,7 @@ public class Parser {
      * @return
      */
     public Optional<Node> parse() {
-        Node rootNode = RootNode.checkNode(this).orElseThrow();
+        Node rootNode = RootNode.checkNode(this);
         return Optional.ofNullable(rootNode);
     }
 

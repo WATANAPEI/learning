@@ -26,4 +26,9 @@ public enum LexicalType {
     public String getImage() {
         return image;
     }
+
+    @Override
+    public String toString() {
+        return this.image;
+    }
 }
