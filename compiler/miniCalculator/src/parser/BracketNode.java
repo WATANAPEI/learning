@@ -27,7 +27,7 @@ class BracketNode extends Node {
         this.child = child;
     }
 
-    public void addChild(Node node) {
+    public void addChildNode(Node node) {
         this.child = node;
     }
 
@@ -37,8 +37,7 @@ class BracketNode extends Node {
         if(token.tokenType() == TokenType.SINGLE_SYMBOL
                 && parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
             parser.consume(LexicalType.OPEN_BRA);
-            Node node = FactorNode.checkNode(parser).orElse(null);
-            bracketNode.addChild(node);
+            ExprNode.checkNode(parser).ifPresent(bracketNode::addChildNode);
             if(parser.checkCurrentLexicalType(LexicalType.CLOSE_BRA)) {
                 parser.consume(LexicalType.CLOSE_BRA);
                 return Optional.ofNullable(bracketNode);

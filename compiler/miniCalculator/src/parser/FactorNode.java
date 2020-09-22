@@ -32,15 +32,8 @@ class FactorNode extends Node {
         Token token = parser.getCurrent().orElse(new NullToken());
         if(token.tokenType() == TokenType.SINGLE_SYMBOL
                 && parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
-            parser.consume(LexicalType.OPEN_BRA);
-            Node exprNode = ExprNode.checkNode(parser).orElse(null);
-            if(token.tokenType() == TokenType.SINGLE_SYMBOL
-                    && parser.checkCurrentLexicalType(LexicalType.CLOSE_BRA)) {
-                parser.consume(LexicalType.CLOSE_BRA);
-                return Optional.ofNullable(exprNode);
-            } else {
-                throw new IllegalStateException("No closing bracket.");
-            }
+            BracketNode.checkNode(parser).ifPresent(factorNode::addChildNode);
+            return Optional.ofNullable(factorNode);
         }
         if(token.tokenType() == TokenType.NUMBER) {
             //token = parser.getNext().orElseThrow();
