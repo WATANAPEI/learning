@@ -35,10 +35,7 @@ class BracketNode extends Node {
 
     public static Node checkNode(Parser parser) {
         BracketNode bracketNode = new BracketNode();
-        Token token = parser.getCurrent()
-                .orElseThrow(() -> new IllegalStateException("No Token."));
-        if(token.tokenType() == TokenType.SINGLE_SYMBOL
-                && parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
+        if(parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
             parser.consume(LexicalType.OPEN_BRA);
             Node exprNode = ExprNode.checkNode(parser);
             bracketNode.addChildNode(exprNode);

@@ -1,5 +1,7 @@
 package lexer;
 
+import java.util.Arrays;
+
 public abstract class Token {
     String image;
     TokenType type;
@@ -17,6 +19,10 @@ public abstract class Token {
 
     public String toString() {
         return image + ": " + type.toString();
+    }
+
+    public boolean checkTokenType(TokenType... types) {
+        return Arrays.stream(types).anyMatch(e -> e == type);
     }
 
 }

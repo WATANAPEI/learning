@@ -36,13 +36,14 @@ class StmtNode extends Node {
         StmtNode stmtNode = new StmtNode();
         Token token = parser.getCurrent()
                 .orElseThrow(() -> new IllegalStateException("No Token."));
-        if(token.tokenType() == TokenType.STRING) {
-            //token = parser.getNext().orElseThrow();
+        if(token.checkTokenType(TokenType.STRING)) {
             stmtNode.addChildNode(new StringLiteralNode(token));
             parser.getNext(); //proceed a token
             return stmtNode;
-        } else if(token.tokenType() == TokenType.NUMBER || token.tokenType() == TokenType.WORD) {
-            //token = parser.getNext().orElseThrow();
+        } else if(token.checkTokenType(
+                TokenType.NUMBER,
+                TokenType.WORD
+        )) {
             Token nextToken = parser.peekNext().orElse(new NullToken());
             if(nextToken.lexicalType() == LexicalType.ASSIGN) {
                 Node assignNode = AssignNode.checkNode(parser);

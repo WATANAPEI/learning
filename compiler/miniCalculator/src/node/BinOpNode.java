@@ -20,8 +20,8 @@ public class BinOpNode extends Node{
 
     @Override
     public Optional<Value> value() {
-        Integer lvalue = lhs.value().orElseThrow().getIValue().orElseThrow();
-        Integer rvalue = rhs.value().orElseThrow().getIValue().orElseThrow();
+        int lvalue = lhs.value().orElseThrow().getIValue().orElseThrow();
+        int rvalue = rhs.value().orElseThrow().getIValue().orElseThrow();
         switch(op.lexicalType()) {
             case ADD:
                 return Optional.of(new NumValue(rvalue + lvalue));
@@ -41,8 +41,8 @@ public class BinOpNode extends Node{
 
     @Override
     public Optional<Value> eval(Map<String, Value> symbolTable) {
-        Integer lvalue = lhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
-        Integer rvalue = rhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
+        int lvalue = lhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
+        int rvalue = rhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
         switch(op.lexicalType()) {
             case ADD:
                 return Optional.of(new NumValue(lvalue + rvalue));

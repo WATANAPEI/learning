@@ -33,18 +33,17 @@ class FactorNode extends Node {
         FactorNode factorNode = new FactorNode();
         Token token = parser.getCurrent()
                 .orElseThrow(() -> new IllegalStateException("No Token."));
-        if(token.tokenType() == TokenType.SINGLE_SYMBOL
-                && parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
+        if(parser.checkCurrentLexicalType(LexicalType.OPEN_BRA)) {
             Node bracketNode = BracketNode.checkNode(parser);
             factorNode.addChildNode(bracketNode);
             return factorNode;
         }
-        if(token.tokenType() == TokenType.NUMBER) {
+        if(token.checkTokenType(TokenType.NUMBER)) {
             //token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new NumberLiteralNode(token));
             parser.getNext(); // proceed a token
             return factorNode;
-        }else if(token.tokenType() == TokenType.WORD){
+        }else if(token.checkTokenType(TokenType.WORD)){
             //token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new WordNode(token));
             parser.getNext(); // proceed a token

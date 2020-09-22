@@ -19,7 +19,7 @@ class WordNode extends Node {
     public static Node checkNode(Parser parser) {
         Token token = parser.getCurrent()
                 .orElseThrow(()-> new IllegalStateException("No Token.")); // just eat token
-        if(token.tokenType() == TokenType.WORD) {
+        if(token.checkTokenType(TokenType.WORD)) {
             return new WordNode(token);
         } else {
             throw new IllegalStateException("WordToken is expected.");

@@ -22,7 +22,7 @@ class TermNode extends Node {
     public static Node checkNode(Parser parser) {
         TermNode termNode = new TermNode();
         Node lhsNode = FactorNode.checkNode(parser);
-        while(parser.checkCurrentLexicalType(LexicalType.MUL) || parser.checkCurrentLexicalType(LexicalType.DIV)) {
+        while(parser.checkCurrentLexicalType(LexicalType.MUL, LexicalType.DIV)) {
             Token opToken = parser.getCurrent()
                     .orElseThrow(()-> new IllegalStateException("No Token.")); // just eat token
             parser.getNext();

@@ -206,6 +206,17 @@ class LexerTest {
         assertTrue(evaluator.eval().equals("false"));
     }
 
+    @Test
+    public void testIfStatement() {
+        String str = "x = 3; IF ( x == 3 ) y = 5 ELSE y = 10; y";
+        List<Token> tokens = new Lexer(str).analyze();
+        Node node = new Parser(tokens).parse()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        assertTrue(evaluator.eval().equals("5"));
+    }
+
 
     @Test
     public void checkRegex() {
