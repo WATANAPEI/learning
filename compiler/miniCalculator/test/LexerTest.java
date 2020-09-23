@@ -56,12 +56,6 @@ class LexerTest {
         List<Token> tokens = new Lexer(symbolStr).analyze();
         assertEquals(TokenType.SINGLE_SYMBOL, tokens.get(0).tokenType());
         assertEquals("*", tokens.get(0).getImage());
-        /*
-        Node node = new Parser(tokens).parse();
-        Node ast = new SemanticAnalyzer(node).check();
-        Evaluator evaluator = new Evaluator(ast);
-        evaluator.eval();
-         */
     }
 
     @Test
@@ -239,6 +233,15 @@ class LexerTest {
         assertTrue(evaluator.eval().equals("5"));
     }
 
+    public void testForLoop() {
+        String str = "FOR ( i = 0 ; i < 4 ; i = i + 1 ) i;";
+        List<Token> tokens = new Lexer(str).analyze();
+        Node node = new Parser(tokens).parse()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        assertTrue(evaluator.eval().equals("0\n1\n2\n3"));
+    }
 
     @Test
     public void checkRegex() {

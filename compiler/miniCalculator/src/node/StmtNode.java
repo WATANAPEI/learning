@@ -10,15 +10,16 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * <Root> := {<Stmt>}
- * <Stmt> := <Expr> | <String> | <Assign> | <If> | <Condition>
- * <If> := <IF> <(> <Condition> <)> <Stmt> { <ELSE> <Stmt> }
- * <Assign> := <Word> <=> <Expr>
- * <Condition> := <Expr> <Compare> <Expr>
- * <Expr> := <Term> { <+|-> <Term>}
- * <Term> := <Factor> { <*|/> <Factor>}
- * <Factor> := <(> <Expr> <)> | <Word> | <Number>
- * <Compare> := <<>==>
+ * <root> := {<stmt>}
+ * <stmt> := <expr> | <assign> | <if> | <condition> | <for>
+ * <for> := <FOR> ( <stmt> ; <condition> ; <stmt> ) <stmt>
+ * <if> := <IF> <(> <condition> <)> <stmt> { <ELSE> <stmt> }
+ * <assign> := <word> <=> <expr>
+ * <condition> := <expr> <Compare> <expr>
+ * <expr> := <term> { <+|-> <term>}
+ * <term> := <factor> { <*|/> <factor>}
+ * <factor> := <(> <expr> <)> | <word> | <number> | <string>
+ * <compare> := <<>==>
  * @return
  */
 
@@ -34,13 +35,7 @@ class StmtNode extends Node {
 
     public static Node checkNode(Parser parser) {
         StmtNode stmtNode = new StmtNode();
-        Token token = parser.getCurrent()
-                .orElseThrow(() -> new IllegalStateException("No Token."));
-        if(token.checkTokenType(TokenType.STRING)) {
-            stmtNode.addChildNode(new StringLiteralNode(token));
-            parser.getNext(); //proceed a token
-            return stmtNode;
-        } else if (parser.checkCurrentLexicalType(LexicalType.IF)) {
+        if (parser.checkCurrentLexicalType(LexicalType.IF)) {
             return IfNode.checkNode(parser);
         } else {
             if(parser.checkCurrentLexicalType(LexicalType.ID)

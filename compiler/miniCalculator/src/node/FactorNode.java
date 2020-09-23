@@ -48,6 +48,10 @@ class FactorNode extends Node {
             factorNode.addChildNode(new WordNode(token));
             parser.getNext(); // proceed a token
             return factorNode;
+        }else if(token.checkTokenType(TokenType.STRING)) {
+            factorNode.addChildNode(new StringLiteralNode(token));
+            parser.getNext(); //proceed a token
+            return factorNode;
         }else {
             throw new IllegalStateException("Parsing error: FactorNode");
         }
