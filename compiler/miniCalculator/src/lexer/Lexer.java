@@ -1,6 +1,5 @@
 package lexer;
 
-import java.awt.*;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +12,12 @@ public class Lexer {
     List<Token> tokenList;
     public Lexer(String str) {
         sc = new Scanner(str);
-        sc.useDelimiter("[\\p{javaWhitespace}|\\;]+");
+        sc.useDelimiter("[\\p{javaWhitespace}]+");
         tokenList = new ArrayList();
     }
     public Lexer(Reader reader) {
         sc = new Scanner(reader);
-        sc.useDelimiter("[\\p{javaWhitespace}|\\;]+");
+        sc.useDelimiter("[\\p{javaWhitespace}]+");
         tokenList = new ArrayList();
     }
     public List<Token> analyze() {

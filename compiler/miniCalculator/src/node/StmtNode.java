@@ -2,7 +2,6 @@ package node;
 
 import lexer.LexicalType;
 import lexer.Token;
-import lexer.TokenType;
 import parser.Parser;
 import parser.Value;
 
@@ -11,15 +10,15 @@ import java.util.Optional;
 
 /**
  * <root> := {<stmt>}
- * <stmt> := <expr> | <assign> | <if> | <condition> | <for>
- * <for> := <FOR> ( <stmt> ; <condition> ; <stmt> ) <stmt>
+ * <stmt> := <expr> <;> | <assign> <;> | <if> | <condition> <;> | <for>
+ * <for> := <FOR> <(> <assign> <;> <condition> <;> <assign> <)> <stmt>
  * <if> := <IF> <(> <condition> <)> <stmt> { <ELSE> <stmt> }
  * <assign> := <word> <=> <expr>
  * <condition> := <expr> <Compare> <expr>
  * <expr> := <term> { <+|-> <term>}
  * <term> := <factor> { <*|/> <factor>}
  * <factor> := <(> <expr> <)> | <word> | <number> | <string>
- * <compare> := <<>==>
+ * <compare> := < <> | == | >= | <= | != >
  * @return
  */
 
@@ -36,12 +35,14 @@ class StmtNode extends Node {
     public static Node checkNode(Parser parser) {
         StmtNode stmtNode = new StmtNode();
         if (parser.checkCurrentLexicalType(LexicalType.IF)) {
-            return IfNode.checkNode(parser);
+            stmtNode.addChildNode(IfNode.checkNode(parser));
+            return stmtNode;
         } else {
             if(parser.checkCurrentLexicalType(LexicalType.ID)
                     && parser.checkNextLexicalType(LexicalType.ASSIGN)) {
                 Node assignNode = AssignNode.checkNode(parser);
                 stmtNode.addChildNode(assignNode);
+                parser.consume(LexicalType.SEMI_COLON);
                 return stmtNode;
             } else {
                 Node lhs = ExprNode.checkNode(parser);
@@ -56,9 +57,11 @@ class StmtNode extends Node {
                             .orElseThrow(() -> new IllegalStateException("No Token."));
                     parser.getNext(); // consume operator token
                     stmtNode.addChildNode(new ConditionNode(opToken, lhs, ExprNode.checkNode(parser)));
+                    parser.consume(LexicalType.SEMI_COLON);
                     return stmtNode;
                 }
                 stmtNode.addChildNode(lhs);
+                parser.consume(LexicalType.SEMI_COLON);
                 return stmtNode;
             }
         }

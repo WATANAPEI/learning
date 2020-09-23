@@ -16,7 +16,7 @@ class LexerTest {
 
     @Test
     public void testNumToken() {
-        String numStr = "42";
+        String numStr = "42 ; ";
         List<Token> tokens = new Lexer(numStr).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -28,7 +28,7 @@ class LexerTest {
 
     @Test
     public void testStrToken() {
-        String strStr = "\"ufo\"";
+        String strStr = "\"ufo\" ;";
         List<Token> tokens = new Lexer(strStr).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -40,7 +40,7 @@ class LexerTest {
 
     @Test
     public void testRootNode() {
-        String str = "\"ufo\" 42";
+        String str = "\"ufo\" ; 42 ;";
         List<Token> tokens = new Lexer(str).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -52,7 +52,7 @@ class LexerTest {
 
     @Test
     public void testMulToken() {
-        String symbolStr = "*";
+        String symbolStr = "* ;";
         List<Token> tokens = new Lexer(symbolStr).analyze();
         assertEquals(TokenType.SINGLE_SYMBOL, tokens.get(0).tokenType());
         assertEquals("*", tokens.get(0).getImage());
@@ -60,7 +60,7 @@ class LexerTest {
 
     @Test
     public void testAddCalculation() {
-        String symbolStr = "3 + 2";
+        String symbolStr = "3 + 2 ;";
         List<Token> tokens = new Lexer(symbolStr).analyze();
         assertEquals(TokenType.NUMBER, tokens.get(0).tokenType());
         assertEquals(TokenType.SINGLE_SYMBOL, tokens.get(1).tokenType());
@@ -76,7 +76,7 @@ class LexerTest {
 
     @Test
     public void testMulCalculation() {
-        String symbolStr = "21 * 2";
+        String symbolStr = "21 * 2 ;";
         List<Token> tokens = new Lexer(symbolStr).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -88,7 +88,7 @@ class LexerTest {
 
     @Test
     public void testZeroDivision() {
-        String symbolStr = "21 / 0";
+        String symbolStr = "21 / 0 ;";
         List<Token> tokens = new Lexer(symbolStr).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -101,7 +101,7 @@ class LexerTest {
 
     @Test
     public void testSemicolon() {
-        String str = "\"word\"; 21";
+        String str = "\"word\" ; 21 ;";
         List<Token> tokens = new Lexer(str).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -113,7 +113,7 @@ class LexerTest {
 
     @Test
     public void testAssignAdd() {
-        String assign = "x = 2 + 2; x";
+        String assign = "x = 2 + 2 ; x ;";
         List<Token> tokens = new Lexer(assign).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -124,7 +124,7 @@ class LexerTest {
     }
     @Test
     public void testAssignMul() {
-        String assign = "y = 4 * 3; y";
+        String assign = "y = 4 * 3 ; y ;";
         List<Token> tokens = new Lexer(assign).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -136,7 +136,7 @@ class LexerTest {
 
     @Test
     public void testCalcOrder() {
-        String assign = "y = 6 + 4 * 3; y";
+        String assign = "y = 6 + 4 * 3 ; y ;";
         List<Token> tokens = new Lexer(assign).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -147,7 +147,7 @@ class LexerTest {
 
     @Test
     public void testBracket() {
-        String assign = "y = ( 6 + 4 ) * 3; y";
+        String assign = "y = ( 6 + 4 ) * 3 ; y ;";
         List<Token> tokens = new Lexer(assign).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -158,7 +158,7 @@ class LexerTest {
 
     @Test
     public void testMultiVariables() {
-        String assign = "x = 3; y =  ( x + 4 )  * 3; y";
+        String assign = "x = 3 ; y =  ( x + 4 )  * 3 ; y ;";
         List<Token> tokens = new Lexer(assign).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -169,7 +169,7 @@ class LexerTest {
 
     @Test
     public void testGreater() {
-        String str = "x = 2; x > 1";
+        String str = "x = 2 ; x > 1 ;";
         List<Token> tokens = new Lexer(str).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -180,7 +180,7 @@ class LexerTest {
 
     @Test
     public void testAddGreater() {
-        String str = "x = 2; x + 3 > 6";
+        String str = "x = 2 ; x + 3 > 6 ;";
         List<Token> tokens = new Lexer(str).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -191,7 +191,7 @@ class LexerTest {
 
     @Test
     public void testGreaterThanEqual() {
-        String str = "x = 2; x >= 1";
+        String str = "x = 2 ; x >= 1 ;";
         List<Token> tokens = new Lexer(str).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -202,7 +202,7 @@ class LexerTest {
 
     @Test
     public void testEqual() {
-        String str = "x = 3; x == 1";
+        String str = "x = 3 ; x == 1 ;";
         List<Token> tokens = new Lexer(str).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -213,7 +213,7 @@ class LexerTest {
 
     @Test
     public void testIfStatement() {
-        String str = "x = 3; IF ( x == 3 ) y = 5 ELSE y = 10; y";
+        String str = "x = 3 ; IF ( x == 3 ) y = 5 ; ELSE y = 10 ; y ;";
         List<Token> tokens = new Lexer(str).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -224,7 +224,7 @@ class LexerTest {
 
     @Test
     public void testIfStmtWithoutELSE() {
-        String str = "y = 5; IF ( y < 3 ) y = 10 ; y";
+        String str = "y = 5 ; IF ( y < 3 ) y = 10 ; y ;";
         List<Token> tokens = new Lexer(str).analyze();
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
@@ -243,10 +243,4 @@ class LexerTest {
         assertTrue(evaluator.eval().equals("0\n1\n2\n3"));
     }
 
-    @Test
-    public void checkRegex() {
-        String str = "2";
-        String pattern = "\\d+";
-        assertEquals(true, str.matches(pattern));
-    }
 }

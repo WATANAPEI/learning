@@ -4,7 +4,7 @@ public enum TokenType {
     NUMBER("[0-9]+"),
     STRING("^\"[^\"]*\"?"),
     WORD("^[a-zA-Z]\\w*"),
-    SINGLE_SYMBOL("[\\.\\+\\-\\*\\/\\)\\(,=<>]"),
+    SINGLE_SYMBOL("[\\.\\+\\-\\*\\/\\)\\(,=<>;]"),
     MULTI_SYMBOL("[<>]=|!=|=="),
     NULL_TOKEN("");
 
