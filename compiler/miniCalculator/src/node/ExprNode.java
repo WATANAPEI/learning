@@ -41,19 +41,6 @@ class ExprNode extends Node {
             exprNode.addChildNode(new BinOpNode(opToken, lhsNode, TermNode.checkNode(parser)));
             return exprNode;
         }
-//        if(parser.checkCurrentLexicalType(
-//                LexicalType.GT,
-//                LexicalType.LT,
-//                LexicalType.GE,
-//                LexicalType.LE,
-//                LexicalType.NE,
-//                LexicalType.EQ)) {
-//            Token opToken = parser.getCurrent()
-//                    .orElseThrow(() -> new IllegalStateException("No Token."));
-//            parser.getNext(); // proceed a token
-//            exprNode.addChildNode(new BinOpNode(opToken,lhsNode, TermNode.checkNode(parser)));
-//            return exprNode;
-//        }
         exprNode.addChildNode(lhsNode);
         //parser.getNext(); // proceed a token
         return exprNode;
