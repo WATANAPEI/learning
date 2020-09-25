@@ -20,16 +20,10 @@ public class Lexer {
 
     public List<String> splitString(String str) {
         int currentTail = 0;
-        int currentPointer = 0;
+        int currentPointer = 1;
         List<String> result = new ArrayList();
         EnumSet<TokenType> tokenTypes = EnumSet.allOf(TokenType.class);
-        while(currentPointer < str.length()) {
-            if(str.charAt(currentPointer) == ' ' || str.charAt(currentPointer) == '\t'
-                    || str.charAt(currentPointer) == '\n') {
-                currentTail++;
-                currentPointer++;
-                continue;
-            }
+        while(currentPointer <= str.length()) {
             String subStr = str.substring(currentTail, currentPointer);
             List<TokenType> matchedToken = tokenTypes.stream()
                     .filter(t -> subStr.matches(t.getPattern()))
@@ -41,8 +35,16 @@ public class Lexer {
                 currentPointer--;
                 result.add(str.substring(currentTail, currentPointer));
                 currentTail = currentPointer;
+                while(str.charAt(currentPointer) == ' ' || str.charAt(currentPointer) == '\t'
+                        || str.charAt(currentPointer) == '\n') {
+                    currentTail = currentPointer;
+                    currentPointer++;
+                }
+                currentTail = currentPointer;
+                currentPointer++;
             }
         }
+        //TODO: deal with last character
         return result;
     }
 

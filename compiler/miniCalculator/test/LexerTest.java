@@ -233,6 +233,13 @@ class LexerTest {
         assertTrue(evaluator.eval().equals("5"));
     }
 
+    @Test
+    public void testStrSplitter() {
+        String str = "y=5; x = 32; z == 3;";
+        List<String> strList = new Lexer().splitString(str);
+
+    }
+
     public void testForLoop() {
         String str = "FOR ( i = 0 ; i < 4 ; i = i + 1 ) i;";
         List<Token> tokens = new Lexer(str).analyze();
