@@ -34,10 +34,8 @@ public class Lexer {
             } else {
                 currentPointer--;
                 result.add(str.substring(currentTail, currentPointer));
-                currentTail = currentPointer;
                 while(str.charAt(currentPointer) == ' ' || str.charAt(currentPointer) == '\t'
                         || str.charAt(currentPointer) == '\n') {
-                    currentTail = currentPointer;
                     currentPointer++;
                 }
                 currentTail = currentPointer;
@@ -45,6 +43,8 @@ public class Lexer {
             }
         }
         //TODO: deal with last character
+        currentPointer--;
+        result.add(str.substring(currentTail, currentPointer));
         return result;
     }
 

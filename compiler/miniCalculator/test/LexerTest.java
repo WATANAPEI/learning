@@ -235,7 +235,7 @@ class LexerTest {
 
     @Test
     public void testStrSplitter() {
-        String str = "y=5; x = 32; z == 3;";
+        String str = "tmp=5; x = 32; z == 621;y";
         List<String> strList = new Lexer().splitString(str);
 
     }
