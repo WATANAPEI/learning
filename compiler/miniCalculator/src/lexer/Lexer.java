@@ -34,9 +34,14 @@ public class Lexer {
             } else {
                 currentPointer--;
                 result.add(str.substring(currentTail, currentPointer));
-                while(str.charAt(currentPointer) == ' ' || str.charAt(currentPointer) == '\t'
-                        || str.charAt(currentPointer) == '\n') {
+                while(currentPointer < str.length() &&
+                        (str.charAt(currentPointer) == ' '
+                        || str.charAt(currentPointer) == '\t'
+                        || str.charAt(currentPointer) == '\n')) {
                     currentPointer++;
+                }
+                if(currentPointer == str.length()) {
+                    return result;
                 }
                 currentTail = currentPointer;
                 currentPointer++;
@@ -48,21 +53,20 @@ public class Lexer {
         return result;
     }
 
-    public List<Token> analyze() {
-        String next;
-        while(sc.hasNext()) {
-            next = sc.next();
-            if(next.matches(TokenType.NUMBER.getPattern())) {
-                tokenList.add(new NumToken(next));
-            } else if(next.matches((TokenType.STRING.getPattern()))){
+    public List<Token> analyze(String str) {
+        List<String> strList = splitString(str);
+        for(String s : strList) {
+            if(s.matches(TokenType.NUMBER.getPattern())) {
+                tokenList.add(new NumToken(s));
+            } else if(s.matches((TokenType.STRING.getPattern()))){
                 // strip double quotation
-                tokenList.add(new StringToken(next.replace("\"", "")));
-            } else if(next.matches(TokenType.WORD.getPattern())){
-                tokenList.add(new WordToken(next));
-            } else if(next.matches(TokenType.SINGLE_SYMBOL.getPattern())){
-                tokenList.add(new SingleSymbolToken(next));
-            } else if(next.matches(TokenType.MULTI_SYMBOL.getPattern())){
-                tokenList.add(new MultiSymbolToken(next));
+                tokenList.add(new StringToken(s.replace("\"", "")));
+            } else if(s.matches(TokenType.WORD.getPattern())){
+                tokenList.add(new WordToken(s));
+            } else if(s.matches(TokenType.SINGLE_SYMBOL.getPattern())){
+                tokenList.add(new SingleSymbolToken(s));
+            } else if(s.matches(TokenType.MULTI_SYMBOL.getPattern())){
+                tokenList.add(new MultiSymbolToken(s));
             } else {
                 return null;
             }

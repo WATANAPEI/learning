@@ -16,8 +16,8 @@ class LexerTest {
 
     @Test
     public void testNumToken() {
-        String numStr = "42 ; ";
-        List<Token> tokens = new Lexer(numStr).analyze();
+        String str = "42 ; ";
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -28,8 +28,8 @@ class LexerTest {
 
     @Test
     public void testStrToken() {
-        String strStr = "\"ufo\" ;";
-        List<Token> tokens = new Lexer(strStr).analyze();
+        String str = "\"ufo\" ;";
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -41,7 +41,7 @@ class LexerTest {
     @Test
     public void testRootNode() {
         String str = "\"ufo\" ; 42 ;";
-        List<Token> tokens = new Lexer(str).analyze();
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -52,16 +52,16 @@ class LexerTest {
 
     @Test
     public void testMulToken() {
-        String symbolStr = "* ;";
-        List<Token> tokens = new Lexer(symbolStr).analyze();
+        String str = "* ;";
+        List<Token> tokens = new Lexer().analyze(str);
         assertEquals(TokenType.SINGLE_SYMBOL, tokens.get(0).tokenType());
         assertEquals("*", tokens.get(0).getImage());
     }
 
     @Test
     public void testAddCalculation() {
-        String symbolStr = "3 + 2 ;";
-        List<Token> tokens = new Lexer(symbolStr).analyze();
+        String str = "3 + 2 ;";
+        List<Token> tokens = new Lexer().analyze(str);
         assertEquals(TokenType.NUMBER, tokens.get(0).tokenType());
         assertEquals(TokenType.SINGLE_SYMBOL, tokens.get(1).tokenType());
         assertEquals(TokenType.NUMBER, tokens.get(2).tokenType());
@@ -76,8 +76,8 @@ class LexerTest {
 
     @Test
     public void testMulCalculation() {
-        String symbolStr = "21 * 2 ;";
-        List<Token> tokens = new Lexer(symbolStr).analyze();
+        String str = "21 * 2 ;";
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         assertEquals(Optional.empty(), node.value()); //root node doesn't return value
@@ -88,8 +88,8 @@ class LexerTest {
 
     @Test
     public void testZeroDivision() {
-        String symbolStr = "21 / 0 ;";
-        List<Token> tokens = new Lexer(symbolStr).analyze();
+        String str = "21 / 0 ;";
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -102,7 +102,7 @@ class LexerTest {
     @Test
     public void testSemicolon() {
         String str = "\"word\" ; 21 ;";
-        List<Token> tokens = new Lexer(str).analyze();
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -113,8 +113,8 @@ class LexerTest {
 
     @Test
     public void testAssignAdd() {
-        String assign = "x = 2 + 2 ; x ;";
-        List<Token> tokens = new Lexer(assign).analyze();
+        String str = "x = 2 + 2 ; x ;";
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -124,8 +124,8 @@ class LexerTest {
     }
     @Test
     public void testAssignMul() {
-        String assign = "y = 4 * 3 ; y ;";
-        List<Token> tokens = new Lexer(assign).analyze();
+        String str = "y = 4 * 3 ; y ;";
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -136,8 +136,8 @@ class LexerTest {
 
     @Test
     public void testCalcOrder() {
-        String assign = "y = 6 + 4 * 3 ; y ;";
-        List<Token> tokens = new Lexer(assign).analyze();
+        String str = "y = 6 + 4 * 3 ; y ;";
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -147,8 +147,8 @@ class LexerTest {
 
     @Test
     public void testBracket() {
-        String assign = "y = ( 6 + 4 ) * 3 ; y ;";
-        List<Token> tokens = new Lexer(assign).analyze();
+        String str = "y = ( 6 + 4 ) * 3 ; y ;";
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -158,8 +158,8 @@ class LexerTest {
 
     @Test
     public void testMultiVariables() {
-        String assign = "x = 3 ; y =  ( x + 4 )  * 3 ; y ;";
-        List<Token> tokens = new Lexer(assign).analyze();
+        String str = "x = 3 ; y =  ( x + 4 )  * 3 ; y ;";
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -170,7 +170,7 @@ class LexerTest {
     @Test
     public void testGreater() {
         String str = "x = 2 ; x > 1 ;";
-        List<Token> tokens = new Lexer(str).analyze();
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -181,7 +181,7 @@ class LexerTest {
     @Test
     public void testAddGreater() {
         String str = "x = 2 ; x + 3 > 6 ;";
-        List<Token> tokens = new Lexer(str).analyze();
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -192,7 +192,7 @@ class LexerTest {
     @Test
     public void testGreaterThanEqual() {
         String str = "x = 2 ; x >= 1 ;";
-        List<Token> tokens = new Lexer(str).analyze();
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -203,7 +203,7 @@ class LexerTest {
     @Test
     public void testEqual() {
         String str = "x = 3 ; x == 1 ;";
-        List<Token> tokens = new Lexer(str).analyze();
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -214,7 +214,7 @@ class LexerTest {
     @Test
     public void testIfStatement() {
         String str = "x = 3 ; IF ( x == 3 ) y = 5 ; ELSE y = 10 ; y ;";
-        List<Token> tokens = new Lexer(str).analyze();
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -225,7 +225,7 @@ class LexerTest {
     @Test
     public void testIfStmtWithoutELSE() {
         String str = "y = 5 ; IF ( y < 3 ) y = 10 ; y ;";
-        List<Token> tokens = new Lexer(str).analyze();
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
@@ -242,7 +242,7 @@ class LexerTest {
 
     public void testForLoop() {
         String str = "FOR ( i = 0 ; i < 4 ; i = i + 1 ) i;";
-        List<Token> tokens = new Lexer(str).analyze();
+        List<Token> tokens = new Lexer().analyze(str);
         Node node = new Parser(tokens).parse()
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
