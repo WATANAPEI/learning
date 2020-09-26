@@ -32,12 +32,7 @@ public class RootNode extends Node {
 
     public static Node checkNode(Parser parser) {
         RootNode rootNode = new RootNode();
-        Node node = StmtNode.checkNode(parser);
-        rootNode.addChildNode(node);
-        while(parser.getCurrent().isPresent()) {
-            node = StmtNode.checkNode(parser);
-            rootNode.addChildNode(node);
-        }
+        rootNode.addChildNode(StmtListNode.checkNode(parser));
         return rootNode;
     }
 
@@ -56,11 +51,8 @@ public class RootNode extends Node {
         // call eval() in each node
         StringBuilder sb = new StringBuilder();
         for(Node node: nodes) {
-            if(sb.length() != 0) {
-                sb.append("\n");
-            }
             node.eval(symbolTable).ifPresent(e -> {
-                sb.append(e.getSValue().orElse(""));
+                e.getSValue().ifPresent(f -> sb.append(f));
             });
         }
         return Optional.ofNullable(new StringValue(sb.toString()));

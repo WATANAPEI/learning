@@ -11,6 +11,7 @@ import java.util.Optional;
 /**
  * <root> := {<stmt>}
  * <stmt> := <expr> <;> | <assign> <;> | <if> | <condition> <;> | <for>
+ * <stmtlist> := { <stmt> }
  * <for> := <FOR> <(> <assign> <;> <condition> <;> <assign> <)> <stmt>
  * <if> := <IF> <(> <condition> <)> <stmt> { <ELSE> <stmt> }
  * <assign> := <word> <=> <expr>
@@ -36,6 +37,9 @@ class StmtNode extends Node {
         StmtNode stmtNode = new StmtNode();
         if (parser.checkCurrentLexicalType(LexicalType.IF)) {
             stmtNode.addChildNode(IfNode.checkNode(parser));
+            return stmtNode;
+        } else if (parser.checkCurrentLexicalType(LexicalType.FOR)) {
+            stmtNode.addChildNode(ForNode.checkNode(parser));
             return stmtNode;
         } else {
             if(parser.checkCurrentLexicalType(LexicalType.ID)

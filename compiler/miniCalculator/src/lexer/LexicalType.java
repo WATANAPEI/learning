@@ -10,6 +10,8 @@ public enum LexicalType {
     ASSIGN("="),
     OPEN_BRA("("),
     CLOSE_BRA(")"),
+    OPEN_CURBRA("{"),
+    CLOSE_CURBRA("}"),
     GT(">"),
     LT("<"),
     EQ("=="),

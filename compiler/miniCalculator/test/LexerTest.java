@@ -22,7 +22,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("42"));
+        assertTrue(evaluator.eval().equals("42\n"));
 
     }
 
@@ -34,7 +34,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("ufo"));
+        assertTrue(evaluator.eval().equals("ufo\n"));
 
     }
 
@@ -46,7 +46,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("ufo\n42"));
+        assertTrue(evaluator.eval().equals("ufo\n42\n"));
 
     }
 
@@ -70,7 +70,7 @@ class LexerTest {
         assertEquals(Optional.empty(), node.value()); //root node doesn't return value
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("5"));
+        assertTrue(evaluator.eval().equals("5\n"));
 
     }
 
@@ -83,7 +83,7 @@ class LexerTest {
         assertEquals(Optional.empty(), node.value()); //root node doesn't return value
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("42"));
+        assertTrue(evaluator.eval().equals("42\n"));
     }
 
     @Test
@@ -107,7 +107,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("word\n21"));
+        assertTrue(evaluator.eval().equals("word\n21\n"));
 
     }
 
@@ -119,7 +119,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("4"));
+        assertTrue(evaluator.eval().equals("4\n"));
 
     }
 
@@ -131,7 +131,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("12"));
+        assertTrue(evaluator.eval().equals("12\n"));
 
     }
 
@@ -143,7 +143,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("18"));
+        assertTrue(evaluator.eval().equals("18\n"));
     }
 
     @Test
@@ -154,7 +154,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("30"));
+        assertTrue(evaluator.eval().equals("30\n"));
     }
 
     @Test
@@ -165,7 +165,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("21"));
+        assertTrue(evaluator.eval().equals("21\n"));
     }
 
     @Test
@@ -176,7 +176,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("true"));
+        assertTrue(evaluator.eval().equals("true\n"));
     }
 
     @Test
@@ -187,7 +187,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("false"));
+        assertTrue(evaluator.eval().equals("false\n"));
     }
 
     @Test
@@ -198,7 +198,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("true"));
+        assertTrue(evaluator.eval().equals("true\n"));
     }
 
     @Test
@@ -209,7 +209,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("false"));
+        assertTrue(evaluator.eval().equals("false\n"));
     }
 
     @Test
@@ -220,7 +220,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("5"));
+        assertTrue(evaluator.eval().equals("5\n"));
     }
 
     @Test
@@ -231,7 +231,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("5"));
+        assertTrue(evaluator.eval().equals("5\n"));
     }
 
     @Test
@@ -241,6 +241,19 @@ class LexerTest {
 
     }
 
+    @Test
+    public void testStmtList() {
+        String str = "e = 0; x = 3; e; x;";
+        List<Token> tokens = new Lexer().analyze(str);
+        Node node = new Parser(tokens).parse()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        assertTrue(evaluator.eval().equals("0\n3\n"));
+
+    }
+
+    @Test
     public void testForLoop() {
         String str = "FOR ( i = 0 ; i < 4 ; i = i + 1 ) i;";
         List<Token> tokens = new Lexer().analyze(str);
@@ -248,7 +261,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("0\n1\n2\n3"));
+        assertTrue(evaluator.eval().equals("0\n1\n2\n3\n\n"));
     }
 
 }
