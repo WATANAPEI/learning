@@ -59,10 +59,10 @@ class StmtListNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
         StringBuilder sb = new StringBuilder();
         for(Node node: nodeList) {
-            node.eval(symbolTable).ifPresent(e -> {
+            node.eval(symbolTable, functionTable).ifPresent(e -> {
                 e.getSValue().ifPresent(f -> sb.append(f + "\n"));
             });
         }

@@ -10,7 +10,12 @@ import java.util.Optional;
 
 /**
  * <root> := {<stmt>}
- * <stmt> := <expr> <;> | <assign> <;> | <if> | <condition> <;> | <for>
+ * <stmt> := <expr> <;>
+ *          | <assign> <;>
+ *          | <if>
+ *          | <condition> <;>
+ *          | <for>
+ *          | <FUNCTION> id <(> <id> <)> <stmtlist>
  * <stmtlist> := { <stmt> }
  * <for> := <FOR> <(> <assign> <;> <condition> <;> <assign> <)> <stmt>
  * <if> := <IF> <(> <condition> <)> <stmt> { <ELSE> <stmt> }
@@ -18,7 +23,11 @@ import java.util.Optional;
  * <condition> := <expr> <Compare> <expr>
  * <expr> := <term> { <+|-> <term>}
  * <term> := <factor> { <*|/> <factor>}
- * <factor> := <(> <expr> <)> | <word> | <number> | <string>
+ * <factor> := <(> <expr> <)>
+ *     | <word>
+ *     | <number>
+ *     | <string>
+ *     | <word> <(> {<word>} <)>
  * <compare> := < <> | == | >= | <= | != >
  * @return
  */
@@ -40,6 +49,9 @@ class StmtNode extends Node {
             return stmtNode;
         } else if (parser.checkCurrentLexicalType(LexicalType.FOR)) {
             stmtNode.addChildNode(ForNode.checkNode(parser));
+            return stmtNode;
+        } else if (parser.checkCurrentLexicalType(LexicalType.FUNC)) {
+            stmtNode.addChildNode(FuncNode.checkNode(parser));
             return stmtNode;
         } else {
             if(parser.checkCurrentLexicalType(LexicalType.ID)
@@ -77,7 +89,7 @@ class StmtNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
-        return node.eval(symbolTable);
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
+        return node.eval(symbolTable, functionTable);
     }
 }

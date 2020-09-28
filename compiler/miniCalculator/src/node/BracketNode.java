@@ -55,7 +55,7 @@ class BracketNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
-        return child.eval(symbolTable);
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
+        return child.eval(symbolTable, functionTable);
     }
 }

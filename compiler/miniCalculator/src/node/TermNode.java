@@ -1,7 +1,6 @@
 package node;
 
 import lexer.LexicalType;
-import lexer.NullToken;
 import lexer.Token;
 import parser.Parser;
 import parser.Value;
@@ -39,7 +38,7 @@ class TermNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
-        return node.eval(symbolTable);
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
+        return node.eval(symbolTable, functionTable);
     }
 }

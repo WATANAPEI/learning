@@ -47,11 +47,11 @@ public class RootNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
         // call eval() in each node
         StringBuilder sb = new StringBuilder();
         for(Node node: nodes) {
-            node.eval(symbolTable).ifPresent(e -> {
+            node.eval(symbolTable, functionTable).ifPresent(e -> {
                 e.getSValue().ifPresent(f -> sb.append(f));
             });
         }

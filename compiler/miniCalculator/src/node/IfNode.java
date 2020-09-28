@@ -47,16 +47,16 @@ class IfNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
-        boolean condition = this.condition.eval(symbolTable)
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
+        boolean condition = this.condition.eval(symbolTable, functionTable)
                 .orElseThrow(() -> new IllegalStateException("No condition value"))
                 .getBValue()
                 .orElseThrow(() -> new IllegalStateException("No BValue is defined"));
         if(condition) {
-            return trueStmt.eval(symbolTable);
+            return trueStmt.eval(symbolTable, functionTable);
         } else {
             if(falseStmt != null) {
-                return falseStmt.eval(symbolTable);
+                return falseStmt.eval(symbolTable, functionTable);
             } else {
                 return Optional.empty();
             }

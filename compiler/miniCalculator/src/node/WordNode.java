@@ -10,10 +10,10 @@ import java.util.Map;
 import java.util.Optional;
 
 class WordNode extends Node {
-    Value val;
+    Value id;
 
     public WordNode(Token token) {
-        val = new StringValue(token.getImage());
+        id = new StringValue(token.getImage());
     }
 
     public static Node checkNode(Parser parser) {
@@ -33,12 +33,12 @@ class WordNode extends Node {
     @Override
     public Optional<Value> value() {
 
-        return Optional.of(this.val);
+        return Optional.of(this.id);
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
-        Value value = symbolTable.get(this.val.getSValue().orElseThrow());
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
+        Value value = symbolTable.get(this.id.getSValue().orElseThrow());
         return Optional.ofNullable(value);
     }
 }

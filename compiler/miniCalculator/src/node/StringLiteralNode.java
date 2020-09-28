@@ -36,7 +36,7 @@ class StringLiteralNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
         return Optional.of(this.val);
     }
 }
