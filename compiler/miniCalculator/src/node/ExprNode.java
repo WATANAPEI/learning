@@ -1,7 +1,6 @@
 package node;
 
 import lexer.LexicalType;
-import lexer.NullToken;
 import lexer.Token;
 import parser.Parser;
 import parser.Value;

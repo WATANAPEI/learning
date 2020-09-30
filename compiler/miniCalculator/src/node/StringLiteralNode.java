@@ -7,7 +7,6 @@ import parser.StringValue;
 import parser.Value;
 
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 class StringLiteralNode extends Node {

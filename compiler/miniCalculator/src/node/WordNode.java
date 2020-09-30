@@ -11,9 +11,11 @@ import java.util.Optional;
 
 class WordNode extends Node {
     Value id;
+    String image;
 
     public WordNode(Token token) {
         id = new StringValue(token.getImage());
+        image = token.getImage();
     }
 
     public static Node checkNode(Parser parser) {
@@ -24,6 +26,10 @@ class WordNode extends Node {
         } else {
             throw new IllegalStateException("WordToken is expected.");
         }
+    }
+
+    public String getImage() {
+        return this.image;
     }
 
     /**
@@ -38,7 +44,7 @@ class WordNode extends Node {
 
     @Override
     public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
-        Value value = symbolTable.get(this.id.getSValue().orElseThrow());
+        Value value = symbolTable.get(this.image);
         return Optional.ofNullable(value);
     }
 }

@@ -9,14 +9,14 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * <root> := {<stmt>}
+ * <root> := { <funcdef> } { <stmtlist> }
+ * <stmtlist> := { <stmt> }
+ * <funcdef> :=  <FUNCTION> <word> <(> <word> <)> <stmtlist>
  * <stmt> := <expr> <;>
  *          | <assign> <;>
  *          | <if>
  *          | <condition> <;>
  *          | <for>
- *          | <FUNCTION> id <(> <id> <)> <stmtlist>
- * <stmtlist> := { <stmt> }
  * <for> := <FOR> <(> <assign> <;> <condition> <;> <assign> <)> <stmt>
  * <if> := <IF> <(> <condition> <)> <stmt> { <ELSE> <stmt> }
  * <assign> := <word> <=> <expr>
@@ -27,7 +27,8 @@ import java.util.Optional;
  *     | <word>
  *     | <number>
  *     | <string>
- *     | <word> <(> {<word>} <)>
+ *     | <invoke>
+ * <invoke> := <word> <(> {<word>} <)>
  * <compare> := < <> | == | >= | <= | != >
  * @return
  */
@@ -51,7 +52,7 @@ class StmtNode extends Node {
             stmtNode.addChildNode(ForNode.checkNode(parser));
             return stmtNode;
         } else if (parser.checkCurrentLexicalType(LexicalType.FUNC)) {
-            stmtNode.addChildNode(FuncNode.checkNode(parser));
+            stmtNode.addChildNode(FuncDefNode.checkNode(parser));
             return stmtNode;
         } else {
             if(parser.checkCurrentLexicalType(LexicalType.ID)

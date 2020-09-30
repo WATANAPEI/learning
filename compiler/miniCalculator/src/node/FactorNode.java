@@ -38,12 +38,14 @@ class FactorNode extends Node {
             return factorNode;
         }
         if(token.checkTokenType(TokenType.NUMBER)) {
-            //token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new NumberLiteralNode(token));
             parser.getNext(); // proceed a token
             return factorNode;
         }else if(token.checkTokenType(TokenType.WORD)){
-            //token = parser.getNext().orElseThrow();
+            if(parser.checkNextLexicalType(LexicalType.OPEN_BRA)) {
+                factorNode.addChildNode(FuncCallNode.checkNode(parser));
+                return factorNode;
+            }
             factorNode.addChildNode(new WordNode(token));
             parser.getNext(); // proceed a token
             return factorNode;

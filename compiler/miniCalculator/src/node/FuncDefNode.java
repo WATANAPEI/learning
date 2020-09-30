@@ -8,36 +8,46 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-class FuncNode extends Node {
+class FuncDefNode extends Node {
     String name;
-    List<Node> args;
+    List<String> args;
     Node stmts;
 
-    private FuncNode() {
+    private FuncDefNode() {
     }
 
     public void assignName(String name) {
         this.name = name;
     }
 
-    public void assignArg(Node node) {
-        args.add(node);
+    public void assignArg(String wordNode) {
+        args.add(wordNode);
     }
 
     public void assignStmts(Node node) {
         this.stmts = node;
     }
 
+    public List<String> getArgs() {
+        return this.args;
+    }
+
+    public Node getStmts() {
+        return this.stmts;
+    }
+
     public static Node checkNode(Parser parser) {
-        FuncNode funcNode = new FuncNode();
+        FuncDefNode funcDefNode = new FuncDefNode();
         parser.consume(LexicalType.FUNC);
-        funcNode.assignName(parser.getCurrent().orElseThrow().getImage());
+        funcDefNode.assignName(parser.getCurrent().orElseThrow().getImage());
         parser.getNext(); // consume
         parser.consume(LexicalType.OPEN_BRA);
-        funcNode.assignArg(StmtListNode.checkNode(parser));
+        //assume argument is only one
+        WordNode wordNode = (WordNode)WordNode.checkNode(parser);
+        funcDefNode.assignArg(wordNode.getImage());
         parser.consume(LexicalType.CLOSE_BRA);
-        funcNode.assignStmts(StmtListNode.checkNode(parser));
-        return funcNode;
+        funcDefNode.assignStmts(StmtListNode.checkNode(parser));
+        return funcDefNode;
     }
 
     @Override
