@@ -4,6 +4,7 @@ import lexer.LexicalType;
 import parser.Parser;
 import parser.Value;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +15,7 @@ class FuncDefNode extends Node {
     Node stmts;
 
     private FuncDefNode() {
+        args = new ArrayList();
     }
 
     public void assignName(String name) {
@@ -44,6 +46,7 @@ class FuncDefNode extends Node {
         parser.consume(LexicalType.OPEN_BRA);
         //assume argument is only one
         WordNode wordNode = (WordNode)WordNode.checkNode(parser);
+        parser.getNext(); // consume
         funcDefNode.assignArg(wordNode.getImage());
         parser.consume(LexicalType.CLOSE_BRA);
         funcDefNode.assignStmts(StmtListNode.checkNode(parser));

@@ -17,10 +17,12 @@ import java.util.Optional;
  *          | <if>
  *          | <condition> <;>
  *          | <for>
+ *          | <return>
  * <for> := <FOR> <(> <assign> <;> <condition> <;> <assign> <)> <stmt>
  * <if> := <IF> <(> <condition> <)> <stmt> { <ELSE> <stmt> }
  * <assign> := <word> <=> <expr>
  * <condition> := <expr> <Compare> <expr>
+ * <return> := <RETURN> <expr> <;>
  * <expr> := <term> { <+|-> <term>}
  * <term> := <factor> { <*|/> <factor>}
  * <factor> := <(> <expr> <)>
@@ -53,6 +55,9 @@ class StmtNode extends Node {
             return stmtNode;
         } else if (parser.checkCurrentLexicalType(LexicalType.FUNC)) {
             stmtNode.addChildNode(FuncDefNode.checkNode(parser));
+            return stmtNode;
+        } else if (parser.checkCurrentLexicalType(LexicalType.RETURN)) {
+            stmtNode.addChildNode(ReturnNode.checkNode(parser));
             return stmtNode;
         } else {
             if(parser.checkCurrentLexicalType(LexicalType.ID)

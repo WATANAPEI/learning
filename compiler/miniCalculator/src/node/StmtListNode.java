@@ -41,7 +41,7 @@ class StmtListNode extends Node {
         while(parser.peekNext().isPresent()) {
             if(parser.checkCurrentLexicalType(LexicalType.OPEN_CURBRA)) {
                 parser.consume(LexicalType.OPEN_CURBRA);
-                while(!parser.checkNextLexicalType(LexicalType.CLOSE_CURBRA)) {
+                while(!parser.checkCurrentLexicalType(LexicalType.CLOSE_CURBRA)) {
                     stmtListNode.addChildNode(StmtNode.checkNode(parser));
                 }
                 parser.consume(LexicalType.CLOSE_CURBRA);

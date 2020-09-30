@@ -4,16 +4,14 @@ import lexer.LexicalType;
 import parser.Parser;
 import parser.Value;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 class FuncCallNode extends Node {
     String callee;
     List<Node> args;
 
     private FuncCallNode() {
+        args = new ArrayList<>();
     }
 
     public void assignCallee(String name) {
