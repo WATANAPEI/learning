@@ -62,20 +62,20 @@ class ForNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
         StringBuilder sb = new StringBuilder();
-        initial.eval(symbolTable);
+        initial.eval(symbolTable, functionTable);
         for(;;) {
-            boolean condition = this.continueCondition.eval(symbolTable)
+            boolean condition = this.continueCondition.eval(symbolTable, functionTable)
                     .orElseThrow(() -> new IllegalStateException("No condition value"))
                     .getBValue()
                     .orElseThrow(() -> new IllegalStateException("No BValue is defined"));
             if(condition) {
-                stmtNode.eval(symbolTable).ifPresent(e -> {
+                stmtNode.eval(symbolTable, functionTable).ifPresent(e -> {
                     e.getSValue().ifPresent(f -> sb.append(f + "\n"));
                 });
 
-                continueAssign.eval(symbolTable);
+                continueAssign.eval(symbolTable, functionTable);
             } else {
                 return Optional.ofNullable(new StringValue(sb.toString()));
             }

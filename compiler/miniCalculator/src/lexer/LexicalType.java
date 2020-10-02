@@ -21,6 +21,8 @@ public enum LexicalType {
     IF("IF"),
     ELSE("ELSE"),
     FOR("FOR"),
+    FUNC("FUNC"),
+    RETURN("RETURN"),
     ID("ID");
 
     String image;

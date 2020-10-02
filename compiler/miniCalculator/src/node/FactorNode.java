@@ -38,12 +38,14 @@ class FactorNode extends Node {
             return factorNode;
         }
         if(token.checkTokenType(TokenType.NUMBER)) {
-            //token = parser.getNext().orElseThrow();
             factorNode.addChildNode(new NumberLiteralNode(token));
             parser.getNext(); // proceed a token
             return factorNode;
         }else if(token.checkTokenType(TokenType.WORD)){
-            //token = parser.getNext().orElseThrow();
+            if(parser.checkNextLexicalType(LexicalType.OPEN_BRA)) {
+                factorNode.addChildNode(FuncCallNode.checkNode(parser));
+                return factorNode;
+            }
             factorNode.addChildNode(new WordNode(token));
             parser.getNext(); // proceed a token
             return factorNode;
@@ -62,7 +64,7 @@ class FactorNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
-        return node.eval(symbolTable);
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
+        return node.eval(symbolTable, functionTable);
     }
 }

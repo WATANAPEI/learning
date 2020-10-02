@@ -1,7 +1,6 @@
 package node;
 
 import lexer.Token;
-import parser.BooleanValue;
 import parser.NumValue;
 import parser.Value;
 
@@ -40,9 +39,9 @@ public class BinOpNode extends Node{
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
-        int lvalue = lhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
-        int rvalue = rhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
+        int lvalue = lhs.eval(symbolTable, functionTable).orElseThrow().getIValue().orElseThrow();
+        int rvalue = rhs.eval(symbolTable, functionTable).orElseThrow().getIValue().orElseThrow();
         switch(op.lexicalType()) {
             case ADD:
                 return Optional.of(new NumValue(lvalue + rvalue));
@@ -55,18 +54,6 @@ public class BinOpNode extends Node{
                     throw new ArithmeticException("0 division occur.");
                 }
                 return Optional.of(new NumValue(lvalue / rvalue));
-            case GT:
-                return Optional.of(new BooleanValue(lvalue > rvalue));
-            case LT:
-                return Optional.of(new BooleanValue(lvalue < rvalue));
-            case EQ:
-                return Optional.of(new BooleanValue(lvalue == rvalue));
-            case NE:
-                return Optional.of(new BooleanValue(lvalue != rvalue));
-            case GE:
-                return Optional.of(new BooleanValue(lvalue >= rvalue));
-            case LE:
-                return Optional.of(new BooleanValue(lvalue <= rvalue));
             default:
                 return Optional.empty();
         }

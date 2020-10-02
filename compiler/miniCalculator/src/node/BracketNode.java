@@ -1,9 +1,6 @@
 package node;
 
 import lexer.LexicalType;
-import lexer.NullToken;
-import lexer.Token;
-import lexer.TokenType;
 import parser.Parser;
 import parser.Value;
 
@@ -55,7 +52,7 @@ class BracketNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
-        return child.eval(symbolTable);
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
+        return child.eval(symbolTable, functionTable);
     }
 }

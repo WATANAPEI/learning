@@ -1,7 +1,6 @@
 package node;
 
 import lexer.LexicalType;
-import lexer.NullToken;
 import lexer.Token;
 import lexer.TokenType;
 import parser.*;
@@ -56,9 +55,9 @@ class AssignNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
         symbolTable.put(lhs.value().orElseThrow().getSValue().orElseThrow(),
-                rhs.eval(symbolTable).orElse(null));
+                rhs.eval(symbolTable, functionTable).orElse(null));
         return Optional.empty();
     }
 }

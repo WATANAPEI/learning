@@ -9,16 +9,28 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * <root> := {<stmt>}
- * <stmt> := <expr> <;> | <assign> <;> | <if> | <condition> <;> | <for>
+ * <root> := { <funcdef> } { <stmtlist> }
  * <stmtlist> := { <stmt> }
+ * <funcdef> :=  <FUNCTION> <word> <(> <word> <)> <stmtlist>
+ * <stmt> := <expr> <;>
+ *          | <assign> <;>
+ *          | <if>
+ *          | <condition> <;>
+ *          | <for>
+ *          | <return>
  * <for> := <FOR> <(> <assign> <;> <condition> <;> <assign> <)> <stmt>
  * <if> := <IF> <(> <condition> <)> <stmt> { <ELSE> <stmt> }
  * <assign> := <word> <=> <expr>
  * <condition> := <expr> <Compare> <expr>
+ * <return> := <RETURN> <expr> <;>
  * <expr> := <term> { <+|-> <term>}
  * <term> := <factor> { <*|/> <factor>}
- * <factor> := <(> <expr> <)> | <word> | <number> | <string>
+ * <factor> := <(> <expr> <)>
+ *     | <word>
+ *     | <number>
+ *     | <string>
+ *     | <invoke>
+ * <invoke> := <word> <(> {<word>} <)>
  * <compare> := < <> | == | >= | <= | != >
  * @return
  */
@@ -40,6 +52,12 @@ class StmtNode extends Node {
             return stmtNode;
         } else if (parser.checkCurrentLexicalType(LexicalType.FOR)) {
             stmtNode.addChildNode(ForNode.checkNode(parser));
+            return stmtNode;
+        } else if (parser.checkCurrentLexicalType(LexicalType.FUNC)) {
+            stmtNode.addChildNode(FuncDefNode.checkNode(parser));
+            return stmtNode;
+        } else if (parser.checkCurrentLexicalType(LexicalType.RETURN)) {
+            stmtNode.addChildNode(ReturnNode.checkNode(parser));
             return stmtNode;
         } else {
             if(parser.checkCurrentLexicalType(LexicalType.ID)
@@ -77,7 +95,7 @@ class StmtNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
-        return node.eval(symbolTable);
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
+        return node.eval(symbolTable, functionTable);
     }
 }

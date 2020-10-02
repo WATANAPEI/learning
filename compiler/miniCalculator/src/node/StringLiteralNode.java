@@ -7,7 +7,6 @@ import parser.StringValue;
 import parser.Value;
 
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 class StringLiteralNode extends Node {
@@ -36,7 +35,7 @@ class StringLiteralNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
         return Optional.of(this.val);
     }
 }

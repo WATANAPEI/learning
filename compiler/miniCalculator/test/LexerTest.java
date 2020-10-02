@@ -264,4 +264,15 @@ class LexerTest {
         assertTrue(evaluator.eval().equals("0\n1\n2\n3\n\n"));
     }
 
+    @Test
+    public void testFunction() {
+        String str = "FUNC double(x) { y = x + 1; RETURN y * y; } double(3);";
+        List<Token> tokens = new Lexer().analyze(str);
+        Node node = new Parser(tokens).parse()
+                .orElseThrow();
+        Node ast = new SemanticAnalyzer(node).check();
+        Evaluator evaluator = new Evaluator(ast);
+        assertTrue(evaluator.eval().equals("16\n\n"));
+    }
+
 }

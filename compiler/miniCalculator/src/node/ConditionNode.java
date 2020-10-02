@@ -55,9 +55,9 @@ public class ConditionNode extends Node{
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
-        int lvalue = lhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
-        int rvalue = rhs.eval(symbolTable).orElseThrow().getIValue().orElseThrow();
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
+        int lvalue = lhs.eval(symbolTable, functionTable).orElseThrow().getIValue().orElseThrow();
+        int rvalue = rhs.eval(symbolTable, functionTable).orElseThrow().getIValue().orElseThrow();
         switch(op.lexicalType()) {
             case GT:
                 return Optional.of(new BooleanValue(lvalue > rvalue));

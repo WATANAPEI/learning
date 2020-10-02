@@ -1,5 +1,6 @@
 package node;
 
+import lexer.LexicalType;
 import parser.Parser;
 import parser.StringValue;
 import parser.Value;
@@ -27,11 +28,15 @@ public class RootNode extends Node {
     }
 
     public void addChildNode(Node node) {
-        this.nodes.add(node);
+        nodes.add(node);
     }
 
     public static Node checkNode(Parser parser) {
         RootNode rootNode = new RootNode();
+        while(parser.checkCurrentLexicalType(LexicalType.FUNC)) {
+            Node funcDefNode = FuncDefNode.checkNode(parser);
+            rootNode.addChildNode(funcDefNode);
+        }
         rootNode.addChildNode(StmtListNode.checkNode(parser));
         return rootNode;
     }
@@ -47,11 +52,11 @@ public class RootNode extends Node {
     }
 
     @Override
-    public Optional<Value> eval(Map<String, Value> symbolTable) {
+    public Optional<Value> eval(Map<String, Value> symbolTable, Map<String, Node> functionTable) {
         // call eval() in each node
         StringBuilder sb = new StringBuilder();
         for(Node node: nodes) {
-            node.eval(symbolTable).ifPresent(e -> {
+            node.eval(symbolTable, functionTable).ifPresent(e -> {
                 e.getSValue().ifPresent(f -> sb.append(f));
             });
         }
