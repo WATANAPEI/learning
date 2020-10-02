@@ -45,6 +45,7 @@ class StmtListNode extends Node {
                     stmtListNode.addChildNode(StmtNode.checkNode(parser));
                 }
                 parser.consume(LexicalType.CLOSE_CURBRA);
+                return stmtListNode;
             } else {
                 stmtListNode.addChildNode(StmtNode.checkNode(parser));
             }

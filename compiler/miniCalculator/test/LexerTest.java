@@ -272,7 +272,7 @@ class LexerTest {
                 .orElseThrow();
         Node ast = new SemanticAnalyzer(node).check();
         Evaluator evaluator = new Evaluator(ast);
-        assertTrue(evaluator.eval().equals("16"));
+        assertTrue(evaluator.eval().equals("16\n\n"));
     }
 
 }

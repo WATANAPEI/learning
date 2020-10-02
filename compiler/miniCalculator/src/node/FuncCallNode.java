@@ -49,6 +49,5 @@ class FuncCallNode extends Node {
             localEnv.put(argStrings.get(i), v);
         }
         return stmtsNode.eval(localEnv, functionTable);
-        //TODO: put key and value. key should be name of argument in func def.
     }
 }
