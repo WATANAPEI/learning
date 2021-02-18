@@ -5,12 +5,14 @@ let router = express.Router();
 
 router.get("/about/:id", (req, res) => {
     let options = {
-        root: path.join(__dirname, 'client')
+        // root: path.join(__dirname, 'client')
+        root: "/home/app/src/client"
     }
     console.log(`root is ${options.root}`);
-    res.sendFile("../client/index.html", options, (err) => {
+    res.sendFile("index.html", options, (err) => {
         if(err) {
             console.log("error occured.");
+            res.send("error occured.");
         } else {
             let id = req.params.id;
             console.log(`id is ${id}`);
