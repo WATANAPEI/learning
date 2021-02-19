@@ -13,7 +13,7 @@ router.get("/:name", (req, res) => {
             console.log("error occured.");
             res.send("error occured.");
         } else {
-            console.log(`sent ${filename}`);
+            // console.log(`sent ${filename}`);
         }
     });
 })

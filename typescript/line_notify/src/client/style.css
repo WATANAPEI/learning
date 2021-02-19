@@ -85,6 +85,16 @@ footer {
     color:#0d0d0d;
 }
 
+.modal-confirm {
+    background-color: #a9d9b4;
+    color: #0d0d0d;
+}
+
+.modal-btn-area {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .modal {
     display: none;
 }
@@ -112,6 +122,10 @@ footer {
     overflow: scroll;
     max-height: 100%;
     width: 600px;
+}
+
+.modal-content {
+    text-align: center;
 }
 
 .modal-content-title {
