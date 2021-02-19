@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LINE notification</title>
+        <meta charset="UTF-8">
+        <script src="client.js"></script>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <header>
+            <ul class="menu">
+                <li>TOP</li>
+                <li>ABOUD</li>
+                <li>SETTING</li>
+            </ul>
+        </header>
+        <main>
+            <section>
+                <h3>Description</h3>
+                <p>Here is description of landing page.</p>
+            </section>
+            <section>
+                <h3>Form</h3>
+                <p>Click button below to receive notification</p>
+                <div class="modal-btn-container">
+                    <button class="modal-btn modal-open" type="button" id="modalOpen">Open</button>
+                </div>
+            </section>
+        </main>
+        <div id="modal" class="modal">
+            <div class="modal-overlay js-modal-close">
+                <div class="modal-container">
+                    <div class="modal-content">
+                        <h2 class="modal-content-title">title</h2>
+                        <p class="modal-content-txt">
+                            text in modal.
+                        </p>
+                    </div>
+                    <button class="modal-btn modal-close js-modal-close">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
