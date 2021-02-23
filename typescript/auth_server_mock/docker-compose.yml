@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+    auth_server_mock:
+        build: .
+        container_name: "auth_server_mock"
+        volumes:
+            - .:/home/app
+            - /home/app/node_modules
+        ports:
+            - '8080:8080'
+        command:
+            "tail -f /dev/null"

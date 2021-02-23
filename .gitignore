@@ -19,3 +19,13 @@ Cargo.lock
 *.class
 **/.vscode/settings.json
 **/.mypy_cache/*
+
+# node package
+node_modules
+.npm
+.gnupg
+.vscode-server
+.cache
+dist
+.bash_history
+

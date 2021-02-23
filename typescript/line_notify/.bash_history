@@ -23,3 +23,19 @@ npm start
 [A
 npm start
 npm start
+ls -ahl
+npm start
+npm start
+npm start
+npm start
+npm start
+npm start
+npm start
+npm start
+npm start
+npm start
+npm start
+npm start
+ls -hal
+npm i
+npm start
