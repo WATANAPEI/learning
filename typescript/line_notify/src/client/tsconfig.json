@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "esModuleInterop": true,
+        "target": "es5",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist"
+    },
+    "include": ["src/**/*", "../share/typings/browser/**/*"],
+    "references": [{ "path": "../share/tsconfig.browser.json"}]
+
+}

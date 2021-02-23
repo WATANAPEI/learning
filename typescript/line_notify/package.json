@@ -2,7 +2,10 @@
   "name": "line_notify_client",
   "version": "1.0.0",
   "description": "client application to notify line-notify",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "src/*"
+  ],
   "devDependencies": {
     "@types/express": "^4.17.11",
     "tslint": "^6.1.3",

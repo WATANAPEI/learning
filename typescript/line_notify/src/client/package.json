@@ -1,0 +1,11 @@
+{
+  "name": "line_notify_front",
+  "version": "1.0.0",
+  "description": "frontend src for line_notify",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "typescript": "^4.1.5"
+  }
+}
