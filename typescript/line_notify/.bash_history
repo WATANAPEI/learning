@@ -39,3 +39,5 @@ npm start
 ls -hal
 npm i
 npm start
+ls -ahl
+npm start
