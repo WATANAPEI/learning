@@ -1,6 +1,8 @@
 window.onload = function () {
     _addModalAction();
 };
+function confirm() {
+}
 function _addModalAction() {
     var modal = document.getElementById("modal");
     var modalButton = document.getElementById("modalOpen");

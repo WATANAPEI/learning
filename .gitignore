@@ -28,4 +28,6 @@ node_modules
 .cache
 dist
 .bash_history
+*.js.map
+yarn-error.log
 

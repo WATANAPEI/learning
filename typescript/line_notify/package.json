@@ -7,9 +7,10 @@
     "packages": ["src/*"]
   },
   "scripts": {
-    "start": "tsc && node dist/index.js",
+    "start": "yarn workspace line_notify_front build && yarn workspace line_notify_server start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "s:start": "yarn workspace line_notify_server start"
+    "s:start": "yarn workspace line_notify_server start",
+    "c:build": "yarn workspace line_notify_front build"
   },
   "author": "",
   "license": "ISC"
