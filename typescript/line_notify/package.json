@@ -3,21 +3,14 @@
   "version": "1.0.0",
   "description": "client application to notify line-notify",
   "private": true,
-  "workspaces": [
-    "src/*"
-  ],
-  "devDependencies": {
-    "@types/express": "^4.17.11",
-    "tslint": "^6.1.3",
-    "typescript": "^4.1.5"
+  "workspaces": {
+    "packages": ["src/*"]
   },
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "s:start": "yarn workspace line_notify_server start"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.1"
-  }
+  "license": "ISC"
 }

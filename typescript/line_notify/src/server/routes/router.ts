@@ -5,12 +5,13 @@ let router = express.Router();
 router.get("/:name", (req, res) => {
     let options = {
         // root: path.join(__dirname, 'client')
-        root: "/home/app/src/client"
+        root: "/home/app/src/client/public"
     }
     let filename = req.params.name;
     res.sendFile(filename, options, (err) => {
         if(err) {
             console.log("error occured.");
+            console.log(`filename: ${filename}`);
             res.send("error occured.");
         } else {
             // console.log(`sent ${filename}`);
