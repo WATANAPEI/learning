@@ -65,3 +65,38 @@ yarn
 yarn init
 yarn i
 yarn init
+yarn
+yarn add --dev lerna
+ls -hal stc
+ls -hal src
+ls -hal node_modules/
+yarn
+yarn
+ls -hal node_modules/
+ls -hla
+yarn add --dev lerna
+rm -rf node_modules/
+yarn
+yarn add --dev lerna
+yarn install
+yarn add --dev lerna
+yarn
+ls -hal node_modules/
+yarn install
+yarn s:start
+yar
+yarn s:start
+yarn s:start
+yarn install
+yarn s:start
+yarn s:start
+yarn s:start
+yarn s:start
+ls a-hl
+yarn c:build
+yarn c:build
+yarn c:build
+yarn c:build
+yarn c:build
+yarn start
+yarn start
