@@ -100,3 +100,9 @@ yarn c:build
 yarn c:build
 yarn start
 yarn start
+ls -hal
+npm start
+npm start
+npm start
+npm start
+npm start
