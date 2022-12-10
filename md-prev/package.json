@@ -28,7 +28,7 @@
     "react-marked": "^0.3.1"
   },
   "dependencies": {
-      "express": "^4.14.0"
+      "express": "^4.17.3"
   },
   "scripts": {
     "dev": "webpack-dev-server",
