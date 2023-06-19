@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+    php:
+        build:
+          context: .
+          dockerfile: Dockerfile
+        volumes:
+            - .:/var/www/html
+        ports:
+            - 8000:80
+        container_name: myphp
+    mysql:
+        image: mysql:5.7
+        volumes:
+          - type: bind
+            source: ${LOCAL_WORKSPACE_FOLDER:-.}/docker/mysql/init.sql
+            target: /docker-entrypoint-initdb.d/init.sql
+        ports:
+          - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=test
+            - MYSQL_USER=test
+            - MYSQL_PASSWORD=test
+        container_name: mysql_for_php
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        depends_on:
+          - mysql
+        environment:
+          - PMA_ARBITRARY=1
+          - PMA_HOSTS=mysql
+          - PMA_USER=root
+          - PMA_PASSWORD=root
+        ports:
+          - "3000:80"
+        volumes:
+          - ./docker/phpmyadmin/sessions:/sessions

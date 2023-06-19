@@ -1,0 +1,9 @@
+CREATE DATABASE IF NOT EXISTS contact_form CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+CREATE TABLE IF NOT EXISTS contact_form.inquiries (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(30) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    `subject` TEXT NOT NULL,
+    `body` TEXT NOT NULL,
+    `state` TINYINT NOT NULL DEFAULT 0
+    ) ENGINE=InnoDB;
